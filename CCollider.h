@@ -1,6 +1,6 @@
 #pragma once
 #include"gameNode.h"
-class CCollider : public gameNode
+class CCollider
 {
 private:
 	vector2 pos;

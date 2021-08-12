@@ -25,10 +25,14 @@ HRESULT CGurdy::init(float x, float y)
 
 	CCharacter::init(pt, rc, shadowdistance, hp);
 
+	vector2 colliderpt = { x, y + shadowdistance };
+	vector2 collidersize;
+	collidersize.x = IMAGE->findImage("gurdybody")->getFrameWidth();
+	collidersize.y = IMAGE->findImage("gurdybody")->getFrameHeight();
+	collider = new CCollider(colliderpt, collidersize);
+
 	setMonster_Type(MONSTER_TYPE::GURDY);
-
-	AI_init(this);
-
+	AI_init(this, monsterType);
 	return S_OK;
 }
 
@@ -39,6 +43,7 @@ void CGurdy::release()
 void CGurdy::update()
 {
 	AI_update();
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CGurdy::render()

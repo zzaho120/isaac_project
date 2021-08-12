@@ -1,10 +1,14 @@
 #pragma once
 #include "CObject.h"
 #include"BulletManager.h"
+class CFSM;
 class CCharacter : public CObject
 {
 private:
 	int				hp;
+
+	CFSM* m_pAI;
+	vector<CFSM*> vAI;
 public:
 	CCharacter();
 	CCharacter(Vec2 _pos, RECT _rc, int _hp);
@@ -15,6 +19,11 @@ public:
 	virtual void release() = 0;
 	virtual void update() = 0;
 	virtual void render() = 0;
+
+	CFSM* getAI() { return m_pAI; }
+	void AI_init(CCharacter* monster, MONSTER_TYPE type);
+	void AI_update();
+	STATE_TYPE getstate();
 
 	int gethp() { return hp; }
 	void sethp(int _hp) { hp = _hp; }

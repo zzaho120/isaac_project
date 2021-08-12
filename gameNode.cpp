@@ -35,12 +35,13 @@ HRESULT gameNode::init(bool managerInit)
 		SetTimer(m_hWnd, 1, 10, NULL);
 		//매니저 초기화
 		InputManager->init();
-
+		
 		IMAGE->init();
 		TIME->init();
 		SOUND->init();
 		SUBWIN->init();
 		ENEMY->init();
+
 	}
 	addAni = new AniAddList;
 
@@ -71,9 +72,9 @@ void gameNode::release()
 		ANIMATION->releaseSingleton();
 		EFFECT->releaseSingleton();
 		BULLET->releaseSingleton();
-		COLLISION->releaseSingleton();
 		SUBWIN->releaseSingleton();
 		ENEMY->releaseSingleton();
+		COLLISION->releaseSingleton();
 
 		SCENE->release();
 		IMAGE->release();
@@ -102,6 +103,7 @@ void gameNode::update()
 	BULLET->update();
 	ANIMATION->update();
 	ENEMY->update();
+
 	InvalidateRect(m_hWnd, NULL, false);
 }
 

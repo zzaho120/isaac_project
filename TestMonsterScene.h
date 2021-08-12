@@ -3,6 +3,7 @@
 #include"CMap.h"
 #include"CPlayer.h"
 
+class CBullet;
 class TestMonsterScene : public gameNode
 {
 private:
@@ -17,4 +18,5 @@ public:
 	void render();
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
+	CPlayer* getplayer() { return _player; }
 };

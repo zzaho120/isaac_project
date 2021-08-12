@@ -21,9 +21,14 @@ HRESULT Csmallfly::init(float x, float y)
 
 	CCharacter::init(pt, rc, shadowdistance, hp);
 
-	setMonster_Type(MONSTER_TYPE::SMALLFLY);
+	vector2 colliderpt = { x, y + shadowdistance };
+	vector2 collidersize;
+	collidersize.x = IMAGE->findImage("smallfly")->getFrameWidth();
+	collidersize.y = IMAGE->findImage("smallfly")->getFrameHeight();
+	collider = new CCollider(colliderpt, collidersize);
 
-	AI_init(this);
+	setMonster_Type(MONSTER_TYPE::SMALLFLY);
+	AI_init(this, monsterType);
 	return S_OK;
 }
 
@@ -34,6 +39,7 @@ void Csmallfly::release()
 void Csmallfly::update()
 {
 	AI_update();
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void Csmallfly::render()

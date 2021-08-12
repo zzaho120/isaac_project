@@ -1,23 +1,30 @@
 #include "framework.h"
 #include "collisionManager.h"
-#include"CCollider.h"
-
-HRESULT collisionManager::init()
-{
-	return E_NOTIMPL;
-}
-
-void collisionManager::release()
+#include "CCollider.h"
+collisionManager::collisionManager()
 {
 }
 
-void collisionManager::update()
+collisionManager::~collisionManager()
 {
 }
 
-void collisionManager::render()
-{
-}
+//HRESULT collisionManager::init()
+//{
+//	return S_OK;
+//}
+//
+//void collisionManager::release()
+//{
+//}
+//
+//void collisionManager::update()
+//{
+//}
+//
+//void collisionManager::render()
+//{
+//}
 
 bool collisionManager::isCollision(CCollider* _left, CCollider* _right)
 {
