@@ -21,7 +21,7 @@ HRESULT TestMonsterScene::init()
     ENEMY->respawnMinion(MONSTER_TYPE::WORM, { 300,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::FLY, { 600,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 700,500 });
-    ENEMY->respawnMinion(MONSTER_TYPE::GURDY, { 500,300 });
+    //ENEMY->respawnMinion(MONSTER_TYPE::GURDY, { 500,300 });
     return S_OK;
 }
 

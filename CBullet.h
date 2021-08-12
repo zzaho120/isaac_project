@@ -36,5 +36,5 @@ public:
 	vector2 getFirePt() { return firePt; }
 	void setFirePt(vector2 pt) { firePt = pt; }
 
-
+	RECT getshadow() { return shadow; }
 };
