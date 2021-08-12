@@ -3,8 +3,8 @@
 class CMapSettingSub : public gameNode
 {
 private:
-	tagSampleTile _sampleTiles[SAMPLETILEX * SAMPLETILEY];
-	struct tagMonsterTile _monsterTile[MONSTERTILEX * MONSTERTILEY];
+	tagObjectTile _sampleTiles[SAMPLETILEX * SAMPLETILEY];
+	tagMonsterTile _monsterTile[MONSTERTILEX * MONSTERTILEY];
 	bool isDebug;
 public:
 	CMapSettingSub();

@@ -3,7 +3,6 @@
 class CMap : public gameNode
 {
 private:
-	tagCurrentTile _curTile;
 	tagTile _obj[TILEX * TILEY];
 	tagOBJAttribute _OBJattribute[TILEX * TILEY];
 	DWORD _attribute[TILEX * TILEY];

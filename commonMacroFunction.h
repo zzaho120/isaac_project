@@ -192,7 +192,7 @@ struct tagTile
 	vector2 pt;
 };
 
-struct tagSampleTile
+struct tagObjectTile
 {
 	RECT rcTile;
 	int objFrameX;
