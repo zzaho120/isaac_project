@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "TestMonsterScene.h"
-
+#include "CBullet.h"
 HRESULT TestMonsterScene::init()
 {
   
@@ -32,12 +32,7 @@ void TestMonsterScene::release()
 void TestMonsterScene::update()
 {
     _player->update();
-<<<<<<< Updated upstream
-    
-    if(COLLISION->isCollision(_player->getcollider(), ENEMY->getmoncollider(0)))
-    {
-        ENEMY->eraserEnemy(0);
-=======
+
     for (int i = 0; i < ENEMY->getvmonster().size(); i++)
     {
         if(COLLISION->isCollision(_player->getcollider(), ENEMY->getmoncollider(i)) && _player->getstate() == STATE_TYPE::IDLE)
@@ -51,7 +46,7 @@ void TestMonsterScene::update()
     {
         for (int j = 0; j < BULLET->getvBullet().size(); j++)
         {
-            bool ispbm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), ENEMY->getmoncollider(i));//ÇÃ·¹ÀÌ¾î ºÒ·¿°ú ¸ó½ºÅÍ ÄÝ¶óÀÌ´õÀÇ Ãæµ¹
+            bool ispbm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), ENEMY->getmoncollider(i));//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½æµ¹
             bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
             if(ispbm && ispB) 
             { 
@@ -69,7 +64,6 @@ void TestMonsterScene::update()
             _player->sethp(_player->gethp() - 1);
             break;
         }
->>>>>>> Stashed changes
     }
 }
 

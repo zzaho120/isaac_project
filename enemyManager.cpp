@@ -13,7 +13,6 @@
 
 enemyManager::enemyManager()
 {
-	summonFly = false;
 }
 
 enemyManager::~enemyManager()

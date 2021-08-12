@@ -285,6 +285,9 @@
     <ClInclude Include="SmallflyState.h">
       <Filter>Class\Object\Character\Monster\Minion\Smallfly</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Class\Object\Character\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -439,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="SmallflyState.cpp">
       <Filter>Class\Object\Character\Monster\Minion\Smallfly</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Class\Object\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

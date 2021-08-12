@@ -1,6 +1,8 @@
 #include "framework.h"
 #include "CPlayer.h"
-
+#include "CFSM.h"
+#include "PlayerState.h"
+#include "CState.h"
 CPlayer::CPlayer() :
 	CCharacter(), isMove(false),
 	velocityX(0), velocityY(0), totalTears(0)
@@ -22,7 +24,7 @@ HRESULT CPlayer::init()
 {
 	CCharacter::init({ WINSIZEX / 2, WINSIZEY / 2 },
 		RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, PLAYERWIDTH, PLAYERHEIGHT),
-		PLAYERHEIGHT / 4 , 3);
+		PLAYERHEIGHT / 4 , 10);
 
 	setAni(ANIMATION->findAnimation("playeridlehead"));
 	ani_body = ANIMATION->findAnimation("playeridlebody");
@@ -33,16 +35,18 @@ HRESULT CPlayer::init()
 	velocityY = 0;
 	totalTears = 0;
 	PLAYERMAXSPEED = 4;
+	bulletsize = 30;
+	distance = 100;
+	height = 50;
 
 
 	vector2 colliderpt = { WINSIZEX / 2, WINSIZEY / 2 + shadowdistance};
 	vector2 collidersize = { PLAYERWIDTH,PLAYERHEIGHT };
 	collider = new CCollider(colliderpt, collidersize);
 
-<<<<<<< Updated upstream
-=======
+
 	AI_init(this,MONSTER_TYPE::NONE);
->>>>>>> Stashed changes
+
 	return S_OK;
 }
 
@@ -54,6 +58,7 @@ void CPlayer::update()
 {
 	_move();
 	fire();
+	AI_update();
 	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
@@ -211,16 +216,16 @@ void CPlayer::_slide()
 	else movenatual = 0;
 }
 //
-////ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ
+////ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //void CPlayer::move()
 //{
-//	// ¾Æ½ºÅ° ÄÚµå¸¦ ÀÌ¿ëÇÑ ÀÌµ¿ ¼Óµµ Á¦¾î
+//	// ï¿½Æ½ï¿½Å° ï¿½Úµå¸¦ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
 //	if (InputManager->isStayKeyDown(65)) setMoveSpeed(65);
 //	if (InputManager->isStayKeyDown(68)) setMoveSpeed(68);
 //	if (InputManager->isStayKeyDown(87)) setMoveSpeed(87);
 //	if (InputManager->isStayKeyDown(83)) setMoveSpeed(83);
 //
-//	// ´©¸¥ Å°¸¦ ¶¾´Ù¸é ÀÌµ¿ÇÏÁö ¾Ê´Â »óÅÂ
+//	// ï¿½ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½
 //	if (InputManager->isOnceKeyUp('A') ||
 //		InputManager->isOnceKeyUp('W') ||
 //		InputManager->isOnceKeyUp('S') ||
@@ -229,7 +234,7 @@ void CPlayer::_slide()
 //		movecount = 0;
 //	}
 //
-//	// ¿òÁ÷ÀÌ´Â ÁßÀÌ ¾Æ´Ï¸é
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½
 //	if(!isMove)
 //	{
 //		if (velocityX > 0)
@@ -253,25 +258,25 @@ void CPlayer::_slide()
 //	switch (key)
 //	{
 //	case 65:
-//		// ¿ÞÂÊ, aÅ°
+//		// ï¿½ï¿½ï¿½ï¿½, aÅ°
 //		velocityX -= PLAYERACCEL;
 //		if (velocityX < -PLAYERMAXSPEED)
 //			velocityX = -PLAYERMAXSPEED;
 //		break;
 //	case 68:
-//		// ¿À¸¥ÂÊ, dÅ°
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, dÅ°
 //		velocityX += PLAYERACCEL;
 //		if (velocityX > PLAYERMAXSPEED)
 //			velocityX = PLAYERMAXSPEED;
 //		break;
 //	case 87:
-//		// À§, wÅ°
+//		// ï¿½ï¿½, wÅ°
 //		velocityY -= PLAYERACCEL;
 //		if (velocityY < -PLAYERMAXSPEED)
 //			velocityY = -PLAYERMAXSPEED;
 //		break;
 //	case 83: 
-//		// ¾Æ·¡, sÅ°
+//		// ï¿½Æ·ï¿½, sÅ°
 //		velocityY += PLAYERACCEL;
 //		if (velocityY > PLAYERMAXSPEED)
 //			velocityY = PLAYERMAXSPEED;
@@ -285,13 +290,13 @@ void CPlayer::fire()
 	static vector2 firePt = { 0, 0 };
 	float fireAngle = PI;
 
-	// ´«¹° µô·¹ÀÌ °ø½Ä, ¾ÆÀÌÀÛ À§Å° Âü°í
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
 	if (totalTears * 1.3 + 1 > 0)
 		tearDelay = 16 - 6 * sqrtf(totalTears * 1.3 + 1);
 	else if (totalTears * 1.3 + 1 < 0)
 		tearDelay = 16 - 6 * totalTears;
 
-	// Å°¸¦ ´©¸£¸é °¢µµ, ¹ß»ç ½ÃÀÛÁ¡, ¹ß»ç ½Ã°£ Ä«¿îÆ® Áõ°¡
+	// Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ß»ï¿½ ï¿½Ã°ï¿½ Ä«ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	if (InputManager->isStayKeyDown(VK_UP))
 	{
 		headfoward = FOWARD::UP;
@@ -321,11 +326,11 @@ void CPlayer::fire()
 		fireCnt++;
 	}
 
-	// ¹ß»ç ½Ã°£ Ä«¿îÆ®°¡ ´«¹° µô·¹ÀÌº¸´Ù Å©´Ù¸é
+	// ï¿½ß»ï¿½ ï¿½Ã°ï¿½ Ä«ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ Å©ï¿½Ù¸ï¿½
 	if (fireCnt > tearDelay)
 	{
 		fireCnt = 0;
-		BULLET->fire(fireAngle, 10, firePt, PLAYERHEIGHT - 20);
+		BULLET->fire(fireAngle, 10, firePt, height, distance,CHARACTER::PLAYER, bulletsize);
 	}
 }
 
@@ -425,4 +430,25 @@ void CPlayer::setAnimationbody()
 		
 	}
 	moveani++;
+}
+
+STATE_TYPE CPlayer::getstate()
+{
+	STATE_TYPE st = m_pAI->getState()->GetStateType();
+	return st;
+}
+
+void CPlayer::AI_init(CCharacter* monster)
+{
+	m_pAI = new CFSM(monster);
+	m_pAI->AddState(new Player_Idle);
+	m_pAI->AddState(new Player_Trace);
+	m_pAI->AddState(new Player_Atk);
+	m_pAI->AddState(new Player_Die);
+	m_pAI->SetState(STATE_TYPE::IDLE);
+}
+
+void CPlayer::AI_update()
+{
+	m_pAI->update();
 }

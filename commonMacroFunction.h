@@ -178,6 +178,12 @@ enum class ITEM
 	ITEM_NONE
 };
 
+enum class CHARACTER
+{
+	PLAYER,
+	MONSTER
+};
+
 struct tagTile
 {
 	OBJECT obj;

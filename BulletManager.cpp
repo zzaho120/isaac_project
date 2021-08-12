@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "BulletManager.h"
 #include "CBullet.h"
+#include "CCollider.h"
 
 HRESULT BulletManager::init()
 {
@@ -9,11 +10,11 @@ HRESULT BulletManager::init()
 
 void BulletManager::release()
 {
-	for (int i = 0; i < vBullet.size(); ++i)
+	for (int i = 0; i < _vBullet.size(); ++i)
 	{
-		SAFE_DELETE(vBullet[i]);
+		SAFE_DELETE(_vBullet[i]);
 	}
-	vBullet.clear();
+	_vBullet.clear();
 }
 
 void BulletManager::update()
@@ -23,36 +24,44 @@ void BulletManager::update()
 
 void BulletManager::render()
 {
-	for (viBullet = vBullet.begin(); viBullet != vBullet.end(); ++viBullet)
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
 	{
-		(*viBullet)->render();
+		(*_viBullet)->render();
 	}
 }
 
-void BulletManager::fire(float angle, float speed, vector2 pt, int height)
+void BulletManager::fire(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, int size)
 {
 	// 총알 클래스 객체 하나를 동적으로 생성해서 초기화한 다음 vector에 추가
 	CBullet* tempBullet = new CBullet;
-	tempBullet->init(angle, speed, pt, height);
-	vBullet.push_back(tempBullet);
+	tempBullet->init(_angle, _speed, _pt, _height, _distance, _type, size);
+	_vBullet.push_back(tempBullet);
 }
 
 void BulletManager::move()
 {
-	for (viBullet = vBullet.begin(); viBullet != vBullet.end(); ++viBullet)
+	for (_viBullet = _vBullet.begin(); _viBullet != _vBullet.end(); ++_viBullet)
 	{
-		(*viBullet)->move();
+		(*_viBullet)->move();
 
 		// 총알 RECT가 총알의 그림자 RECT와 충돌이 된다면
-		if(COLLISION->isCollision((*viBullet)->getRC(), (*viBullet)->getshadow()))
+		if(COLLISION->isCollision((*_viBullet)->getRC(), (*_viBullet)->getshadow()))
 		{
-			removeBullet(viBullet);
+			removeBullet(_viBullet);
 			break;
 		}
 	}
 }
 
-void BulletManager::removeBullet(vector<CBullet*>::iterator iter)
+void BulletManager::removeBullet(viBullet iter)
 {
-	vBullet.erase(iter);
+	_vBullet.erase(iter);
 }
+
+viBullet BulletManager::getviBullet(int number)
+{
+	_viBullet = _vBullet.begin() + number;
+	return _viBullet;
+}
+
+

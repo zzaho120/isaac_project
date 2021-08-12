@@ -4,13 +4,8 @@
 class CMonster : public CCharacter
 {
 protected:
-<<<<<<< Updated upstream
-	CFSM* m_pAI;
-=======
 
->>>>>>> Stashed changes
 	MONSTER_TYPE monsterType;
-	vector<CFSM*> vAI;
 private:
 	
 public:

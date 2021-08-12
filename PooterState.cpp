@@ -142,7 +142,7 @@ void Fly_Atk::update()
 		shadowDistance = 20;
 		distance = 200;
 
-		BULLET->fire(angle, speed, fire, shadowDistance);
+		BULLET->fire(angle, speed, fire, shadowDistance, 30, CHARACTER::MONSTER, 10);
 		if (isleft(_pt.x))
 		{
 			pMon->setAni(ANIMATION->findAnimation("leftAtkfly"));

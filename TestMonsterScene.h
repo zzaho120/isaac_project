@@ -3,6 +3,8 @@
 #include"CMap.h"
 
 #include"CPlayer.h"
+
+class CBullet;
 class TestMonsterScene : public gameNode
 {
 private:

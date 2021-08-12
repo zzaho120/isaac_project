@@ -41,7 +41,6 @@ private:
 protected:
 	
 
-	bool summonFly;
 public:
 	enemyManager();
 	~enemyManager();
@@ -54,9 +53,10 @@ public:
 
 	void respawnMinion(MONSTER_TYPE type, Vec2 pos);
 	void respawn(MONSTER_TYPE type, Vec2 pos);
-	void summonFlytest(bool test) { summonFly = test; }
 	void eraserEnemy(int number) { vminion.erase(vminion.begin() + number); }
 
+	vector<CMonster*> getvmonster() { return vminion; }
+	vector<CMonster*>::iterator getvimonster() { return viminion; }
 	CCollider* getmoncollider(int number);
 };
 
