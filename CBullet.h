@@ -11,6 +11,10 @@ private:
 	float fallingHeight;		// 발사 후 떨어지는 높이
 
 	vector2 firePt;				// 발사 시작 점
+
+	RECT shadow;
+	float shadowdistance;
+	vector2 shadowPt;
 public:
 	CBullet();
 	CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed, int _height);
@@ -31,5 +35,6 @@ public:
 
 	vector2 getFirePt() { return firePt; }
 	void setFirePt(vector2 pt) { firePt = pt; }
+
 
 };
