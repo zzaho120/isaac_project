@@ -13,6 +13,7 @@ public:
 class Player_Trace : public CState
 {
 private:
+	int count;
 public:
 	Player_Trace();
 	~Player_Trace();
@@ -24,6 +25,7 @@ public:
 class Player_Atk : public CState
 {
 private:
+	int count;
 public:
 	Player_Atk();
 	~Player_Atk();
@@ -35,6 +37,7 @@ public:
 class Player_Die : public CState
 {
 private:
+	int count;
 public:
 	Player_Die();
 	~Player_Die();

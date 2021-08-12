@@ -2,6 +2,7 @@
 #include "TestMonsterScene.h"
 #include "CBullet.h"
 #include "CMonster.h"
+#include "CFSM.h"
 HRESULT TestMonsterScene::init()
 {
     _player = new CPlayer;
@@ -15,8 +16,9 @@ HRESULT TestMonsterScene::init()
     {
         setMonster(tile[i].monster, tile[i].pt);
     }
-    /*ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
-    ENEMY->respawnMinion(MONSTER_TYPE::HOST, { 400,500 });
+    ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
+    ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 700,500 });
+    /*ENEMY->respawnMinion(MONSTER_TYPE::HOST, {400,500});
     ENEMY->respawnMinion(MONSTER_TYPE::WORM, { 300,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::FLY, { 600,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 700,500 });
@@ -52,8 +54,9 @@ void TestMonsterScene::update()
         bool isprm = COLLISION->isCollision(_player->getRC(), (*ENEMY->getvimonster(i))->getRC());
         if(ispcm && playerIdle && isprm)
         {
-            ENEMY->eraserEnemy(i);
+            //ENEMY->eraserEnemy(i);
             _player->sethp(_player->gethp() - 1);
+            _player->getAI()->ChangeState(STATE_TYPE::ATTACK);
             break;
         }
     }

@@ -56,27 +56,55 @@ void CPlayer::release()
 
 void CPlayer::update()
 {
-	_move();
-	fire();
+	if (getstate() == STATE_TYPE::IDLE || getstate() == STATE_TYPE::ATTACK)
+	{
+		Move();
+		fire();
+	}
 	AI_update();
 	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CPlayer::render()
 {
-	setAnimation(); 
-	setAnimationbody();
-	Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
-	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
-	Rectangle(getMemDC(), rec.left, rec.top, rec.right, rec.bottom);
-	IMAGE->findImage("mulliganbody")->aniRender(getMemDC(), 
-		getRC().left + IMAGE->findImage("isaac")->getFrameWidth()/2 - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2,
-		getRC().top+35, ani_body);
-	IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni()); 
 	
+	//Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
+	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
+	//Rectangle(getMemDC(), rec.left, rec.top, rec.right, rec.bottom);
+	if (getstate() == STATE_TYPE::IDLE)
+	{
+		count = 0;
+		setAnimation();
+		setAnimationbody();
+		IMAGE->findImage("mulliganbody")->aniRender(getMemDC(),
+			getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2,
+			getRC().top + 28, ani_body);
+		IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
+	}
+	else if (getstate() == STATE_TYPE::ATTACK)
+	{
+		count++;
+		if (count > 30)
+		{
+			setAnimation();
+			setAnimationbody();
+			IMAGE->findImage("mulliganbody")->aniRender(getMemDC(),
+				getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2,
+				getRC().top + 28, ani_body);
+			IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
+		}
+		else
+		{
+			IMAGE->findImage("isaacEvent")->aniRender(getMemDC(), getRC().left - 18, getRC().top - 18, getAni());
+		}
+	}
+	else
+	{
+		IMAGE->findImage("isaacEvent")->aniRender(getMemDC(), getRC().left - 18, getRC().top - 18, getAni());
+	}
 }
 
-void CPlayer::_move()
+void CPlayer::Move()
 {
 	if (InputManager->isStayKeyDown('S') && InputManager->isStayKeyDown('A'))
 	{
@@ -346,7 +374,7 @@ void CPlayer::setAnimation()
 		if (atkani % 30 == 0)
 		{
 			ani = ANIMATION->findAnimation("up_head");
-			ani->start();
+			ANIMATION->start("up_head");
 		}
 	}
 	else if (InputManager->isStayKeyDown(VK_DOWN))
@@ -354,7 +382,7 @@ void CPlayer::setAnimation()
 		if (atkani % 30 == 0)
 		{
 			ani = ANIMATION->findAnimation("down_head");
-			ani->start();
+			ANIMATION->start("down_head");
 		}
 	}
 	else if (InputManager->isStayKeyDown(VK_LEFT))
@@ -362,7 +390,7 @@ void CPlayer::setAnimation()
 		if (atkani % 30 == 0)
 		{
 			ani = ANIMATION->findAnimation("left_head");
-			ani->start();
+			ANIMATION->start("left_head");
 		}
 	}
 	else if (InputManager->isStayKeyDown(VK_RIGHT))
@@ -370,7 +398,7 @@ void CPlayer::setAnimation()
 		if (atkani % 30 == 0)
 		{
 			ani = ANIMATION->findAnimation("right_head");
-			ani->start();
+			ANIMATION->start("right_head");
 		}
 	}
 	else
@@ -379,7 +407,7 @@ void CPlayer::setAnimation()
 		{
 			atkani = 0;
 			ani = ANIMATION->findAnimation("playeridlehead");
-			ani->start();
+			ANIMATION->start("playeridlehead");
 		}
 		if (atkani == 0) atkani = -1;
 	}
@@ -394,7 +422,7 @@ void CPlayer::setAnimationbody()
 		if (moveani % 100 == 0)
 		{
 			ani_body = ANIMATION->findAnimation("playerupbody");
-			ani_body->start();
+			ANIMATION->start("playerupbody");
 		}
 	}
 	else if (InputManager->isStayKeyDown('S'))
@@ -402,7 +430,7 @@ void CPlayer::setAnimationbody()
 		if (moveani % 100 == 0)
 		{
 			ani_body = ANIMATION->findAnimation("playerdownbody");
-			ani_body->start();
+			ANIMATION->start("playerdownbody");
 		}
 	}
 	else if (InputManager->isStayKeyDown('A'))
@@ -410,7 +438,7 @@ void CPlayer::setAnimationbody()
 		if (moveani % 100 == 0)
 		{
 			ani_body = ANIMATION->findAnimation("playerleftbody");
-			ani_body->start();
+			ANIMATION->start("playerleftbody");
 		}
 	}
 	else if (InputManager->isStayKeyDown('D'))
@@ -418,14 +446,14 @@ void CPlayer::setAnimationbody()
 		if (moveani % 100 == 0)
 		{
 			ani_body = ANIMATION->findAnimation("playerrightbody");
-			ani_body->start();
+			ANIMATION->start("playerrightbody");
 		}
 	}
 	else
 	{
 		moveani = 0;
 		ani_body = ANIMATION->findAnimation("playeridlebody");
-		ani_body->start();
+		ANIMATION->start("playeridlebody");
 		moveani--;
 		
 	}

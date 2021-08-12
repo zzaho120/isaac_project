@@ -15,7 +15,7 @@ CObject::CObject(Vec2 _pos, RECT _rc) :
 
 CObject::~CObject()
 {
-	SAFE_DELETE(ani);
+	//SAFE_DELETE(ani);
 }
 
 HRESULT CObject::init()

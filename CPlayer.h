@@ -20,6 +20,8 @@ enum FOWARD
 class CPlayer : public CCharacter
 {
 private:
+	int count;
+
 	bool isMove;
 	float velocityX;
 	float velocityY;
@@ -38,7 +40,6 @@ private:
 	int moveani;
 	float PLAYERMAXSPEED;
 
-
 	float totalTears;
 	int tearDelay;
 
@@ -55,7 +56,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void _move();
+	void Move();
 	void _slide();
 	void fire();
 	void setAnimation();

@@ -9,10 +9,10 @@ AniAddList::AniAddList()
 	IMAGE->addImage("shadow", "images/shadow.bmp", 10, 10, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("objMap", "images/object.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("monsterMap", "images/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
-
-	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*1.5, 90*1.5, 10, 3, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("isaacBody", "images/player/player_body.bmp",216*2,86*2,6,3,true,RGB(255,0,255));
+	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*2, 90*2, 10, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256*2, 32*2, 8, 1, true, RGB(255, 0, 255));
-
+	IMAGE->addFrameImage("isaacEvent", "images/player/player_event.bmp", 200*2, 150*2, 4, 3, true, RGB(255, 0, 255));
 	ANIMATION->addAnimation("down_head", "isaac", 0, 1, 10, false, false);
 	ANIMATION->addAnimation("right_head", "isaac", 2, 3, 10, false, false);
 	ANIMATION->addAnimation("up_head", "isaac", 4, 5, 10, false, false);
@@ -28,13 +28,19 @@ AniAddList::AniAddList()
 	int mulliganidle[] = { 0 };
 	ANIMATION->addAnimation("playeridlebody", "mulliganbody", mulliganidle, 1, 10, false);
 
+	int playerDie[] = { 3 };
+	ANIMATION->addAnimation("playerisDie", "isaacEvent", playerDie, 1, 10, false);
+	int playerDamage[] = { 6 };
+	ANIMATION->addAnimation("playerisDamage", "isaacEvent", playerDamage, 1, 10, false);
+	ANIMATION->addAnimation("playerGetItem", "isaacEvent", 4, 5, 10, false);
+	ANIMATION->addAnimation("playerThumbsUp", "isaacEvent", 1, 2, 10, false);
 
 	IMAGE->addFrameImage("objMap", "images/object.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
 	IMAGE->addImage("map", "images/bigMap.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 
 	//==================================mulligan=================================================================
 	//==================================mulligan=================================================================
-	IMAGE->addFrameImage("mulliganhead", "images/enemy/mulliganhead.bmp", 240*1.5, 70*1.5, 6, 2, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("mulliganhead", "images/enemy/mulliganhead.bmp", 240*2, 70*2, 6, 2, true, RGB(255, 0, 255));
 	
 
 	ANIMATION->addAnimation("righthead", "mulliganhead", 0, 5, 10, false, true);
