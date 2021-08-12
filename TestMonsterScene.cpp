@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "TestMonsterScene.h"
 #include "CBullet.h"
+#include "CMonster.h"
 HRESULT TestMonsterScene::init()
 {
     _player = new CPlayer;
@@ -44,13 +45,15 @@ void TestMonsterScene::release()
 void TestMonsterScene::update()
 {
     _player->update();
-
+    bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
     for (int i = 0; i < ENEMY->getvmonster().size(); i++)
     {
-        if(COLLISION->isCollision(_player->getcollider(), ENEMY->getmoncollider(i)) && _player->getstate() == STATE_TYPE::IDLE)
+        bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
+        bool isprm = COLLISION->isCollision(_player->getRC(), (*ENEMY->getvimonster(i))->getRC());
+        if(ispcm && playerIdle && isprm)
         {
-            //_player->sethp(_player->gethp() - 1);
-            //ENEMY->eraserEnemy(i);
+            ENEMY->eraserEnemy(i);
+            _player->sethp(_player->gethp() - 1);
             break;
         }
     }
@@ -58,21 +61,25 @@ void TestMonsterScene::update()
     {
         for (int j = 0; j < BULLET->getvBullet().size(); j++)
         {
-            bool ispbm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), ENEMY->getmoncollider(i));//�÷��̾� �ҷ��� ���� �ݶ��̴��� �浹
+            bool ispbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
+            bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->getRC(), (*ENEMY->getvimonster(i))->getRC());
             bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
-            if(ispbm && ispB) 
+            if(ispbcm && ispbrm && ispB) 
             { 
                 ENEMY->eraserEnemy(i);
+                BULLET->eraserBullet(j);
                 break;
             }
         }
     }
     for (int i = 0; i < BULLET->getvBullet().size(); i++)
     {
-        bool ismbp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
+        bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
+        bool ismbrp = COLLISION->isCollision((*BULLET->getviBullet(i))->getRC(), _player->getRC());
         bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
-        if (ismbp && ismB)
+        if (ismbcp && ismbrp && ismB && playerIdle)
         {
+            BULLET->eraserBullet(i);
             _player->sethp(_player->gethp() - 1);
             break;
         }
@@ -88,24 +95,4 @@ void TestMonsterScene::render()
 void TestMonsterScene::setMonster(MONSTER_TYPE type, vector2 pt)
 {
     ENEMY->respawnMinion(type, pt);
-    /*switch (type)
-    {
-    case MONSTER_TYPE::WORM:
-        ENEMY->respawnMinion(new CWORM, pt.x, pt.y);
-        break;
-    case MONSTER_TYPE::FLY:
-        ENEMY->respawnMinion(new CFly, pt.x, pt.y);
-        break;
-    case MONSTER_TYPE::HOST:
-        ENEMY->respawnMinion(new CHost, pt.x, pt.y);
-        break;
-    case MONSTER_TYPE::HOPPER:
-        ENEMY->respawnMinion(new CHopper, pt.x, pt.y);
-        break;
-    case MONSTER_TYPE::MULLIGAN:
-        ENEMY->respawnMinion(new CMulligan, pt.x, pt.y);
-        break;
-    case MONSTER_TYPE::NONE:
-        break;
-    }*/
 }

@@ -4,6 +4,7 @@
 #include"CPlayer.h"
 
 class CBullet;
+class CMonster;
 class TestMonsterScene : public gameNode
 {
 private:

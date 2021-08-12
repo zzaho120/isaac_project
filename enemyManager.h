@@ -25,12 +25,14 @@ struct summon
 	Vec2 p_pos;
 	bool isrespawn;
 };
+typedef vector<CMonster*> vminion;
+typedef vector<CMonster*>::iterator viminion;
 
 class enemyManager : public Singleton<enemyManager>
 {
 private:
-	vector<CMonster*> vminion;
-	vector<CMonster*>::iterator viminion;
+	vminion _vminion;
+	viminion _viminion;
 
 	vector<summon> vsummon;
 	vector<summon>::iterator visummon;
@@ -53,10 +55,9 @@ public:
 
 	void respawnMinion(MONSTER_TYPE type, Vec2 pos);
 	void respawn(MONSTER_TYPE type, Vec2 pos);
-	void eraserEnemy(int number) { vminion.erase(vminion.begin() + number); }
+	void eraserEnemy(int number) { _vminion.erase(_vminion.begin() + number); }
 
-	vector<CMonster*> getvmonster() { return vminion; }
-	vector<CMonster*>::iterator getvimonster() { return viminion; }
-	CCollider* getmoncollider(int number);
+	vminion getvmonster() { return _vminion; }
+	viminion getvimonster(int number);
 };
 

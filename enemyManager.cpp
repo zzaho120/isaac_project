@@ -41,19 +41,19 @@ void enemyManager::update()
 		}
 	}
 	
-	viminion = vminion.begin();
-	for (viminion; viminion != vminion.end(); ++viminion)
+	_viminion = _vminion.begin();
+	for (_viminion; _viminion != _vminion.end(); ++_viminion)
 	{
-		(*viminion)->update();
+		(*_viminion)->update();
 	}
 }
 
 void enemyManager::render()
 {
-	viminion = vminion.begin();
-	for (viminion; viminion != vminion.end(); ++viminion)
+	_viminion = _vminion.begin();
+	for (_viminion; _viminion != _vminion.end(); ++_viminion)
 	{
-		(*viminion)->render();
+		(*_viminion)->render();
 	}
 }
 
@@ -92,7 +92,7 @@ void enemyManager::respawnMinion(MONSTER_TYPE type, Vec2 pos)
 		break;
 	}
 	monster->init(pos.x, pos.y);
-	vminion.push_back(monster);
+	_vminion.push_back(monster);
 
 }
 
@@ -106,9 +106,8 @@ void enemyManager::respawn(MONSTER_TYPE type, Vec2 pos)
 	vsummon.push_back(_summon);
 }
 
-CCollider* enemyManager::getmoncollider(int number)
+viminion enemyManager::getvimonster(int number)
 {
-	viminion = vminion.begin() + number;
-	return (*viminion)->getcollider();
+	_viminion = _vminion.begin() + number;
+	return _viminion;
 }
-
