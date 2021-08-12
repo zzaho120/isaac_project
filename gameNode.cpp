@@ -35,12 +35,13 @@ HRESULT gameNode::init(bool managerInit)
 		SetTimer(m_hWnd, 1, 10, NULL);
 		//매니저 초기화
 		InputManager->init();
-
+		
 		IMAGE->init();
 		TIME->init();
 		SOUND->init();
 		SUBWIN->init();
 		ENEMY->init();
+
 	}
 	addAni = new AniAddList;
 
@@ -71,9 +72,9 @@ void gameNode::release()
 		ANIMATION->releaseSingleton();
 		EFFECT->releaseSingleton();
 		BULLET->releaseSingleton();
-		COLLISION->releaseSingleton();
 		SUBWIN->releaseSingleton();
 		ENEMY->releaseSingleton();
+		
 
 		SCENE->release();
 		IMAGE->release();
@@ -83,6 +84,7 @@ void gameNode::release()
 		EFFECT->release();
 		BULLET->release();
 		ENEMY->release();
+		
 	}
 
 	ReleaseDC(m_hWnd, _hdc);
@@ -92,6 +94,7 @@ void gameNode::release()
 void gameNode::update()
 {
 	//더블버퍼 이후 사용하지 않는다 true->false
+
 	if (InputManager->isOnceKeyDown(VK_F1))
 		SCENE->changeScene("map1");
 	if (InputManager->isOnceKeyDown(VK_F2))
@@ -103,6 +106,7 @@ void gameNode::update()
 	BULLET->update();
 	ANIMATION->update();
 	ENEMY->update();
+
 	InvalidateRect(m_hWnd, NULL, false);
 }
 

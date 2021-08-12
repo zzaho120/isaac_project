@@ -16,4 +16,5 @@ public:
 	void render();
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
+	CPlayer* getplayer() { return _player; }
 };

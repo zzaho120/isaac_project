@@ -9,6 +9,8 @@
 #include"CGurdy.h"
 #include"Csmallfly.h"
 
+#include "CCollider.h"
+
 enemyManager::enemyManager()
 {
 	summonFly = false;
@@ -40,19 +42,19 @@ void enemyManager::update()
 		}
 	}
 	
-	_viminion = _vminion.begin();
-	for (_viminion; _viminion != _vminion.end(); ++_viminion)
+	viminion = vminion.begin();
+	for (viminion; viminion != vminion.end(); ++viminion)
 	{
-		(*_viminion)->update();
+		(*viminion)->update();
 	}
 }
 
 void enemyManager::render()
 {
-	_viminion = _vminion.begin();
-	for (_viminion; _viminion != _vminion.end(); ++_viminion)
+	viminion = vminion.begin();
+	for (viminion; viminion != vminion.end(); ++viminion)
 	{
-		(*_viminion)->render();
+		(*viminion)->render();
 	}
 }
 
@@ -91,7 +93,7 @@ void enemyManager::respawnMinion(MONSTER_TYPE type, Vec2 pos)
 		break;
 	}
 	monster->init(pos.x, pos.y);
-	_vminion.push_back(monster);
+	vminion.push_back(monster);
 
 }
 
@@ -105,6 +107,9 @@ void enemyManager::respawn(MONSTER_TYPE type, Vec2 pos)
 	vsummon.push_back(_summon);
 }
 
-void enemyManager::respawnupdate()
+CCollider* enemyManager::getmoncollider(int number)
 {
+	viminion = vminion.begin() + number;
+	return (*viminion)->getcollider();
 }
+

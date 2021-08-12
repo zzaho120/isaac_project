@@ -31,6 +31,7 @@ public:
 	void setAni(animation* ani) { this->ani = ani; }
 	animation* getAni() { return ani; }
 
+	CCollider* getcollider() { return collider; }
 	void setshadowdistance(float distance) { shadowdistance = distance; }
 };
 

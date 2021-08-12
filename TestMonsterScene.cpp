@@ -1,6 +1,5 @@
 #include "framework.h"
 #include "TestMonsterScene.h"
-#include "CGurdy.h"
 
 HRESULT TestMonsterScene::init()
 {
@@ -33,6 +32,11 @@ void TestMonsterScene::release()
 void TestMonsterScene::update()
 {
     _player->update();
+    
+    if(COLLISION->isCollision(_player->getcollider(), ENEMY->getmoncollider(0)))
+    {
+        ENEMY->eraserEnemy(0);
+    }
 }
 
 void TestMonsterScene::render()

@@ -17,6 +17,8 @@ class CMulligan;
 class CGurdy;
 class Csmallfly;
 
+class CCollider;
+
 struct summon
 {
 	MONSTER_TYPE m_Mtype;
@@ -27,15 +29,15 @@ struct summon
 class enemyManager : public Singleton<enemyManager>
 {
 private:
-	typedef vector<CMonster*> vminion;
-	typedef vector<CMonster*>::iterator viminion;
+	vector<CMonster*> vminion;
+	vector<CMonster*>::iterator viminion;
 
 	vector<summon> vsummon;
 	vector<summon>::iterator visummon;
 
 private:
-	vminion _vminion;
-	viminion _viminion;
+	//vminion _vminion;
+	//viminion _viminion;
 protected:
 	
 
@@ -52,8 +54,9 @@ public:
 
 	void respawnMinion(MONSTER_TYPE type, Vec2 pos);
 	void respawn(MONSTER_TYPE type, Vec2 pos);
-	void respawnupdate();
 	void summonFlytest(bool test) { summonFly = test; }
-	void eraserEnemy(int number) { _vminion.erase(_vminion.begin() + number); }
+	void eraserEnemy(int number) { vminion.erase(vminion.begin() + number); }
+
+	CCollider* getmoncollider(int number);
 };
 
