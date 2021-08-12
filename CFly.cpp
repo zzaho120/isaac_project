@@ -22,6 +22,12 @@ HRESULT CFly::init(float x, float y)
 
 	CCharacter::init(pt, rc, shadowdistance, hp);
 
+	vector2 colliderpt = { x, y + shadowdistance };
+	vector2 collidersize;
+	collidersize.x = IMAGE->findImage("fly")->getFrameWidth();
+	collidersize.y = IMAGE->findImage("fly")->getFrameHeight();
+	collider = new CCollider(colliderpt, collidersize);
+
 	setMonster_Type(MONSTER_TYPE::FLY);
 
 	AI_init(this);
@@ -36,7 +42,7 @@ void CFly::release()
 void CFly::update()
 {
 	AI_update();
-
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CFly::render()

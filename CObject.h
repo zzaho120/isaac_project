@@ -1,13 +1,14 @@
 #pragma once
 #include"gameNode.h"
+#include"CCollider.h"
 class CObject : public gameNode
 {
 protected:
 	vector2			pt;
 	//vector2			shadowpt;
 	RECT			rc;
-
 	animation*		ani;
+	CCollider*		collider;
 
 	float shadowdistance;
 public:

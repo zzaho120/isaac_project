@@ -28,6 +28,10 @@ HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height)
     shadowPt.y = _pt.y + shadowdistance;
     shadow = RectMakeCenter(shadowPt.x, shadowPt.y, BULLETSIZE, BULLETSIZE);
     
+    vector2 colliderpt = { _pt.x, _pt.y + shadowdistance };
+    vector2 collidersize = { BULLETSIZE, BULLETSIZE };
+    collider = new CCollider(colliderpt, collidersize);
+
     return S_OK;
 }
 
@@ -38,6 +42,7 @@ void CBullet::release()
 void CBullet::update()
 {
     move();
+    collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CBullet::render()

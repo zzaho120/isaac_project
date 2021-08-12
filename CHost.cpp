@@ -22,6 +22,12 @@ HRESULT CHost::init(float x, float y)
 
 	CCharacter::init(pt, rc, shadowdistance, hp);
 	
+	vector2 colliderpt = { x, y + shadowdistance };
+	vector2 collidersize;
+	collidersize.x = IMAGE->findImage("host")->getFrameWidth();
+	collidersize.y = IMAGE->findImage("host")->getFrameHeight();
+	collider = new CCollider(colliderpt, collidersize);
+
 	setMonster_Type(MONSTER_TYPE::HOST);
 	AI_init(this);
 
@@ -35,6 +41,7 @@ void CHost::release()
 void CHost::update()
 {
 	AI_update();
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CHost::render()

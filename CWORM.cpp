@@ -21,8 +21,14 @@ HRESULT CWORM::init(float x, float y)
 	CCharacter::init(pt, rc, shadowdistance, hp);
 
 	setAni(ANIMATION->findAnimation("rightworm"));
-	setMonster_Type(MONSTER_TYPE::WORM);
 
+	vector2 colliderpt = { x, y + shadowdistance };
+	vector2 collidersize;
+	collidersize.x = IMAGE->findImage("worm")->getFrameWidth();
+	collidersize.y = IMAGE->findImage("worm")->getFrameHeight();
+	collider = new CCollider(colliderpt, collidersize);
+
+	setMonster_Type(MONSTER_TYPE::WORM);
 	AI_init(this);
 
 	return S_OK;
@@ -32,6 +38,7 @@ void CWORM::release() {}
 void CWORM::update()
 {
 	AI_update();
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CWORM::render()

@@ -33,6 +33,12 @@ HRESULT CPlayer::init()
 	velocityY = 0;
 	totalTears = 0;
 	PLAYERMAXSPEED = 4;
+
+
+	vector2 colliderpt = { WINSIZEX / 2, WINSIZEY / 2 + shadowdistance};
+	vector2 collidersize = { PLAYERWIDTH,PLAYERHEIGHT };
+	collider = new CCollider(colliderpt, collidersize);
+
 	return S_OK;
 }
 
@@ -44,6 +50,7 @@ void CPlayer::update()
 {
 	_move();
 	fire();
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CPlayer::render()
@@ -51,6 +58,8 @@ void CPlayer::render()
 	setAnimation(); 
 	setAnimationbody();
 	Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
+	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
+	Rectangle(getMemDC(), rec.left, rec.top, rec.right, rec.bottom);
 	IMAGE->findImage("mulliganbody")->aniRender(getMemDC(), 
 		getRC().left + IMAGE->findImage("isaac")->getFrameWidth()/2 - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2,
 		getRC().top+35, ani_body);

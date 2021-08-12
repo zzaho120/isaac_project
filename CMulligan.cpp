@@ -27,6 +27,12 @@ HRESULT CMulligan::init(float x, float y)
 
 	CCharacter::init(pt, rc, shadowdistance, hp);
 
+	vector2 colliderpt = { x, y + shadowdistance };
+	vector2 collidersize;
+	collidersize.x = IMAGE->findImage("mulliganhead")->getFrameWidth();
+	collidersize.y = IMAGE->findImage("mulliganhead")->getFrameHeight();
+	collider = new CCollider(colliderpt, collidersize);
+
 	setMonster_Type(MONSTER_TYPE::MULLIGAN);
 	AI_init(this);
 
@@ -45,6 +51,7 @@ void CMulligan::update()
 		anihead = ANIMATION->findAnimation("lefthead");
 	}
 	else anihead = ANIMATION->findAnimation("righthead");
+	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CMulligan::render()
