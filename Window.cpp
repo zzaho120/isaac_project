@@ -5,17 +5,17 @@
 #include "TestMonsterScene.h"
 
 POINT Window::ptMouse = POINT{ 0,0 };
-CTRL Window::_currentCTRL = CTRL::CTRL_DRAW;
+CTRL Window::currentCTRL = CTRL::CTRL_DRAW;
 Window::Window()
 {
-	m_backBuffer = new image();
-	m_backBuffer->init(SUBWINSIZEX, SUBWINSIZEY);
+	backBuffer = new image();
+	backBuffer->init(SUBWINSIZEX, SUBWINSIZEY);
 	fileCnt = 0;
 }
 
 Window::~Window()
 {
-	SAFE_DELETE(m_backBuffer);
+	SAFE_DELETE(backBuffer);
 }
 
 void Window::init()
@@ -26,40 +26,62 @@ void Window::init()
 
 	int startX = 10;
 	int startY = 10;
-	int btnWidth = 100;
+	int btnWidth = 90;
 	int btnHeight = 25;
 
-	_btnDraw = CreateWindow("button", "그리기",
+	btnDraw = CreateWindow("button", "그리기",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		startX, startY, btnWidth, btnHeight, hWnd, HMENU(0), m_hInstance, NULL);
-	_btnInit = CreateWindow("button", "초기화",
+
+	btnInit = CreateWindow("button", "초기화",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		startX, startY + 30, btnWidth, btnHeight, hWnd, HMENU(1), m_hInstance, NULL);
-	_btnSave = CreateWindow("button", "저장",
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		startX + 115, startY, btnWidth, btnHeight, hWnd, HMENU(2), m_hInstance, NULL);
-	_btnLoad = CreateWindow("button", "불러오기",
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		startX + 115, startY + 30, btnWidth, btnHeight, hWnd, HMENU(3), m_hInstance, NULL);
-	_btnExit = CreateWindow("button", "그리기 종료",
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		startX + 115, startY + 60, btnWidth, btnHeight, hWnd, HMENU(4), m_hInstance, NULL);
-	_editStr = CreateWindow("edit", NULL, 
-		WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 
-		startX, startY + 90, 200, 25, hWnd, HMENU(5), m_hInstance, NULL);
-	SetDlgItemText(hWnd, (int)HMENU(5), "저장 파일 이름 입력");
-	_btnRemoveFile = CreateWindow("button", "파일 삭제",
-		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
-		startX + 230, startY + 200, btnWidth, btnHeight, hWnd, HMENU(8), m_hInstance, NULL);
 
-	_listFile = CreateWindow("listbox", NULL,
+	btnSave = CreateWindow("button", "저장",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 100, startY, btnWidth, btnHeight, hWnd, HMENU(2), m_hInstance, NULL);
+
+	btnLoad = CreateWindow("button", "불러오기",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 100, startY + 30, btnWidth, btnHeight, hWnd, HMENU(3), m_hInstance, NULL);
+
+	btnExit = CreateWindow("button", "그리기 종료",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 100, startY + 60, btnWidth, btnHeight, hWnd, HMENU(4), m_hInstance, NULL);
+
+	editStr = CreateWindow("edit", NULL, 
+		WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 
+		startX, startY + 100, 190, 25, hWnd, HMENU(5), m_hInstance, NULL);
+	SetDlgItemText(hWnd, (int)HMENU(5), "저장 파일 이름 입력");
+
+	listFile = CreateWindow("listbox", NULL,
 		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
-		startX + 230, startY, 100, 200, hWnd, HMENU(6), m_hInstance, NULL);
+		startX + 200, startY, 180, 200, hWnd, HMENU(6), m_hInstance, NULL);
 	FileListSet();
 
-	_btnSetRoom = CreateWindow("button", "방 세팅",
-		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
+	btnSetRoom = CreateWindow("button", "방 세팅",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		startX, startY + 60, btnWidth, btnHeight, hWnd, HMENU(7), m_hInstance, NULL);
+
+	btnRemoveFile = CreateWindow("button", "파일 삭제",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 200, startY + 200, btnWidth * 2, btnHeight, hWnd, HMENU(8), m_hInstance, NULL);
+
+	btnMonsterTile = CreateWindow("button", "몬스터",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX, startY + 230, btnWidth, btnHeight, hWnd, HMENU(9), m_hInstance, NULL);
+
+	btnObjectTile = CreateWindow("button", "오브젝트",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 100, startY + 230, btnWidth, btnHeight, hWnd, HMENU(10), m_hInstance, NULL);
+
+	btnRoomTile = CreateWindow("button", "방 유형",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 100 * 2, startY + 230, btnWidth, btnHeight, hWnd, HMENU(11), m_hInstance, NULL);
+
+	btnItemTile = CreateWindow("button", "아이템",
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		startX + 100 * 3, startY + 230, btnWidth, btnHeight, hWnd, HMENU(12), m_hInstance, NULL);
 
 	objFrame = { 0,0 };
 	monsterFrame = { 0,0 };
@@ -81,13 +103,13 @@ void Window::update()
 void Window::render()
 {
 	HDC hdc = GetDC(hWnd);
-	PatBlt(m_backBuffer->getMemDC(), 0, 0, SUBWINSIZEX, SUBWINSIZEY, WHITENESS);
+	PatBlt(backBuffer->getMemDC(), 0, 0, SUBWINSIZEX, SUBWINSIZEY, WHITENESS);
 
 	if (currentScene != NULL)
 	{
-		currentScene->render(m_backBuffer->getMemDC());
+		currentScene->render(backBuffer->getMemDC());
 	}
-	m_backBuffer->render(hdc);
+	backBuffer->render(hdc);
 	ReleaseDC(hWnd, hdc);
 }
 
@@ -117,11 +139,13 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			switch ((CTRL)LOWORD(wParam))
 			{
 			case CTRL::CTRL_DRAW:
-				_currentCTRL = (CTRL)(LOWORD(wParam));
+				currentCTRL = (CTRL)(LOWORD(wParam));
 				break;
+
 			case CTRL::CTRL_INIT:
 				SUBWIN->getMap()->tileInit();
 				break;
+
 			case CTRL::CTRL_SAVE:
 				GetDlgItemText(hWnd, (int)HMENU(5), saveFileName, strlen(saveFileName));
 				strcat(folderPath, saveFileName);
@@ -133,6 +157,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				else
 					MessageBox(hWnd, "저장 실패", "알림", MB_OK);
 				break;
+
 			case CTRL::CTRL_LOAD:
 				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
 				SendMessage(SUBWIN->getListHandle(), LB_GETTEXT, idx, (LPARAM)saveFileName);
@@ -142,6 +167,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				else
 					MessageBox(hWnd, "불러오기 실패", "알림", MB_OK);
 				break;
+
 			case CTRL::CTRL_SETROOM:
 				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
 				if (idx != -1)
@@ -152,6 +178,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				else MessageBox(hWnd, "파일을 선택한 후, 방 세팅 클릭", "알림", MB_OK);
 				break;
+
 			case CTRL::CTRL_REMOVE:
 				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
 				SendMessage(SUBWIN->getListHandle(), LB_GETTEXT, idx, (LPARAM)removeStr);
@@ -167,6 +194,16 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					}
 				}
 				break;
+
+			case CTRL::CTRL_MONSTER:
+			case CTRL::CTRL_OBJECT:
+			case CTRL::CTRL_ROOM:
+			case CTRL::CTRL_ITEM:
+				SUBWIN->SetMonsterFrame({ 0, 0 });
+				SUBWIN->SetObjFrame({ 0, 0 });
+				SUBWIN->SetFrameIndex(LOWORD(wParam) - 9);
+				break;
+
 			case CTRL::CTRL_EXIT:
 				SCENE->changeScene("test");
 				DestroyWindow(hWnd);
@@ -245,7 +282,7 @@ void Window::FileListSet()
 	HANDLE hFind = FindFirstFile("save/*.map", &fd);
 
 	for(int i = 0; i < fileCnt; i++)
-		SendMessage(_listFile, LB_DELETESTRING, 0, 0);
+		SendMessage(listFile, LB_DELETESTRING, 0, 0);
 	fileCnt = 0;
 
 	if (INVALID_HANDLE_VALUE != hFind)
@@ -253,7 +290,7 @@ void Window::FileListSet()
 		do
 		{
 			fileCnt++;
-			SendMessage(_listFile, LB_ADDSTRING, 0, (LPARAM)fd.cFileName);
+			SendMessage(listFile, LB_ADDSTRING, 0, (LPARAM)fd.cFileName);
 		} while (FindNextFile(hFind, &fd));
 	}
 	FindClose(hFind);

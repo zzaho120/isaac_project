@@ -138,18 +138,28 @@ enum class MONSTER_TYPE
 // ============================================= MapInfo ===================================================
 const int TILEWIDTH = 57;
 const int TILEHEIGHT = 63;
+
 const int TILEX = 15;
 const int TILEY = 9;
+
 const int TILESIZEX = TILEX * TILEWIDTH;
 const int TILESIZEY = TILEY * TILEHEIGHT;
-const int SAMPLETILEX = 6;
-const int SAMPLETILEY = 3;
+
+const int OBJECTTILEX = 6;
+const int OBJECTTILEY = 3;
+
 const int MONSTERTILEX = 7;
 const int MONSTERTILEY = 1;
+
+const int ROOMTILEX = 3;
+const int ROOMTILEY = 1;
+
 const int MAPSIZEX = 1024 - 15;
 const int MAPSIZEY = 768 - 39;
+
 const int MAPSTARTX = 132 - 57;
 const int MAPSTARTY = 143 - 63;
+
 const int SUBWINSIZEX = 420;
 const int SUBWINSIZEY = 500;
 
@@ -170,6 +180,14 @@ enum class OBJECT
 	OBJ_WALL,
 	OBJ_DOOR,
 	OBJ_NONE
+};
+
+enum class ROOM
+{
+	ROOM_NORMAL,
+	ROOM_BOSS,
+	ROOM_SHOP,
+	ROOM_END
 };
 
 // un-develop
@@ -195,6 +213,10 @@ enum class CTRL
 	CTRL_LIST,
 	CTRL_SETROOM,
 	CTRL_REMOVE,
+	CTRL_MONSTER,
+	CTRL_OBJECT,
+	CTRL_ROOM,
+	CTRL_ITEM,
 	CTRL_END
 };
 
@@ -209,16 +231,10 @@ struct tagTile
 	Vec2 pt;
 };
 
-struct tagObjectTile
+struct tagSampleTile
 {
 	RECT rcTile;
-	Vec2 objFrame;
-};
-
-struct tagMonsterTile
-{
-	RECT rcTile;
-	Vec2 monsterFrame;
+	Vec2 frame;
 };
 
 struct tagOBJAttribute

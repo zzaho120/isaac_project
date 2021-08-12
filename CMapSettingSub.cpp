@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "CMapSettingSub.h"
 
-CMapSettingSub::CMapSettingSub() : isDebug(false)
+CMapSettingSub::CMapSettingSub()
 {
     mapToolSetup();
 }
@@ -12,7 +12,7 @@ CMapSettingSub::~CMapSettingSub()
 
 HRESULT CMapSettingSub::init()
 {
-    isDebug = false;
+    currentIdx = 0;
     mapToolSetup();
     return S_OK;
 }
@@ -23,88 +23,147 @@ void CMapSettingSub::release()
 void CMapSettingSub::update()
 {
     if (SUBWIN->GetIsActive() && InputManager->isStayKeyDown(VK_LBUTTON)) setMap();
-    if (InputManager->isOnceKeyDown(VK_SHIFT)) isDebug = !isDebug;
+
+    if (currentIdx != SUBWIN->GetFrameIndex())
+    {
+        currentIdx = SUBWIN->GetFrameIndex();
+        mapToolSetup();
+    }
 }
 
 void CMapSettingSub::render(HDC hdc)
 {
-    IMAGE->render("objMap", hdc, 0, SUBWINSIZEY - IMAGE->findImage("objMap")->getHeight());
-    IMAGE->render("monsterMap", hdc, 0, SUBWINSIZEY - IMAGE->findImage("objMap")->getHeight() - IMAGE->findImage("monsterMap")->getHeight());
     TCHAR currentSelect[64];
-    wsprintf(currentSelect, "monX : %d, monY : %d, objX : %d, objY : %d", 
-        SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y, SUBWIN->GetObjFrame().x, SUBWIN->GetObjFrame().y);
-    TextOut(hdc, 10, 240, currentSelect, strlen(currentSelect));
-    if (isDebug)
-    {
-        for (int i = 0; i < SAMPLETILEY; i++)
-        {
-            for (int j = 0; j < SAMPLETILEX; j++)
-            {
-                Rectangle(hdc, _sampleTiles[i * SAMPLETILEX + j].rcTile.left,
-                    _sampleTiles[i * SAMPLETILEX + j].rcTile.top,
-                    _sampleTiles[i * SAMPLETILEX + j].rcTile.right,
-                    _sampleTiles[i * SAMPLETILEX + j].rcTile.bottom);
-            }
-        }
+    wsprintf(currentSelect, "monster : {%d,%d}  obj : {%d,%d}  room : {%d,%d}", 
+        SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y, SUBWIN->GetObjFrame().x, SUBWIN->GetObjFrame().y,
+        SUBWIN->GetRoomFrame().x, SUBWIN->GetRoomFrame().y);
+    TextOut(hdc, 10, 270, currentSelect, strlen(currentSelect));
 
+    Rectangle(hdc, 0, 300, SUBWINSIZEX, SUBWINSIZEY);
+
+    switch (SUBWIN->GetFrameIndex())
+    {
+    case 0:
         for (int i = 0; i < MONSTERTILEY; i++)
         {
             for (int j = 0; j < MONSTERTILEX; j++)
             {
-                Rectangle(hdc, _monsterTile[i * SAMPLETILEX + j].rcTile.left,
-                    _monsterTile[i * SAMPLETILEX + j].rcTile.top,
-                    _monsterTile[i * SAMPLETILEX + j].rcTile.right,
-                    _monsterTile[i * SAMPLETILEX + j].rcTile.bottom);
+                Rectangle(hdc, monsterTile[i * OBJECTTILEX + j].rcTile.left,
+                    monsterTile[i * OBJECTTILEX + j].rcTile.top,
+                    monsterTile[i * OBJECTTILEX + j].rcTile.right,
+                    monsterTile[i * OBJECTTILEX + j].rcTile.bottom);
             }
         }
+        IMAGE->render("monsterTile", hdc, 0, 300);
+        break;
+    case 1:
+        for (int i = 0; i < OBJECTTILEY; i++)
+        {
+            for (int j = 0; j < OBJECTTILEX; j++)
+            {
+                Rectangle(hdc, objTile[i * OBJECTTILEX + j].rcTile.left,
+                    objTile[i * OBJECTTILEX + j].rcTile.top,
+                    objTile[i * OBJECTTILEX + j].rcTile.right,
+                    objTile[i * OBJECTTILEX + j].rcTile.bottom);
+            }
+        }
+        IMAGE->render("objectTile", hdc, 0, 300);
+        break;
+    case 2:
+        for (int i = 0; i < ROOMTILEY; i++)
+        {
+            for (int j = 0; j < ROOMTILEX; j++)
+            {
+                Rectangle(hdc, roomTile[i * ROOMTILEX + j].rcTile.left,
+                    roomTile[i * ROOMTILEX + j].rcTile.top,
+                    roomTile[i * ROOMTILEX + j].rcTile.right,
+                    roomTile[i * ROOMTILEX + j].rcTile.bottom);
+            }
+        }
+        IMAGE->render("roomTile", hdc, 0, 300);
+        break;
+    case 3:
+        break;
     }
 }
 
 void CMapSettingSub::mapToolSetup()
 {
-    for (int i = 0; i < SAMPLETILEY; i++)
-    {
-        for (int j = 0; j < SAMPLETILEX; j++)
-        {
-            _sampleTiles[i * SAMPLETILEX + j].objFrame.x = j;
-            _sampleTiles[i * SAMPLETILEX + j].objFrame.y = i;
-            
-            _sampleTiles[i * SAMPLETILEX + j].rcTile = 
-                RectMake(
-                    TILEWIDTH * j, SUBWINSIZEY - IMAGE->findImage("objMap")->getHeight() + TILEHEIGHT * i,
-                    TILEWIDTH, TILEHEIGHT);
-        }
-    }
+    memset(objTile, 0, sizeof(objTile));
+    memset(monsterTile, 0, sizeof(monsterTile));
+    memset(roomTile, 0, sizeof(roomTile));
 
-    for (int i = 0; i < MONSTERTILEY; i++)
+    switch (currentIdx)
     {
-        for (int j = 0; j < MONSTERTILEX; j++)
+    case 0:
+        for (int i = 0; i < MONSTERTILEY; i++)
         {
-            _monsterTile[i * MONSTERTILEX + j].monsterFrame.x = j;
-            _monsterTile[i * MONSTERTILEX + j].monsterFrame.y = i;
+            for (int j = 0; j < MONSTERTILEX; j++)
+            {
+                monsterTile[i * MONSTERTILEX + j].frame.x = j;
+                monsterTile[i * MONSTERTILEX + j].frame.y = i;
 
-            _monsterTile[i * MONSTERTILEX + j].rcTile =
-                RectMake(
-                    TILEWIDTH * j, SUBWINSIZEY - IMAGE->findImage("objMap")->getHeight() - IMAGE->findImage("monsterMap")->getHeight() + TILEHEIGHT * i,
-                    TILEWIDTH, TILEHEIGHT);
+                monsterTile[i * MONSTERTILEX + j].rcTile =
+                    RectMake(
+                        TILEWIDTH * j, 300 + TILEHEIGHT * i,
+                        TILEWIDTH, TILEHEIGHT);
+            }
         }
+        break;
+    case 1:
+        for (int i = 0; i < OBJECTTILEY; i++)
+        {
+            for (int j = 0; j < OBJECTTILEX; j++)
+            {
+                objTile[i * OBJECTTILEX + j].frame.x = j;
+                objTile[i * OBJECTTILEX + j].frame.y = i;
+
+                objTile[i * OBJECTTILEX + j].rcTile =
+                    RectMake(
+                        TILEWIDTH * j, 300 + TILEHEIGHT * i,
+                        TILEWIDTH, TILEHEIGHT);
+            }
+        }
+        break;
+    case 2:
+        for (int i = 0; i < ROOMTILEY; i++)
+        {
+            for (int j = 0; j < ROOMTILEX; j++)
+            {
+                roomTile[i * OBJECTTILEX + j].frame.x = j;
+                roomTile[i * OBJECTTILEX + j].frame.y = i;
+
+                roomTile[i * OBJECTTILEX + j].rcTile =
+                    RectMake(
+                        TILEWIDTH * j, 300 + TILEHEIGHT * i,
+                        TILEWIDTH, TILEHEIGHT);
+            }
+        }
+        break;
     }
 }
 
 void CMapSettingSub::setMap()
 {
-   for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
+   for (int i = 0; i < OBJECTTILEX * OBJECTTILEY; i++)
    {
-        if (PtInRect(&_sampleTiles[i].rcTile, SUBWIN->GetMousePos()))
+        if (PtInRect(&objTile[i].rcTile, SUBWIN->GetMousePos()))
         {
-            SUBWIN->SetObjFrame(PointMake(_sampleTiles[i].objFrame.x, _sampleTiles[i].objFrame.y));
+            SUBWIN->SetObjFrame(PointMake(objTile[i].frame.x, objTile[i].frame.y));
         }
    }
    for (int i = 0; i < MONSTERTILEX * MONSTERTILEY; i++)
    {
-       if (PtInRect(&_monsterTile[i].rcTile, SUBWIN->GetMousePos()))
+       if (PtInRect(&monsterTile[i].rcTile, SUBWIN->GetMousePos()))
        {
-           SUBWIN->SetMonsterFrame(PointMake(_monsterTile[i].monsterFrame.x, _monsterTile[i].monsterFrame.y));
+           SUBWIN->SetMonsterFrame(PointMake(monsterTile[i].frame.x, monsterTile[i].frame.y));
+       }
+   }
+   for (int i = 0; i < ROOMTILEX * ROOMTILEY; i++)
+   {
+       if (PtInRect(&roomTile[i].rcTile, SUBWIN->GetMousePos()))
+       {
+           SUBWIN->SetRoomFrame(PointMake(roomTile[i].frame.x, roomTile[i].frame.y));
        }
    }
 }
