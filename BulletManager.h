@@ -21,6 +21,7 @@ public:
 	void fire(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, int size);
 	void move();
 	void removeBullet(viBullet iter);
+	void eraserBullet(int number) { _vBullet.erase(_vBullet.begin() + number); }
 
 	vBullet getvBullet() { return _vBullet; }
 	viBullet getviBullet(int number);

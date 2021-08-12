@@ -18,7 +18,6 @@ CCharacter::CCharacter() :
 CCharacter::CCharacter(Vec2 _pos, RECT _rc, int _hp) :
 	CObject(_pos, _rc), hp(_hp) , m_pAI(nullptr)
 {
-
 }
 
 CCharacter::~CCharacter()

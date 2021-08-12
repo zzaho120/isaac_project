@@ -1,10 +1,10 @@
 #pragma once
 #include"gameNode.h"
 #include"CMap.h"
-
 #include"CPlayer.h"
 
 class CBullet;
+class CMonster;
 class TestMonsterScene : public gameNode
 {
 private:
