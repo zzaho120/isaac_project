@@ -42,9 +42,9 @@ void CMap::update()
 
 void CMap::render()
 {
-    IMAGE->render("map", getMemDC(), 0, 0);
+    IMAGE->render("basement_normal", getMemDC(), 0, 0);
     for (int i = 0; i < TILEX * TILEY; i++)
-        IMAGE->frameRender("objMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
+        IMAGE->frameRender("objectTile", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
 }
 
 void CMap::load()

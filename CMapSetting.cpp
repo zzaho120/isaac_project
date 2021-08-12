@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "CMapSetting.h"
 
-CMapSetting::CMapSetting() : isDebug(false)
+CMapSetting::CMapSetting() : isDebug(false), roomType(ROOM::ROOM_NORMAL)
 {
     mapToolSetup();
 }
@@ -13,6 +13,7 @@ CMapSetting::~CMapSetting()
 HRESULT CMapSetting::init()
 {
     isDebug = false;
+    roomType = ROOM::ROOM_NORMAL;
     mapToolSetup();
     return S_OK;
 }
@@ -25,11 +26,24 @@ void CMapSetting::update()
 {
     if (!SUBWIN->GetIsActive() && InputManager->isStayKeyDown(VK_LBUTTON)) setMap();
     if (!SUBWIN->GetIsActive() && InputManager->isOnceKeyDown(VK_F5)) isDebug = !isDebug;
+    roomType = (ROOM)SUBWIN->GetRoomFrame().x;
 }
 
 void CMapSetting::render()
 {
-    IMAGE->render("map", getMemDC(), 0, 0);
+    switch (roomType)
+    {
+    case ROOM::ROOM_NORMAL:
+        IMAGE->render("basement_normal", getMemDC(), 0, 0);
+        break;
+    case ROOM::ROOM_BOSS:
+        IMAGE->render("basement_boss", getMemDC(), 0, 0);
+        break;
+    case ROOM::ROOM_SHOP:
+        IMAGE->render("shop", getMemDC(), 0, 0);
+        break;
+    }
+    
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         if (isDebug)
@@ -37,8 +51,8 @@ void CMapSetting::render()
             if(_tile[i].obj == OBJECT::OBJ_WALL)
                 Rectangle(getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].rcTile.right, _tile[i].rcTile.bottom);
         }
-        IMAGE->frameRender("objMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
-        IMAGE->frameRender("monsterMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].monsterFrame.x, _tile[i].monsterFrame.y);
+        IMAGE->frameRender("objectTile", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
+        IMAGE->frameRender("monsterTile", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].monsterFrame.x, _tile[i].monsterFrame.y);
     }
 
     TCHAR str[128];
@@ -148,6 +162,7 @@ bool CMapSetting::save(const char* fileName)
         GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
     result = WriteFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &write, NULL);
+
     CloseHandle(file);
 
     return result;

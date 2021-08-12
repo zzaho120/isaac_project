@@ -3,24 +3,27 @@
 
 AniAddList::AniAddList()
 {
-	//===================map player============================================
-	//===================map player============================================
-	IMAGE->addImage("map", "images/bigMap.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
-	IMAGE->addImage("shadow", "images/shadow.bmp", 10, 10, true, RGB(255, 0, 255));
-	IMAGE->addFrameImage("objMap", "images/object.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
-	IMAGE->addFrameImage("monsterMap", "images/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
+	//=================== map ====================================================================================
+	//=================== map ====================================================================================
+	IMAGE->addImage("basement_normal", "images/map/basement_normal.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
+	IMAGE->addImage("basement_boss", "images/map/basement_boss.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
+	IMAGE->addImage("shop", "images/map/shop.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 
-	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*1.5, 90*1.5, 10, 3, true, RGB(255, 0, 255));
-	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256*2, 32*2, 8, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("objectTile", "images/map/objectTile.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("monsterTile", "images/map/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("roomTile", "images/map/roomTile.bmp", TILEWIDTH * 3, TILEHEIGHT, 3, 1, true, RGB(255, 0, 255));
 
+	//=================== player ====================================================================================
+	//=================== player ====================================================================================
+	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256 * 2, 32 * 2, 8, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300 * 1.5, 90 * 1.5, 10, 3, true, RGB(255, 0, 255));
+	
 	ANIMATION->addAnimation("down_head", "isaac", 0, 1, 10, false, false);
 	ANIMATION->addAnimation("right_head", "isaac", 2, 3, 10, false, false);
 	ANIMATION->addAnimation("up_head", "isaac", 4, 5, 10, false, false);
 	ANIMATION->addAnimation("left_head", "isaac", 6, 7, 10, false, false);
 	int playeridle[] = { 0 };
-	ANIMATION->addAnimation("playeridlehead", "isaac", playeridle, 1,10, false);
-	
-
+	ANIMATION->addAnimation("playeridlehead", "isaac", playeridle, 1, 10, false);
 	ANIMATION->addAnimation("playerrightbody", "mulliganbody", 10, 19, 10, false, true);
 	ANIMATION->addAnimation("playerleftbody", "mulliganbody", 20, 29, 10, false, true);
 	ANIMATION->addAnimation("playerupbody", "mulliganbody", 0, 9, 10, false, true);
@@ -28,14 +31,10 @@ AniAddList::AniAddList()
 	int mulliganidle[] = { 0 };
 	ANIMATION->addAnimation("playeridlebody", "mulliganbody", mulliganidle, 1, 10, false);
 
-
-	IMAGE->addFrameImage("objMap", "images/object.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
-	IMAGE->addImage("map", "images/bigMap.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
-
+	IMAGE->addImage("shadow", "images/shadow.bmp", 10, 10, true, RGB(255, 0, 255));
 	//==================================mulligan=================================================================
 	//==================================mulligan=================================================================
 	IMAGE->addFrameImage("mulliganhead", "images/enemy/mulliganhead.bmp", 240*1.5, 70*1.5, 6, 2, true, RGB(255, 0, 255));
-	
 
 	ANIMATION->addAnimation("righthead", "mulliganhead", 0, 5, 10, false, true);
 	ANIMATION->addAnimation("rightbody", "mulliganbody", 10, 19, 10, false, true);

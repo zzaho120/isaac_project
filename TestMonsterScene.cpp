@@ -39,7 +39,7 @@ HRESULT TestMonsterScene::init(const char* fileName)
 
 void TestMonsterScene::release()
 {
-    SAFE_DELETE(_player);
+   // SAFE_DELETE(_player);
 }
 
 void TestMonsterScene::update()

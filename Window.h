@@ -11,28 +11,32 @@ private:
 	HWND hWnd;
 	static POINT ptMouse;
 
-	image* m_backBuffer;
+	image* backBuffer;
 	gameNode* currentScene;
 
-	HWND _btnDraw;
-	HWND _btnInit;
+	HWND btnDraw;
+	HWND btnInit;
 
-	HWND _btnSave;
-	HWND _btnLoad;
+	HWND btnSave;
+	HWND btnLoad;
 
-	HWND _btnExit;
-	HWND _editStr;
+	HWND btnExit;
+	HWND editStr;
 
-	HWND _btnSetRoom;
+	HWND btnSetRoom;
 
-	HWND _listFile;
-	HWND _btnRemoveFile;
+	HWND listFile;
+	HWND btnRemoveFile;
 
+	HWND btnMonsterTile;
+	HWND btnObjectTile;
+	HWND btnRoomTile;
+	HWND btnItemTile;
 
-
-	static CTRL _currentCTRL;
+	static CTRL currentCTRL;
 	POINT objFrame;
 	POINT monsterFrame;
+	POINT roomFrame;
 
 	int clickIndex;
 	int fileCnt;
@@ -58,8 +62,8 @@ public:
 
 	static POINT GetMousePos() { return ptMouse; }
 
-	static CTRL GetCTRL() { return _currentCTRL; }
-	void SetCTRL(CTRL ctrl) { _currentCTRL = ctrl; }
+	static CTRL GetCTRL() { return currentCTRL; }
+	void SetCTRL(CTRL ctrl) { currentCTRL = ctrl; }
 
 	void SetIsActive(bool isActive) { this->isActive = isActive; }
 	bool GetIsActive() { return isActive; }
@@ -70,6 +74,9 @@ public:
 	void SetObjFrame(POINT frame) { objFrame = frame; }
 	POINT GetObjFrame() { return objFrame; }
 
+	void SetRoomFrame(POINT frame) { roomFrame = frame; }
+	POINT GetRoomFrame() { return roomFrame; }
+
 	void SetFrameIndex(int index) { clickIndex = index; }
 	int GetFrameIndex() { return clickIndex; }
 
@@ -79,7 +86,7 @@ public:
 	CMapSetting* getMap() { return map; }
 	TestMonsterScene* getTest() { return test; }
 
-	HWND getListHandle() { return _listFile; }
+	HWND getListHandle() { return listFile; }
 
 	void CreateSubWindow();
 
