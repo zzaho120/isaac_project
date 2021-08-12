@@ -1,8 +1,8 @@
 #pragma once
 #include"gameNode.h"
 #include"CMap.h"
-
 #include"CPlayer.h"
+
 class TestMonsterScene : public gameNode
 {
 private:
@@ -11,6 +11,7 @@ private:
 	CPlayer* _player;
 public:
 	HRESULT init();
+	HRESULT init(const char* fileName);
 	void release();
 	void update();
 	void render();

@@ -11,14 +11,15 @@ HRESULT mainGame::init()
 	gameNode::init(true);
 
 	CMapSetting* mapSet = new CMapSetting;
+	TestMonsterScene* test = new TestMonsterScene;
 	SCENE->addScene("main", mapSet);
 
-	SCENE->addScene("map1", new CMap);
-	SCENE->addScene("test", new TestMonsterScene);
-	SCENE->changeScene("test");
+	SCENE->addScene("test", test);
+	SCENE->changeScene("main");
 
 	SUBWIN->SetScene(new CMapSettingSub);
 	SUBWIN->SetMapLink(mapSet);
+	SUBWIN->SetTestLink(test);
 	return S_OK;
 }
 

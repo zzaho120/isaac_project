@@ -92,12 +92,11 @@ void gameNode::release()
 void gameNode::update()
 {
 	//더블버퍼 이후 사용하지 않는다 true->false
-	if (InputManager->isOnceKeyDown(VK_F1))
-		SCENE->changeScene("map1");
 	if (InputManager->isOnceKeyDown(VK_F2))
 		SCENE->changeScene("main");
 	if (InputManager->isOnceKeyDown(VK_F3))
 		SCENE->changeScene("test");
+
 	SUBWIN->update();
 	SCENE->update();
 	BULLET->update();

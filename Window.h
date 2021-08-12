@@ -1,22 +1,9 @@
 #pragma once
 #include"singleton.h"
 
-#define SUBWINSIZEX 420
-#define SUBWINSIZEY 500
-
 class CMapSetting;
+class TestMonsterScene;
 
-enum class CTRL
-{
-	CTRL_DRAW,
-	CTRL_INIT,
-	CTRL_SAVE,
-	CTRL_LOAD,
-	CTRL_EXIT,
-	CTRL_EDIT,
-	CTRL_LIST,
-	CTRL_END
-};
 
 class Window :public Singleton<Window>
 {
@@ -36,19 +23,24 @@ private:
 	HWND _btnExit;
 	HWND _editStr;
 
+	HWND _btnSetRoom;
+
 	HWND _listFile;
+	HWND _btnRemoveFile;
+
+
 
 	static CTRL _currentCTRL;
 	POINT objFrame;
 	POINT monsterFrame;
 
 	int clickIndex;
+	int fileCnt;
 
 	bool isActive;
 
-	vector<char*> fileNames;
-
 	CMapSetting* map;
+	TestMonsterScene* test;
 public:
 	Window();
 	~Window();
@@ -82,13 +74,14 @@ public:
 	int GetFrameIndex() { return clickIndex; }
 
 	void SetMapLink(CMapSetting* _map) { map = _map; }
-	CMapSetting* getMap() { return map; }
+	void SetTestLink(TestMonsterScene* _test) { test = _test; }
 
-	vector<char*>& getFileList() { return fileNames; }
+	CMapSetting* getMap() { return map; }
+	TestMonsterScene* getTest() { return test; }
+
+	HWND getListHandle() { return _listFile; }
 
 	void CreateSubWindow();
 
-	void GetFiles(vector<char*>& vec);
-
-	void FileListSet(vector<char*>& vec);
+	void FileListSet();
 };

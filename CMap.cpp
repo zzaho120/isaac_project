@@ -24,6 +24,13 @@ HRESULT CMap::init()
     return S_OK;
 }
 
+HRESULT CMap::init(const char* fileName)
+{
+    load(fileName);
+    tileSet();
+    return S_OK;
+}
+
 void CMap::release()
 {
 }
@@ -37,7 +44,7 @@ void CMap::render()
 {
     IMAGE->render("map", getMemDC(), 0, 0);
     for (int i = 0; i < TILEX * TILEY; i++)
-        IMAGE->frameRender("objMap", getMemDC(), _obj[i].rcTile.left, _obj[i].rcTile.top, _obj[i].objFrameX, _obj[i].objFrameY);
+        IMAGE->frameRender("objMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
 }
 
 void CMap::load()
@@ -48,7 +55,7 @@ void CMap::load()
     file = CreateFile("save/Map2.map",
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    ReadFile(file, _obj, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
+    ReadFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
     CloseHandle(file);
 }
 
@@ -60,7 +67,7 @@ void CMap::load(const char* fileName)
     file = CreateFile(fileName,
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    ReadFile(file, _obj, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
+    ReadFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
     CloseHandle(file);
 }
 
@@ -70,16 +77,16 @@ void CMap::tileSet()
     {
         for (size_t j = 0; j < TILEX; j++)
         {
-            SetRect(&_obj[i * TILEX + j].rcTile,
-                j * TILEWIDTH + mapStartX,
-                i * TILEHEIGHT + mapStartY,
-                j * TILEWIDTH + TILEWIDTH + mapStartX,
-                i * TILEHEIGHT + TILEHEIGHT + mapStartY);
+            SetRect(&_tile[i * TILEX + j].rcTile,
+                j * TILEWIDTH + MAPSTARTX,
+                i * TILEHEIGHT + MAPSTARTY,
+                j * TILEWIDTH + TILEWIDTH + MAPSTARTX,
+                i * TILEHEIGHT + TILEHEIGHT + MAPSTARTY);
 
-            _obj[i * TILEX + j].pt.x = RectX(_obj[i * TILEX + j].rcTile);
-            _obj[i * TILEX + j].pt.y = RectY(_obj[i * TILEX + j].rcTile);
+            _tile[i * TILEX + j].pt.x = RectX(_tile[i * TILEX + j].rcTile);
+            _tile[i * TILEX + j].pt.y = RectY(_tile[i * TILEX + j].rcTile);
 
-            switch (_obj[i * TILEX + j].obj)
+            switch (_tile[i * TILEX + j].obj)
             {
             case OBJECT::OBJ_FIREPLACE:
                 _OBJattribute[i * TILEX + j].strength = 3;
@@ -97,6 +104,9 @@ void CMap::tileSet()
                 _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
                 break;
             case OBJECT::OBJ_PIT:
+                _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
+                break; 
+            case OBJECT::OBJ_WALL:
                 _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
                 break;
             case OBJECT::OBJ_GOAL:

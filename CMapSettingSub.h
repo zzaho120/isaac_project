@@ -4,7 +4,7 @@ class CMapSettingSub : public gameNode
 {
 private:
 	tagObjectTile _sampleTiles[SAMPLETILEX * SAMPLETILEY];
-	tagMonsterTile _monsterTile[MONSTERTILEX * MONSTERTILEY];
+	struct tagMonsterTile _monsterTile[MONSTERTILEX * MONSTERTILEY];
 	bool isDebug;
 public:
 	CMapSettingSub();

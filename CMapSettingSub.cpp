@@ -30,7 +30,10 @@ void CMapSettingSub::render(HDC hdc)
 {
     IMAGE->render("objMap", hdc, 0, SUBWINSIZEY - IMAGE->findImage("objMap")->getHeight());
     IMAGE->render("monsterMap", hdc, 0, SUBWINSIZEY - IMAGE->findImage("objMap")->getHeight() - IMAGE->findImage("monsterMap")->getHeight());
-
+    TCHAR currentSelect[64];
+    wsprintf(currentSelect, "monX : %d, monY : %d, objX : %d, objY : %d", 
+        SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y, SUBWIN->GetObjFrame().x, SUBWIN->GetObjFrame().y);
+    TextOut(hdc, 10, 240, currentSelect, strlen(currentSelect));
     if (isDebug)
     {
         for (int i = 0; i < SAMPLETILEY; i++)
@@ -63,8 +66,8 @@ void CMapSettingSub::mapToolSetup()
     {
         for (int j = 0; j < SAMPLETILEX; j++)
         {
-            _sampleTiles[i * SAMPLETILEX + j].objFrameX = j;
-            _sampleTiles[i * SAMPLETILEX + j].objFrameY = i;
+            _sampleTiles[i * SAMPLETILEX + j].objFrame.x = j;
+            _sampleTiles[i * SAMPLETILEX + j].objFrame.y = i;
             
             _sampleTiles[i * SAMPLETILEX + j].rcTile = 
                 RectMake(
@@ -77,8 +80,8 @@ void CMapSettingSub::mapToolSetup()
     {
         for (int j = 0; j < MONSTERTILEX; j++)
         {
-            _monsterTile[i * MONSTERTILEX + j].monsterFrameX = j;
-            _monsterTile[i * MONSTERTILEX + j].monsterFrameY = i;
+            _monsterTile[i * MONSTERTILEX + j].monsterFrame.x = j;
+            _monsterTile[i * MONSTERTILEX + j].monsterFrame.y = i;
 
             _monsterTile[i * MONSTERTILEX + j].rcTile =
                 RectMake(
@@ -90,15 +93,18 @@ void CMapSettingSub::mapToolSetup()
 
 void CMapSettingSub::setMap()
 {
-   for (size_t i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
+   for (int i = 0; i < SAMPLETILEX * SAMPLETILEY; i++)
    {
         if (PtInRect(&_sampleTiles[i].rcTile, SUBWIN->GetMousePos()))
         {
-            SUBWIN->SetObjFrame(PointMake(_sampleTiles[i].objFrameX, _sampleTiles[i].objFrameY));
+            SUBWIN->SetObjFrame(PointMake(_sampleTiles[i].objFrame.x, _sampleTiles[i].objFrame.y));
         }
-        if (PtInRect(&_monsterTile[i].rcTile, SUBWIN->GetMousePos()))
-        {
-            SUBWIN->SetMonsterFrame(PointMake(_monsterTile[i].monsterFrameX, _monsterTile[i].monsterFrameY));
-        }
+   }
+   for (int i = 0; i < MONSTERTILEX * MONSTERTILEY; i++)
+   {
+       if (PtInRect(&_monsterTile[i].rcTile, SUBWIN->GetMousePos()))
+       {
+           SUBWIN->SetMonsterFrame(PointMake(_monsterTile[i].monsterFrame.x, _monsterTile[i].monsterFrame.y));
+       }
    }
 }

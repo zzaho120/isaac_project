@@ -32,9 +32,13 @@ void CMapSetting::render()
     IMAGE->render("map", getMemDC(), 0, 0);
     for (int i = 0; i < TILEX * TILEY; i++)
     {
-        if (isDebug) Rectangle(getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].rcTile.right, _tile[i].rcTile.bottom);
-        IMAGE->frameRender("objMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrameX, _tile[i].objFrameY);
-        IMAGE->frameRender("monsterMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].monsterFrameX, _tile[i].monsterFrameY);
+        if (isDebug)
+        {
+            if(_tile[i].obj == OBJECT::OBJ_WALL)
+                Rectangle(getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].rcTile.right, _tile[i].rcTile.bottom);
+        }
+        IMAGE->frameRender("objMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
+        IMAGE->frameRender("monsterMap", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].monsterFrame.x, _tile[i].monsterFrame.y);
     }
 
     TCHAR str[128];
@@ -44,28 +48,29 @@ void CMapSetting::render()
 
 void CMapSetting::tileInit()
 {
-    for (size_t i = 0; i < TILEX * TILEY; i++)
+    for (int i = 0; i < TILEX * TILEY; i++)
     {
-        _tile[i].objFrameX = 0;
-        _tile[i].objFrameY = 0;
-        _tile[i].monsterFrameX = 0;
-        _tile[i].monsterFrameY = 0;
-        _tile[i].obj = OBJECT::OBJ_NONE;
+        bool isWall = i < 15 || i % TILEX == 0 || i % TILEX == 14 || i > TILEX * TILEY - 15;
+        if (isWall) _tile[i].obj = OBJECT::OBJ_WALL;
+        else _tile[i].obj = OBJECT::OBJ_NONE;
         _tile[i].monster = MONSTER_TYPE::NONE;
+
+        _tile[i].objFrame = 0;
+        _tile[i].monsterFrame = 0;
     }
 }
 
 void CMapSetting::mapToolSetup()
 {
-    for (size_t i = 0; i < TILEY; i++)
+    for (int i = 0; i < TILEY; i++)
     {
-        for (size_t j = 0; j < TILEX; j++)
+        for (int j = 0; j < TILEX; j++)
         {
             SetRect(&_tile[i * TILEX + j].rcTile,
-                j * TILEWIDTH + mapStartX,
-                i * TILEHEIGHT + mapStartY,
-                j * TILEWIDTH + TILEWIDTH + mapStartX,
-                i * TILEHEIGHT + TILEHEIGHT + mapStartY);
+                j * TILEWIDTH + MAPSTARTX,
+                i * TILEHEIGHT + MAPSTARTY,
+                j * TILEWIDTH + TILEWIDTH + MAPSTARTX,
+                i * TILEHEIGHT + TILEHEIGHT + MAPSTARTY);
         }
     }
     tileInit();
@@ -73,33 +78,62 @@ void CMapSetting::mapToolSetup()
 
 void CMapSetting::setMap()
 {
-    for (size_t i = 0; i < TILEX * TILEY; i++)
+    for (int i = 0; i < TILEX * TILEY; i++)
     {
         if (PtInRect(&_tile[i].rcTile, m_ptMouse))
         {
-            bool isNonMon = _tile[i].monsterFrameX == 0 && _tile[i].monsterFrameY == 0;
-            if (isNonMon)
+            bool isNonMon = _tile[i].monsterFrame.x == 0 && _tile[i].monsterFrame.y == 0;
+            bool isWall = _tile[i].obj == OBJECT::OBJ_WALL;
+            if (isNonMon && !isWall)
             {
-                _tile[i].objFrameX = SUBWIN->GetObjFrame().x;
-                _tile[i].objFrameY = SUBWIN->GetObjFrame().y;
+                _tile[i].objFrame = { static_cast<float>(SUBWIN->GetObjFrame().x), static_cast<float>(SUBWIN->GetObjFrame().y) };
                 _tile[i].obj = objSelect(SUBWIN->GetObjFrame().x, SUBWIN->GetObjFrame().y);
                 InvalidateRect(m_hWnd, NULL, false);
             }
         }
     }
 
-    for (size_t i = 0; i < TILEX * TILEY; i++)
+    for (int i = 0; i < TILEX * TILEY; i++)
     {
         if (PtInRect(&_tile[i].rcTile, m_ptMouse))
         {
-            bool isNonObj = _tile[i].objFrameX == 0 && _tile[i].objFrameY == 0;
-            if (isNonObj)
+            bool isNonObj = _tile[i].objFrame.x == 0 && _tile[i].objFrame.y == 0;
+            bool isWall = _tile[i].obj == OBJECT::OBJ_WALL;
+            if (isNonObj && !isWall)
             {
-                _tile[i].monsterFrameX = SUBWIN->GetMonsterFrame().x;
-                _tile[i].monsterFrameY = SUBWIN->GetMonsterFrame().y;
                 _tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+                _tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
                 InvalidateRect(m_hWnd, NULL, false);
             }
+        }
+    }
+
+    // must modified
+    for (int i = 0; i < TILEX * TILEY; i++)
+    {
+        if (_tile[i].monster == MONSTER_TYPE::GURDY)
+        {
+            bool isRightWall = _tile[i + 1].obj == OBJECT::OBJ_WALL;
+            if (isRightWall)
+            {
+                _tile[i].monster = MONSTER_TYPE::NONE;
+                _tile[i].monsterFrame = 0;
+                break;
+            }
+
+            _tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            _tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+
+            /*_tile[i + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            _tile[i + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+
+            _tile[i + TILEX].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            _tile[i + TILEX].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+
+            _tile[i + TILEX + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            _tile[i + TILEX + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };*/
+
+            break;
         }
     }
 }
@@ -113,7 +147,6 @@ bool CMapSetting::save(const char* fileName)
     file = CreateFile(fileName,
         GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-
     result = WriteFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &write, NULL);
     CloseHandle(file);
 
@@ -126,7 +159,7 @@ bool CMapSetting::load(const char* fileName)
     DWORD read;
     bool result;
 
-    file = CreateFile("save/Map2.map",
+    file = CreateFile(fileName,
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
     result = ReadFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
@@ -179,25 +212,23 @@ MONSTER_TYPE CMapSetting::monsterSelect(int frameX, int frameY)
         case 0:
             return MONSTER_TYPE::NONE;
             break;
-
         case 1:
-            return MONSTER_TYPE::MULLIGAN;
+            return MONSTER_TYPE::WORM;
             break;
-
         case 2:
             return MONSTER_TYPE::FLY;
             break;
-
         case 3:
             return MONSTER_TYPE::HOST;
             break;
-
         case 4:
             return MONSTER_TYPE::HOPPER;
             break;
-
         case 5:
             return MONSTER_TYPE::MULLIGAN;
+            break;
+        case 6:
+            return MONSTER_TYPE::GURDY;
             break;
         }
     }

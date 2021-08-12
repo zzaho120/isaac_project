@@ -41,8 +41,7 @@
 #include"collisionManager.h"
 #include"bulletManager.h"
 #include"enemyManager.h"
-
-#include "AniAddList.h"
+#include"AniAddList.h"
 //==========================================
 //				 매크로 설정
 //==========================================

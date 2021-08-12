@@ -138,22 +138,26 @@ enum class MONSTER_TYPE
 // ============================================= MapInfo ===================================================
 const int TILEWIDTH = 57;
 const int TILEHEIGHT = 63;
-const int TILEX = 13;
-const int TILEY = 7;
+const int TILEX = 15;
+const int TILEY = 9;
 const int TILESIZEX = TILEX * TILEWIDTH;
 const int TILESIZEY = TILEY * TILEHEIGHT;
 const int SAMPLETILEX = 6;
 const int SAMPLETILEY = 3;
-const int MONSTERTILEX = 6;
+const int MONSTERTILEX = 7;
 const int MONSTERTILEY = 1;
 const int MAPSIZEX = 1024 - 15;
 const int MAPSIZEY = 768 - 39;
-const int mapStartX = 132;
-const int mapStartY = 143;
+const int MAPSTARTX = 132 - 57;
+const int MAPSTARTY = 143 - 63;
+const int SUBWINSIZEX = 420;
+const int SUBWINSIZEY = 500;
 
 #define ATTR_UNMOVABLE 0x00000001
 #define ATTR_ONLYBOMB 0x00000002
 
+
+// map object
 enum class OBJECT
 {
 	OBJ_GOAL,
@@ -168,6 +172,7 @@ enum class OBJECT
 	OBJ_NONE
 };
 
+// un-develop
 enum class ITEM
 {
 	ITEM_BOMB,
@@ -178,37 +183,42 @@ enum class ITEM
 	ITEM_NONE
 };
 
+// sub-window button function
+enum class CTRL
+{
+	CTRL_DRAW,
+	CTRL_INIT,
+	CTRL_SAVE,
+	CTRL_LOAD,
+	CTRL_EXIT,
+	CTRL_EDIT,
+	CTRL_LIST,
+	CTRL_SETROOM,
+	CTRL_REMOVE,
+	CTRL_END
+};
+
 struct tagTile
 {
 	OBJECT obj;
 	MONSTER_TYPE monster;
 	RECT rcTile;
 
-	int objFrameX;
-	int objFrameY;
-	int monsterFrameX;
-	int monsterFrameY;
-
-	vector2 pt;
+	Vec2 objFrame;
+	Vec2 monsterFrame;
+	Vec2 pt;
 };
 
 struct tagObjectTile
 {
 	RECT rcTile;
-	int objFrameX;
-	int objFrameY;
+	Vec2 objFrame;
 };
 
 struct tagMonsterTile
 {
 	RECT rcTile;
-	int monsterFrameX;
-	int monsterFrameY;
-};
-struct tagCurrentTile
-{
-	int x;
-	int y;
+	Vec2 monsterFrame;
 };
 
 struct tagOBJAttribute

@@ -6,6 +6,7 @@ class CMapSetting : public gameNode
 {
 private:
 	tagTile _tile[TILEX * TILEY];
+	bool isBoss;
 	bool isDebug;
 public:
 	CMapSetting();

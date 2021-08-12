@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "gameNode.h"
 #include "CMapSetting.h"
+#include "TestMonsterScene.h"
 
 POINT Window::ptMouse = POINT{ 0,0 };
 CTRL Window::_currentCTRL = CTRL::CTRL_DRAW;
@@ -9,6 +10,7 @@ Window::Window()
 {
 	m_backBuffer = new image();
 	m_backBuffer->init(SUBWINSIZEX, SUBWINSIZEY);
+	fileCnt = 0;
 }
 
 Window::~Window()
@@ -46,10 +48,19 @@ void Window::init()
 		WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 
 		startX, startY + 90, 200, 25, hWnd, HMENU(5), m_hInstance, NULL);
 	SetDlgItemText(hWnd, (int)HMENU(5), "저장 파일 이름 입력");
+	_btnRemoveFile = CreateWindow("button", "파일 삭제",
+		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
+		startX + 230, startY + 200, btnWidth, btnHeight, hWnd, HMENU(8), m_hInstance, NULL);
+
 	_listFile = CreateWindow("listbox", NULL,
 		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
 		startX + 230, startY, 100, 200, hWnd, HMENU(6), m_hInstance, NULL);
-	FileListSet(fileNames);
+	FileListSet();
+
+	_btnSetRoom = CreateWindow("button", "방 세팅",
+		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
+		startX, startY + 60, btnWidth, btnHeight, hWnd, HMENU(7), m_hInstance, NULL);
+
 	objFrame = { 0,0 };
 	monsterFrame = { 0,0 };
 	clickIndex = 0;
@@ -89,6 +100,9 @@ void Window::SetScene(gameNode* scene)
 LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	char saveFileName[100];
+	int idx = -1;
+	char removeStr[64] = "선택된 항목이 없습니다.";
+	char folderPath[64] = "save/";
 	switch (uMsg)
 	{
 	case WM_MOUSEMOVE:
@@ -97,7 +111,6 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ptMouse.y = HIWORD(lParam);
 		break;
 	case  WM_COMMAND:
-
 		switch (LOWORD(wParam))
 		{
 		default:
@@ -111,23 +124,51 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 			case CTRL::CTRL_SAVE:
 				GetDlgItemText(hWnd, (int)HMENU(5), saveFileName, strlen(saveFileName));
-				if (SUBWIN->getMap()->save(saveFileName))
+				strcat(folderPath, saveFileName);
+				if (SUBWIN->getMap()->save(folderPath))
 				{
 					MessageBox(hWnd, "저장 성공", "알림", MB_OK);
-					SUBWIN->getFileList().clear();
-					SUBWIN->FileListSet(SUBWIN->getFileList());
+					SUBWIN->FileListSet();
 				}
 				else
 					MessageBox(hWnd, "저장 실패", "알림", MB_OK);
 				break;
 			case CTRL::CTRL_LOAD:
-				GetDlgItemText(hWnd, (int)HMENU(6), saveFileName, strlen(saveFileName));
-				if (SUBWIN->getMap()->load(saveFileName))
+				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
+				SendMessage(SUBWIN->getListHandle(), LB_GETTEXT, idx, (LPARAM)saveFileName);
+				strcat(folderPath, saveFileName);
+				if (SUBWIN->getMap()->load(folderPath))
 					MessageBox(hWnd, "불러오기 성공", "알림", MB_OK);
 				else
 					MessageBox(hWnd, "불러오기 실패", "알림", MB_OK);
 				break;
+			case CTRL::CTRL_SETROOM:
+				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
+				if (idx != -1)
+				{
+					SendMessage(SUBWIN->getListHandle(), LB_GETTEXT, idx, (LPARAM)saveFileName);
+					strcat(folderPath, saveFileName);
+					SUBWIN->getTest()->init(folderPath);
+				}
+				else MessageBox(hWnd, "파일을 선택한 후, 방 세팅 클릭", "알림", MB_OK);
+				break;
+			case CTRL::CTRL_REMOVE:
+				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
+				SendMessage(SUBWIN->getListHandle(), LB_GETTEXT, idx, (LPARAM)removeStr);
+				if (idx != -1)
+				{
+					if (IDOK == MessageBox(SUBWIN->GetHwnd(), removeStr, 
+						"아래의 항목을 삭제하겠습니까?",
+						MB_ICONQUESTION | MB_OKCANCEL))
+					{
+						SendMessage(SUBWIN->getListHandle(), LB_DELETESTRING, idx, 0);
+						strcat(folderPath, removeStr);
+						DeleteFile(folderPath);
+					}
+				}
+				break;
 			case CTRL::CTRL_EXIT:
+				SCENE->changeScene("test");
 				DestroyWindow(hWnd);
 				break;
 			}
@@ -198,31 +239,22 @@ void Window::CreateSubWindow()
 	ShowWindow(hWnd, SW_SHOW);
 }
 
-void Window::GetFiles(vector<char*>& vec)
+void Window::FileListSet()
 {
-
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile("save/*.map", &fd);
+
+	for(int i = 0; i < fileCnt; i++)
+		SendMessage(_listFile, LB_DELETESTRING, 0, 0);
+	fileCnt = 0;
 
 	if (INVALID_HANDLE_VALUE != hFind)
 	{
 		do
 		{
-			vec.push_back(fd.cFileName);
+			fileCnt++;
+			SendMessage(_listFile, LB_ADDSTRING, 0, (LPARAM)fd.cFileName);
 		} while (FindNextFile(hFind, &fd));
 	}
 	FindClose(hFind);
-}
-
-void Window::FileListSet(vector<char*>& vec)
-{
-	GetFiles(vec);
-	for (int i = 0; i < vec.size(); i++) 
-	{
-		SendMessage(_listFile, LB_DELETESTRING, 0, 0);
-	}
-	for (int i = 0; i < vec.size(); i++)
-	{
-		SendMessage(_listFile, LB_ADDSTRING, 0, (LPARAM)vec[i]);
-	}
 }

@@ -8,7 +8,7 @@ AniAddList::AniAddList()
 	IMAGE->addImage("map", "images/bigMap.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 	IMAGE->addImage("shadow", "images/shadow.bmp", 10, 10, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("objMap", "images/object.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
-	IMAGE->addFrameImage("monsterMap", "images/monsterTile.bmp", TILEWIDTH * 6, TILEHEIGHT, 6, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("monsterMap", "images/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
 
 	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*1.5, 90*1.5, 10, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256*2, 32*2, 8, 1, true, RGB(255, 0, 255));
