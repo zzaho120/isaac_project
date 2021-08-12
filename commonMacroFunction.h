@@ -196,6 +196,7 @@ enum class CTRL
 	CTRL_SETROOM,
 	CTRL_REMOVE,
 	CTRL_END
+};
 
 enum class CHARACTER
 {
