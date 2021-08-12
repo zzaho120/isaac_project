@@ -39,6 +39,10 @@ HRESULT CPlayer::init()
 	vector2 collidersize = { PLAYERWIDTH,PLAYERHEIGHT };
 	collider = new CCollider(colliderpt, collidersize);
 
+<<<<<<< Updated upstream
+=======
+	AI_init(this,MONSTER_TYPE::NONE);
+>>>>>>> Stashed changes
 	return S_OK;
 }
 

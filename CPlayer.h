@@ -15,6 +15,10 @@ enum FOWARD
 	LEFTDOWN,
 	RIGHTDOWN
 };
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 class CPlayer : public CCharacter
 {
 private:
@@ -39,6 +43,10 @@ private:
 
 	animation* ani_body;
 	int atkani;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 public:
 	CPlayer();
 	CPlayer(Vec2 _pos, RECT _rc, int _hp);
@@ -54,4 +62,8 @@ public:
 	void fire();										
 	void setAnimation();
 	void setAnimationbody();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 };

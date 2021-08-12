@@ -34,7 +34,7 @@ HRESULT CMulligan::init(float x, float y)
 	collider = new CCollider(colliderpt, collidersize);
 
 	setMonster_Type(MONSTER_TYPE::MULLIGAN);
-	AI_init(this);
+	AI_init(this, monsterType);
 
 	return S_OK;
 }

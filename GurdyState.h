@@ -39,8 +39,12 @@ private:
 	float angle;
 	int foward;
 	Vec2 firePt;
-
 	int animationcount;
+
+	float speed;
+	float height;
+	float distance;
+	int bulletsize;
 public:
 	Gurdy_Atk();
 	~Gurdy_Atk();

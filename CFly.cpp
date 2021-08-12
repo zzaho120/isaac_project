@@ -30,7 +30,7 @@ HRESULT CFly::init(float x, float y)
 
 	setMonster_Type(MONSTER_TYPE::FLY);
 
-	AI_init(this);
+	AI_init(this, monsterType);
 
 	return S_OK;
 }

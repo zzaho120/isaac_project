@@ -105,6 +105,11 @@ void Gurdy_Atk::Enter()
 	firePt = pMon->getPt();
 	escapeAtk = false;
 	animationcount = 0;
+
+	speed = 10;
+	height = 30;
+	distance = 400;
+	bulletsize = 15;
 }
 
 void Gurdy_Atk::update()
@@ -264,30 +269,54 @@ void Gurdy_Atk::FireBullet()
 	{
 	case 0:
 		angle = UTIL::getAngle(RectX(rec), RectY(rec), _pt.x, _pt.y);
+<<<<<<< Updated upstream
 		BULLET->fire(angle, 5, firePt, 20);
 		BULLET->fire(angle + PI / 32, 5, firePt, 20);
 		BULLET->fire(angle - PI / 32, 5, firePt, 20);
 		BULLET->fire(angle + PI / 16, 5, firePt, 20);
 		BULLET->fire(angle - PI / 16, 5, firePt, 20);
+=======
+		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+>>>>>>> Stashed changes
 		break;
 	case 1:
 		firePt.y += 60;
 		angle = UTIL::getAngle(RectX(rec), RectY(rec), _pt.x, _pt.y);
+<<<<<<< Updated upstream
 		BULLET->fire(angle, 5, firePt, 20);
 		BULLET->fire(angle + PI / 32, 5, firePt, 20);
 		BULLET->fire(angle - PI / 32, 5, firePt, 20);
 		BULLET->fire(angle + PI / 16, 5, firePt, 20);
 		BULLET->fire(angle - PI / 16, 5, firePt, 20);
+=======
+		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+>>>>>>> Stashed changes
 		break;
 	case 2:
 		firePt.x += 60;
 		firePt.y += 30;
 		angle = UTIL::getAngle(RectX(rec), RectY(rec), _pt.x, _pt.y);
+<<<<<<< Updated upstream
 		BULLET->fire(angle, 5, firePt, 20);
 		BULLET->fire(angle + PI / 32, 5, firePt, 20);
 		BULLET->fire(angle - PI / 32, 5, firePt, 20);
 		BULLET->fire(angle + PI / 16, 5, firePt, 20);
 		BULLET->fire(angle - PI / 16, 5, firePt, 20);
+=======
+		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+>>>>>>> Stashed changes
 		break;
 	default:
 		break;

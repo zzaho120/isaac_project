@@ -101,7 +101,7 @@ void Smallfly_Idle::Move()
 bool Smallfly_Idle::Inrange(int range, vector2 pt)
 {
 	CObject* pMon = m_pFSM->GetMon();
-	if (UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, pt.x, pt.y) < range)
+	if (UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, pt.x, pt.y) <= range)
 	{
 		return true;
 	}
@@ -121,21 +121,23 @@ Smallfly_Trace::~Smallfly_Trace()
 void Smallfly_Trace::Enter()
 {
 	count = 0;
-	angle = 0.0f;
-}
-
-void Smallfly_Trace::update()
-{
 	CObject* pMon = m_pFSM->GetMon();
 	vector2 _pt;
 	_pt.x = m_ptMouse.x;
 	_pt.y = m_ptMouse.y;
 
 	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
+}
+
+void Smallfly_Trace::update()
+{
+	vector2 _pt;
+	_pt.x = m_ptMouse.x;
+	_pt.y = m_ptMouse.y;
 
 	MovetoPlayer();
 	
-	if (!Inrange(300, _pt))
+	if (!Inrange(300, _pt) || count >=100)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}
@@ -172,7 +174,7 @@ void Smallfly_Trace::MovetoPlayer()
 bool Smallfly_Trace::Inrange(int range, vector2 pt)
 {
 	CObject* pMon = m_pFSM->GetMon();
-	if (UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, pt.x, pt.y) < range)
+	if (UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, pt.x, pt.y) <= range)
 	{
 		return true;
 	}
