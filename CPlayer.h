@@ -20,8 +20,8 @@ enum FOWARD
 class CPlayer : public CCharacter
 {
 private:
-	bool isMove;																				
-	float velocityX;																			
+	bool isMove;
+	float velocityX;
 	float velocityY;
 	float playerspeed;
 	int bulletsize;
@@ -57,6 +57,7 @@ public:
 
 	void _move();
 	void _slide();
-	void fire();										
+	void fire();
 	void setAnimation();
 	void setAnimationbody();
+};

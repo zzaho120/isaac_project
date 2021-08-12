@@ -290,13 +290,13 @@ void CPlayer::fire()
 	static vector2 firePt = { 0, 0 };
 	float fireAngle = PI;
 
-	// ���� ������ ����, ������ ��Ű ����
+	
 	if (totalTears * 1.3 + 1 > 0)
 		tearDelay = 16 - 6 * sqrtf(totalTears * 1.3 + 1);
 	else if (totalTears * 1.3 + 1 < 0)
 		tearDelay = 16 - 6 * totalTears;
 
-	// Ű�� ������ ����, �߻� ������, �߻� �ð� ī��Ʈ ����
+	
 	if (InputManager->isStayKeyDown(VK_UP))
 	{
 		headfoward = FOWARD::UP;
@@ -326,7 +326,7 @@ void CPlayer::fire()
 		fireCnt++;
 	}
 
-	// �߻� �ð� ī��Ʈ�� ���� �����̺��� ũ�ٸ�
+	
 	if (fireCnt > tearDelay)
 	{
 		fireCnt = 0;
@@ -432,23 +432,3 @@ void CPlayer::setAnimationbody()
 	moveani++;
 }
 
-STATE_TYPE CPlayer::getstate()
-{
-	STATE_TYPE st = m_pAI->getState()->GetStateType();
-	return st;
-}
-
-void CPlayer::AI_init(CCharacter* monster)
-{
-	m_pAI = new CFSM(monster);
-	m_pAI->AddState(new Player_Idle);
-	m_pAI->AddState(new Player_Trace);
-	m_pAI->AddState(new Player_Atk);
-	m_pAI->AddState(new Player_Die);
-	m_pAI->SetState(STATE_TYPE::IDLE);
-}
-
-void CPlayer::AI_update()
-{
-	m_pAI->update();
-}
