@@ -184,6 +184,7 @@
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="MulliganState.h" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PooterState.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="MulliganState.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PooterState.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />

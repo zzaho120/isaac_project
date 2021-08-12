@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "TestMonsterScene.h"
-
+#include "CBullet.h"
 HRESULT TestMonsterScene::init()
 {
   
@@ -32,10 +32,41 @@ void TestMonsterScene::release()
 void TestMonsterScene::update()
 {
     _player->update();
-    
-    if(COLLISION->isCollision(_player->getcollider(), ENEMY->getmoncollider(0)))
+    for (int i = 0; i < ENEMY->getvmonster().size(); i++)
     {
-        ENEMY->eraserEnemy(0);
+        if(COLLISION->isCollision(_player->getcollider(), ENEMY->getmoncollider(i)) && _player->getstate() == STATE_TYPE::ATTACK)
+        {
+            //_player->sethp(_player->gethp() - 1);
+            ENEMY->eraserEnemy(i);
+            break;
+        }
+    }
+    for (int i = 0; i < ENEMY->getvmonster().size(); i++)
+    {
+        for (int j = 0; j < BULLET->getvBullet().size(); j++)
+        {
+            bool ispbm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), ENEMY->getmoncollider(i));//플레이어 불렛과 몬스터 콜라이더의 충돌
+            bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
+            if(ispbm && ispB) 
+            { 
+                ENEMY->eraserEnemy(i);
+                break;
+            }
+        }
+    }
+    for (int i = 0; i < BULLET->getvBullet().size(); i++)
+    {
+        bool ismbp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
+        bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
+        if (ismbp && ismB)
+        {
+            _player->sethp(_player->gethp() - 1);
+            break;
+        }
+    }
+    if (_player->gethp() <= 0)
+    {
+        
     }
 }
 

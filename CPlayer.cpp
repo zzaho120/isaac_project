@@ -1,6 +1,8 @@
 #include "framework.h"
 #include "CPlayer.h"
-
+#include "CFSM.h"
+#include "PlayerState.h"
+#include "CState.h"
 CPlayer::CPlayer() :
 	CCharacter(), isMove(false),
 	velocityX(0), velocityY(0), totalTears(0)
@@ -22,7 +24,7 @@ HRESULT CPlayer::init()
 {
 	CCharacter::init({ WINSIZEX / 2, WINSIZEY / 2 },
 		RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, PLAYERWIDTH, PLAYERHEIGHT),
-		PLAYERHEIGHT / 4 , 3);
+		PLAYERHEIGHT / 4 , 10);
 
 	setAni(ANIMATION->findAnimation("playeridlehead"));
 	ani_body = ANIMATION->findAnimation("playeridlebody");
@@ -33,12 +35,16 @@ HRESULT CPlayer::init()
 	velocityY = 0;
 	totalTears = 0;
 	PLAYERMAXSPEED = 4;
+	bulletsize = 30;
+	distance = 100;
+	height = 50;
 
 
 	vector2 colliderpt = { WINSIZEX / 2, WINSIZEY / 2 + shadowdistance};
 	vector2 collidersize = { PLAYERWIDTH,PLAYERHEIGHT };
 	collider = new CCollider(colliderpt, collidersize);
 
+	AI_init(this);
 	return S_OK;
 }
 
@@ -50,6 +56,7 @@ void CPlayer::update()
 {
 	_move();
 	fire();
+	AI_update();
 	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
@@ -321,7 +328,7 @@ void CPlayer::fire()
 	if (fireCnt > tearDelay)
 	{
 		fireCnt = 0;
-		BULLET->fire(fireAngle, 10, firePt, PLAYERHEIGHT - 20);
+		BULLET->fire(fireAngle, 10, firePt, height, distance,CHARACTER::PLAYER, bulletsize);
 	}
 }
 
@@ -421,4 +428,25 @@ void CPlayer::setAnimationbody()
 		
 	}
 	moveani++;
+}
+
+STATE_TYPE CPlayer::getstate()
+{
+	STATE_TYPE st = m_pAI->getState()->GetStateType();
+	return st;
+}
+
+void CPlayer::AI_init(CCharacter* monster)
+{
+	m_pAI = new CFSM(monster);
+	m_pAI->AddState(new Player_Idle);
+	m_pAI->AddState(new Player_Trace);
+	m_pAI->AddState(new Player_Atk);
+	m_pAI->AddState(new Player_Die);
+	m_pAI->SetState(STATE_TYPE::IDLE);
+}
+
+void CPlayer::AI_update()
+{
+	m_pAI->update();
 }

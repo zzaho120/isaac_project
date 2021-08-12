@@ -5,8 +5,9 @@ class CMonster : public CCharacter
 {
 protected:
 	CFSM* m_pAI;
-	MONSTER_TYPE monsterType;
 	vector<CFSM*> vAI;
+
+	MONSTER_TYPE monsterType;
 private:
 	
 public:
