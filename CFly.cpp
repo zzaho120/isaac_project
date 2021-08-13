@@ -15,18 +15,17 @@ HRESULT CFly::init(float x, float y)
 	setAni(ANIMATION->findAnimation("rightfly"));
 	ANIMATION->start("rightfly");
 
-	vector2 pt = { x, y };
 	RECT rc = RectMakeCenter(x, y, IMAGE->findImage("fly")->getFrameWidth(), IMAGE->findImage("fly")->getFrameHeight());
-	float shadowdistance = 50;
-	int hp = 8;
+	hp = 8;
 
-	CCharacter::init(pt, rc, shadowdistance, hp);
+	CCharacter::init({ x, y }, rc, 40, hp);
 
 	vector2 colliderpt = { x, y + shadowdistance };
 	vector2 collidersize;
 	collidersize.x = IMAGE->findImage("fly")->getFrameWidth();
-	collidersize.y = IMAGE->findImage("fly")->getFrameHeight();
+	collidersize.y = collidersize.x / 3;
 	collider = new CCollider(colliderpt, collidersize);
+	IMAGE->addImage("shadowFly", "images/shadow.bmp", collidersize.x, collidersize.y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::FLY);
 
@@ -47,9 +46,7 @@ void CFly::update()
 
 void CFly::render()
 {
-	Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
-	Rectangle(getMemDC(), getRC().left, getRC().top + shadowdistance, getRC().right, getRC().bottom + shadowdistance);
+	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
+	IMAGE->render("shadowFly", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("fly")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
-
-
 }

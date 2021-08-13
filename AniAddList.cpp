@@ -141,7 +141,7 @@ AniAddList::AniAddList()
 	//=========================smallfly==========================================================================
 	//=========================smallfly==========================================================================
 	IMAGE->addFrameImage("smallfly", "images/enemy/smallfly.bmp", 38 * 1.5, 14 * 1.5, 2, 1, true, RGB(255, 0, 255));
-	ANIMATION->addAnimation("smallflyani", "smallfly", 0, 1, 10, false, true);
+	ANIMATION->addAnimation("smallflyani", "smallfly", 0, 1, 100, false, true);
 }
 
 AniAddList::~AniAddList()
