@@ -17,6 +17,7 @@ enum FOWARD
 	RIGHTDOWN
 };
 
+class CMap;
 class CPlayer : public CCharacter
 {
 private:
@@ -46,6 +47,7 @@ private:
 	animation* ani_body;
 	int atkani;
 
+	CMap* room;
 public:
 	CPlayer();
 	CPlayer(Vec2 _pos, RECT _rc, int _hp);
@@ -61,4 +63,6 @@ public:
 	void fire();
 	void setAnimation();
 	void setAnimationbody();
+
+	void setRoomLink(CMap* _room) { room = _room; }
 };

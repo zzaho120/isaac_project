@@ -79,9 +79,6 @@
     <Filter Include="Class\Object\Bullet">
       <UniqueIdentifier>{1f89b7a3-2b37-4ae9-afff-7a23acf7df19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\Map">
-      <UniqueIdentifier>{149a66a1-f757-4f34-be47-0de900c4fac3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Class\Camera">
       <UniqueIdentifier>{e3acd339-ff43-4b37-af98-ffd61cc92660}</UniqueIdentifier>
     </Filter>
@@ -105,6 +102,12 @@
     </Filter>
     <Filter Include="Class\Object\Character\Monster\Minion\Smallfly">
       <UniqueIdentifier>{ab404b7a-453a-432c-87e8-477f467531c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Map">
+      <UniqueIdentifier>{149a66a1-f757-4f34-be47-0de900c4fac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Stage">
+      <UniqueIdentifier>{78637745-41ce-4559-9535-7df4147dba3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +291,9 @@
     <ClInclude Include="PlayerState.h">
       <Filter>Class\Object\Character\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CStage.h">
+      <Filter>Class\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -445,6 +451,9 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Class\Object\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage.cpp">
+      <Filter>Class\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
