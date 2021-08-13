@@ -16,4 +16,5 @@ public:
 		return rand() % (toNum - fromNum + 1) + fromNum;
 	}
 
+	inline float getFloat() { return rand() % 10 / 10; }
 };
