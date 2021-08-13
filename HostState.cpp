@@ -2,7 +2,7 @@
 #include "HostState.h"
 #include "BulletManager.h"
 #include "enemyManager.h"
-
+#include "CPlayer.h"
 //=============================================대기상태=========================================================
 Host_Idle::Host_Idle() //대기상태
 {
@@ -21,10 +21,7 @@ void Host_Idle::Enter()
 }
 void Host_Idle::update()
 {
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-	if (inrange(300, _pt) && crossrange(20, _pt))
+	if (inrange(300, ENEMY->GetPlayer()->getPt()) && crossrange(20, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -113,14 +110,11 @@ void Host_Atk::Enter()
 }
 void Host_Atk::update()
 {
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-
+	
 	CCharacter* pMon = m_pFSM->GetMon();
 	if (count == 0)
 	{
-		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
+		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 		speed = 5;
 		fire = pMon->getPt();
 		shadowDistance = 20;
@@ -132,7 +126,7 @@ void Host_Atk::update()
 
 	if (count > delay)
 	{
-		if (inrange(300, _pt) && crossrange(20, _pt))
+		if (inrange(300, ENEMY->GetPlayer()->getPt()) && crossrange(20, ENEMY->GetPlayer()->getPt()))
 		{
 
 			m_pFSM->ChangeState(STATE_TYPE::TRACE);

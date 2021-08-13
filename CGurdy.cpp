@@ -18,18 +18,13 @@ HRESULT CGurdy::init(float x, float y)
 	ANIMATION->start("gurdybodyidle");
 	body = RectMakeCenter(x, y, IMAGE->findImage("gurdybody")->getFrameWidth(), IMAGE->findImage("gurdybody")->getFrameHeight());
 
-	vector2 pt = { x, y };
-	RECT rc = RectMakeCenter(x, y, IMAGE->findImage("gurdyface")->getFrameWidth(), IMAGE->findImage("gurdyface")->getFrameHeight());
-	float shadowdistance = 50;
-	int hp = 8;
-
-	CCharacter::init(pt, rc, shadowdistance, hp);
-
-	vector2 colliderpt = { x, y + shadowdistance };
-	vector2 collidersize;
-	collidersize.x = IMAGE->findImage("gurdybody")->getFrameWidth();
-	collidersize.y = IMAGE->findImage("gurdybody")->getFrameHeight();
-	collider = new CCollider(colliderpt, collidersize);
+	CCharacter::init({ x,y }, // make pos
+		RectMakeCenter(x, y, IMAGE->findImage("gurdyface")->getFrameWidth(), IMAGE->findImage("gurdyface")->getFrameHeight()), //rc
+		{ x, y }, { 30,30 }, //collider
+		30,	//collider -> shadow distance
+		{ x, y + shadowdistance }, { IMAGE->findImage("gurdybody")->getFrameWidth(),IMAGE->findImage("gurdybody")->getFrameWidth() / 3 }, // collider.shadow
+		10);//hp
+	IMAGE->addImage("shadowGurdy", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::GURDY);
 	AI_init(this, monsterType);
@@ -43,16 +38,18 @@ void CGurdy::release()
 void CGurdy::update()
 {
 	AI_update();
-	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	collider->setPos({ RectX(rc), RectY(rc) });
+	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 }
 
 void CGurdy::render()
 {
-	/*Rectangle(getMemDC(), getRC().left, getRC().top + shadowdistance, getRC().right, getRC().bottom + shadowdistance);
-	Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);*/
-	Rectangle(getMemDC(), body.left, body.top +shadowdistance, body.right, body.bottom + shadowdistance);
-	Rectangle(getMemDC(), body.left, body.top, body.right, body.bottom);
-
+	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+		collider->getPos().y - collider->getSize().y / 2,
+		collider->getPos().x + collider->getSize().x / 2,
+		collider->getPos().y + collider->getSize().y / 2);
+	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+	IMAGE->render("shadowGurdy", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("gurdybody")->aniRender(getMemDC(), body.left, body.top, anibody);
 	IMAGE->findImage("gurdyface")->aniRender(getMemDC(), getRC().left, getRC().top - 30, getAni());
 }

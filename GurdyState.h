@@ -1,6 +1,6 @@
 #pragma once
 #include"CState.h"
-
+class CPlayer;
 class Gurdy_Idle : public CState
 {
 private:

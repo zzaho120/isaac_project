@@ -1,5 +1,6 @@
 #pragma once
 #include"CMonster.h"
+
 class CWORM : public CMonster
 {
 private:

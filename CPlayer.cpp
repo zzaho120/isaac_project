@@ -20,9 +20,13 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::init()
 {
-	CCharacter::init({ WINSIZEX / 2, WINSIZEY / 2 },
-		RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, PLAYERWIDTH, PLAYERHEIGHT),
-		IMAGE->findImage("isaac")->getFrameHeight()/2, 10);
+	CCharacter::init({ WINSIZEX / 2, WINSIZEY / 2 }, // make pos
+		RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, PLAYERWIDTH, PLAYERHEIGHT), //rc
+		{ WINSIZEX / 2, WINSIZEY / 2 }, { PLAYERWIDTH,PLAYERWIDTH }, //collider
+		IMAGE->findImage("isaac")->getFrameHeight()/2,	//collider -> shadow distance
+		{ WINSIZEX / 2, WINSIZEY / 2 + shadowdistance }, { PLAYERWIDTH,PLAYERWIDTH / 3 }, // collider.shadow
+		10);//hp
+	IMAGE->addImage("shadowPlayer", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
 	setAni(ANIMATION->findAnimation("playeridlehead"));
 	ani_body = ANIMATION->findAnimation("playeridlebody");
@@ -42,12 +46,7 @@ HRESULT CPlayer::init()
 	//player information
 	coin = 10;
 	bomb = 3;
-
-
-	vector2 colliderpt = { WINSIZEX / 2, WINSIZEY / 2 + shadowdistance};
-	vector2 collidersize = { PLAYERWIDTH,PLAYERWIDTH/3 };
-	collider = new CCollider(colliderpt, collidersize);
-	IMAGE->addImage("shadowPlayer", "images/shadow.bmp", collidersize.x, collidersize.y, true, RGB(255, 0, 255));
+	key = 0;
 
 	AI_init(this,MONSTER_TYPE::NONE);
 
@@ -66,32 +65,41 @@ void CPlayer::update()
 		fire();
 	}
 	AI_update();
-	collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	collider->setPos({ RectX(rc), RectY(rc)});
 }
 
 void CPlayer::render()
 {
-	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
+	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+		collider->getPos().y - collider->getSize().y / 2,
+		collider->getPos().x + collider->getSize().x / 2,
+		collider->getPos().y + collider->getSize().y / 2);
+
+	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowPlayer", getMemDC(), rec.left, rec.top);
 	if (getstate() == STATE_TYPE::IDLE)
 	{
 		count = 0;
 		setAnimation();
 		setAnimationbody();
-		IMAGE->findImage("mulliganbody")->aniRender(getMemDC(),
-			getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2,
+		IMAGE->findImage("playerbody")->aniRender(getMemDC(),
+			getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("playerbody")->getFrameWidth() / 2,
 			getRC().top + 28, ani_body);
 		IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 	}
 	else if (getstate() == STATE_TYPE::ATTACK)
 	{
-		count++;
-		if (count > 30)
+		if (count > 80)
+		{
+			count = 0;
+		}
+		if (count > 50)
 		{
 			setAnimation();
 			setAnimationbody();
-			IMAGE->findImage("mulliganbody")->aniRender(getMemDC(),
-				getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2,
+			IMAGE->findImage("playerbody")->aniRender(getMemDC(),
+				getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("playerbody")->getFrameWidth() / 2,
 				getRC().top + 28, ani_body);
 			IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 		}
@@ -99,6 +107,7 @@ void CPlayer::render()
 		{
 			IMAGE->findImage("isaacEvent")->aniRender(getMemDC(), getRC().left - 18, getRC().top - 18, getAni());
 		}
+		count++;
 	}
 	else
 	{

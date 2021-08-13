@@ -9,6 +9,9 @@ protected:
 	RECT			rc;
 	animation*		ani;
 	CCollider*		collider;
+	CCollider*		colliderShadow;
+
+	animation anitest;
 
 	float shadowdistance;
 public:
@@ -17,7 +20,7 @@ public:
 	~CObject();
 
 	virtual HRESULT init();
-	virtual HRESULT init(vector2 _pt, RECT _rc, float _shadowdistance);
+	virtual HRESULT init(vector2 _pt, RECT _rc, vector2 _objectPt, vector2 _objectSize, float _shadowdistance, vector2 _objectShadowPt, vector2 _objectShadowSize);
 	virtual void release();
 	virtual void update();
 	virtual void render();
@@ -32,6 +35,7 @@ public:
 	animation* getAni() { return ani; }
 
 	CCollider* getcollider() { return collider; }
+	CCollider* GetcolliderShadow() { return colliderShadow; }
 	void setshadowdistance(float distance) { shadowdistance = distance; }
 };
 

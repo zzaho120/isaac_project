@@ -2,6 +2,7 @@
 #include "HopperState.h"
 #include "BulletManager.h"
 #include "enemyManager.h"
+#include "CPlayer.h"
 //=============================================대기상태=========================================================
 Hopper_Idle::Hopper_Idle()
 {
@@ -35,11 +36,8 @@ void Hopper_Idle::Enter()
 void Hopper_Idle::update()
 {
 	Jump();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-
-	if (Inrange(300, _pt) && idle)
+	
+	if (Inrange(300, ENEMY->GetPlayer()->getPt()) && idle)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -175,13 +173,11 @@ void Hopper_Trace::Enter()
 void Hopper_Trace::update()
 {
 	CObject* pMon = m_pFSM->GetMon();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
+	
 	if (count == 0)
 	{
-		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
-		distance = UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
+		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
+		distance = UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 	}
 	Jump();
 

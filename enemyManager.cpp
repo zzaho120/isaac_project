@@ -11,6 +11,7 @@
 
 #include "CCollider.h"
 
+#include "CPlayer.h"
 enemyManager::enemyManager()
 {
 }

@@ -22,7 +22,7 @@ public:
 	CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed,float _distance, int _height, CHARACTER _type, int size);
 	~CBullet();
 
-	virtual HRESULT init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, int size);
+	virtual HRESULT init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size);
 	virtual void release();
 	virtual void update();
 	virtual void render();

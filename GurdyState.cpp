@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "GurdyState.h"
-
+#include "CPlayer.h"
 
 Gurdy_Idle::Gurdy_Idle()
 {
@@ -17,11 +17,8 @@ void Gurdy_Idle::Enter()
 
 void Gurdy_Idle::update()
 {
-	Vec2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
 	
-	if (Inrange(500, _pt))
+	if (Inrange(500, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -86,10 +83,7 @@ void Gurdy_Atk::Enter()
 	CCharacter* pMon = m_pFSM->GetMon();
 	//paturn = 2;
 	paturn = RND->getFromIntTo(0,2);
-	Vec2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x,_pt.y);
+	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x,ENEMY->GetPlayer()->getPt().y);
 	if (angle > PI_2 && angle < PI + PI_4) //left
 	{
 		foward = 0;
@@ -260,15 +254,12 @@ void Gurdy_Atk::bossatk()
 
 void Gurdy_Atk::FireBullet()
 {
-	Vec2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
 	CCharacter* pMon = m_pFSM->GetMon();
 	RECT rec = pMon->getRC();
 	switch (foward)
 	{
 	case 0:
-		angle = UTIL::getAngle(RectX(rec), RectY(rec), _pt.x, _pt.y);
+		angle = UTIL::getAngle(RectX(rec), RectY(rec), ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 
 		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
 		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
@@ -279,7 +270,7 @@ void Gurdy_Atk::FireBullet()
 		break;
 	case 1:
 		firePt.y += 60;
-		angle = UTIL::getAngle(RectX(rec), RectY(rec), _pt.x, _pt.y);
+		angle = UTIL::getAngle(RectX(rec), RectY(rec), ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 
 		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
 		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
@@ -290,7 +281,7 @@ void Gurdy_Atk::FireBullet()
 	case 2:
 		firePt.x += 60;
 		firePt.y += 30;
-		angle = UTIL::getAngle(RectX(rec), RectY(rec), _pt.x, _pt.y);
+		angle = UTIL::getAngle(RectX(rec), RectY(rec), ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 
 		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
 		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);

@@ -15,7 +15,7 @@ public:
 	~CCharacter();
 
 	virtual HRESULT init();
-	virtual HRESULT init(vector2 _pt, RECT _rc, float _shadowdistance, int _hp);
+	virtual HRESULT init(vector2 _pt, RECT _rc, vector2 _objectPt, vector2 _objectSize, float _shadowdistance, vector2 _objectShadowPt, vector2 _objectShadowSize, int _hp);
 	virtual void release() = 0;
 	virtual void update() = 0;
 	virtual void render() = 0;
