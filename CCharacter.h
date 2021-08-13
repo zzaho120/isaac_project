@@ -4,7 +4,7 @@
 class CFSM;
 class CCharacter : public CObject
 {
-private:
+protected:
 	int				hp;
 
 	CFSM* m_pAI;

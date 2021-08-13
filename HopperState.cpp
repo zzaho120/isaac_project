@@ -125,7 +125,7 @@ void Hopper_Idle::Jump()
 
 	float shadowdistance;
 	
-	shadowdistance = RectY(shadow) - RectY(rec);
+	shadowdistance = RectY(shadow) - RectY(rec) + IMAGE->findImage("hopper")->getFrameHeight() / 2 -3;
 	pMon->setshadowdistance(shadowdistance);
 	count++;
 }
@@ -256,7 +256,7 @@ void Hopper_Trace::Jump()
 
 	float shadowdistance;
 
-	shadowdistance = RectY(shadow) - RectY(rec);
+	shadowdistance = RectY(shadow) - RectY(rec) + IMAGE->findImage("hopper")->getFrameHeight() / 2;
 	pMon->setshadowdistance(shadowdistance);
 	count++;
 }

@@ -15,6 +15,7 @@ AniAddList::AniAddList()
 
 	//=================== player ====================================================================================
 	//=================== player ====================================================================================
+	IMAGE->addImage("shadow", "images/shadow.bmp", 150, 50, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaacBody", "images/player/player_body.bmp",216*2,86*2,6,3,true,RGB(255,0,255));
 	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*2, 90*2, 10, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256*2, 32*2, 8, 1, true, RGB(255, 0, 255));
@@ -140,7 +141,7 @@ AniAddList::AniAddList()
 	//=========================smallfly==========================================================================
 	//=========================smallfly==========================================================================
 	IMAGE->addFrameImage("smallfly", "images/enemy/smallfly.bmp", 38 * 1.5, 14 * 1.5, 2, 1, true, RGB(255, 0, 255));
-	ANIMATION->addAnimation("smallflyani", "smallfly", 0, 1, 10, false, true);
+	ANIMATION->addAnimation("smallflyani", "smallfly", 0, 1, 100, false, true);
 }
 
 AniAddList::~AniAddList()

@@ -23,23 +23,30 @@ class CPlayer : public CCharacter
 private:
 	int count;
 
+	int bomb;
+	int key;
+	int maxHp;
+	int coin;
+
 	bool isMove;
-	float velocityX;
-	float velocityY;
+	/*float velocityX;
+	float velocityY;*/
 	float playerspeed;
-	int bulletsize;
+	float PLAYERMAXSPEED;
+
+	int bulletsize; // bullet infomation
 	float distance;
 	float height;
 
-	int playerfoward;
+	int playerfoward; // player move 
 	int prevfoward;
+	
 	int headfoward;
 	int prevhead;
-
 	int movecount;
 	int movenatual;
 	int moveani;
-	float PLAYERMAXSPEED;
+	
 
 	float totalTears;
 	int tearDelay;
@@ -61,6 +68,7 @@ public:
 	void Move();
 	void _slide();
 	void fire();
+	void UseBomb();
 	void setAnimation();
 	void setAnimationbody();
 

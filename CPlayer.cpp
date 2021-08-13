@@ -4,15 +4,13 @@
 #include "PlayerState.h"
 #include "CState.h"
 CPlayer::CPlayer() :
-	CCharacter(), isMove(false),
-	velocityX(0), velocityY(0), totalTears(0)
+	CCharacter(), isMove(false), totalTears(0)
 {
 	setAni(ANIMATION->findAnimation("down_head"));
 }
 
 CPlayer::CPlayer(Vec2 _pos, RECT _rc, int _hp) :
-	CCharacter(_pos, _rc, _hp), isMove(false),
-	velocityX(0), velocityY(0), totalTears(0)
+	CCharacter(_pos, _rc, _hp), isMove(false), totalTears(0)
 { 
 	setAni(ANIMATION->findAnimation("down_head"));
 }
@@ -24,26 +22,32 @@ HRESULT CPlayer::init()
 {
 	CCharacter::init({ WINSIZEX / 2, WINSIZEY / 2 },
 		RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, PLAYERWIDTH, PLAYERHEIGHT),
-		PLAYERHEIGHT / 4 , 10);
+		IMAGE->findImage("isaac")->getFrameHeight()/2, 10);
 
 	setAni(ANIMATION->findAnimation("playeridlehead"));
 	ani_body = ANIMATION->findAnimation("playeridlebody");
 	ANIMATION->start("playeridlebody");
 	ANIMATION->start("playeridlehead");
 	isMove = false;
-	velocityX = 0;
-	velocityY = 0;
 	totalTears = 0;
+
 	PLAYERMAXSPEED = 4;
-	bulletsize = 30;
+	playerspeed = 0;
+
+	//bullet information
+	bulletsize = 30; 
 	distance = 100;
 	height = 50;
 
+	//player information
+	coin = 10;
+	bomb = 3;
+
 
 	vector2 colliderpt = { WINSIZEX / 2, WINSIZEY / 2 + shadowdistance};
-	vector2 collidersize = { PLAYERWIDTH,PLAYERHEIGHT };
+	vector2 collidersize = { PLAYERWIDTH,PLAYERWIDTH/3 };
 	collider = new CCollider(colliderpt, collidersize);
-
+	IMAGE->addImage("shadowPlayer", "images/shadow.bmp", collidersize.x, collidersize.y, true, RGB(255, 0, 255));
 
 	AI_init(this,MONSTER_TYPE::NONE);
 
@@ -67,10 +71,8 @@ void CPlayer::update()
 
 void CPlayer::render()
 {
-	
-	//Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
 	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
-	//Rectangle(getMemDC(), rec.left, rec.top, rec.right, rec.bottom);
+	IMAGE->render("shadowPlayer", getMemDC(), rec.left, rec.top);
 	if (getstate() == STATE_TYPE::IDLE)
 	{
 		count = 0;
