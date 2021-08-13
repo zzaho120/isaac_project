@@ -109,6 +109,9 @@
     <Filter Include="Class\Stage">
       <UniqueIdentifier>{78637745-41ce-4559-9535-7df4147dba3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Object\Obstacle">
+      <UniqueIdentifier>{1023ed69-b497-4c2e-beb0-24713024a34b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -294,6 +297,9 @@
     <ClInclude Include="CStage.h">
       <Filter>Class\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="CObstacle.h">
+      <Filter>Class\Object\Obstacle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="CStage.cpp">
       <Filter>Class\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="CObstacle.cpp">
+      <Filter>Class\Object\Obstacle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

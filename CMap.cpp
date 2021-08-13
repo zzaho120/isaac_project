@@ -1,4 +1,5 @@
 #include"framework.h"
+#include "CObstacle.h"
 #include "CMap.h"
 
 CMap::CMap()
@@ -40,6 +41,7 @@ void CMap::update()
 
 void CMap::render()
 {
+    // obstacle Collider must modifiy jusu
     switch(room.roomType)
     {
     case ROOM::ROOM_NORMAL:
@@ -51,9 +53,27 @@ void CMap::render()
     case ROOM::ROOM_SHOP:
         IMAGE->render("shop", getMemDC(), 0, 0);
         break;
-    }
+    }/*
     for (int i = 0; i < TILEX * TILEY; i++)
-        IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);
+        IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);*/
+    for(viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
+        IMAGE->frameRender("objectTile", getMemDC(), (*viObstacle)->getPt().x, (*viObstacle)->getPt().y, (*viObstacle)->getFrame().x, (*viObstacle)->getFrame().y);
+
+    if (vObstacle.size() > 0)
+    {
+        TCHAR str[128];
+        wsprintf(str, "%d %d", vObstacle.size(), vObstacle[0]->getFrame().x);
+        TextOut(getMemDC(), 100, 100, str, strlen(str));
+
+        vObstacle[0]->render();
+    }
+
+    for (int i = 0; i < TILEX * TILEY; i++)
+    {
+        TCHAR str1[128];
+        wsprintf(str1, "%d", (int)room.tile[i].obj);
+        TextOut(getMemDC(), room.tile[i].pt.x, room.tile[i].pt.y, str1, strlen(str1));
+    }
 }
 
 void CMap::load(const char* fileName)
@@ -86,31 +106,13 @@ void CMap::tileSet()
             room.tile[i * TILEX + j].pt.x = RectX(room.tile[i * TILEX + j].rcTile);
             room.tile[i * TILEX + j].pt.y = RectY(room.tile[i * TILEX + j].rcTile);
 
-            switch (room.tile[i * TILEX + j].obj)
+            if (room.tile[i * TILEX + j].obj != OBJECT::OBJ_NONE)
             {
-            case OBJECT::OBJ_FIREPLACE:
-                _OBJattribute[i * TILEX + j].strength = 3;
-                break;
-            case OBJECT::OBJ_SPIKE:
-                break;
-            case OBJECT::OBJ_POOP:
-                _OBJattribute[i * TILEX + j].strength = 3;
-                break;
-            case OBJECT::OBJ_ROCK:
-                _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
-                _attribute[i * TILEX + j] |= ATTR_ONLYBOMB;
-                break;
-            case OBJECT::OBJ_STEEL:
-                _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
-                break;
-            case OBJECT::OBJ_PIT:
-                _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
-                break; 
-            case OBJECT::OBJ_WALL:
-                _attribute[i * TILEX + j] |= ATTR_UNMOVABLE;
-                break;
-            case OBJECT::OBJ_GOAL:
-                break;
+                CObstacle* tempObstacle = new CObstacle(room.tile[i * TILEX + j].pt, 
+                    RectMakeCenter(room.tile[i * TILEX + j].pt, TILEWIDTH, TILEHEIGHT), 
+                    room.tile[i * TILEX + j].obj);
+
+                vObstacle.push_back(tempObstacle);
             }
         }
     }

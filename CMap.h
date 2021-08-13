@@ -1,12 +1,13 @@
 #pragma once
 #include"gameNode.h"
+
+class CObstacle;
 class CMap : public gameNode
 {
 private:
 	tagRoom room;
-	/*tagTile _tile[TILEX * TILEY];*/
-	tagOBJAttribute _OBJattribute[TILEX * TILEY];
-	DWORD _attribute[TILEX * TILEY];
+	vector<CObstacle*> vObstacle;
+	vector<CObstacle*>::iterator viObstacle;
 public:
 	CMap();
 	CMap(const char* fileName);
@@ -21,6 +22,5 @@ public:
 	void load(const char* fileName);
 	void tileSet();
 
-	DWORD* getAttribute() { return _attribute; }
 	tagTile* getMap() { return room.tile; }
 };

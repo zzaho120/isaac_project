@@ -221,8 +221,57 @@ OBJECT CMapSetting::objSelect(int frameX, int frameY)
             break;
         }
     }
-    else if (frameY == 1 || frameY == 2)
-        return OBJECT::OBJ_PIT;
+    else if (frameY == 1)
+    {
+        switch (frameX)
+        {
+        case 0:
+            return OBJECT::OBJ_LT_PIT;
+            break;
+
+        case 1:
+            return OBJECT::OBJ_MT_PIT;
+            break;
+
+        case 2:
+            return OBJECT::OBJ_RT_PIT;
+            break;
+
+        case 3:
+            return OBJECT::OBJ_L_PIT;
+            break;
+
+        case 4:
+            return OBJECT::OBJ_M_PIT;
+            break;
+
+        case 5:
+            return OBJECT::OBJ_R_PIT;
+            break;
+        }
+    }
+    else if (frameY == 2)
+    {
+        switch (frameX)
+        {
+        case 0:
+            return OBJECT::OBJ_LB_PIT;
+            break;
+
+        case 1:
+            return OBJECT::OBJ_MB_PIT;
+            break;
+
+        case 2:
+            return OBJECT::OBJ_RB_PIT;
+            break;
+        case 3:
+        case 4:
+        case 5:
+            return OBJECT::OBJ_NONE;
+            break;
+        }
+    }
 }
 
 MONSTER_TYPE CMapSetting::monsterSelect(int frameX, int frameY)

@@ -36,6 +36,7 @@ HRESULT TestMonsterScene::init(const char* fileName)
     {
         setMonster(tile[i].monster, tile[i].pt);
     }
+
     return S_OK;
 }
 
