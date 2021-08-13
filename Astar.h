@@ -54,7 +54,7 @@ class Astar : public gameNode
 {
 private:
 	
-	aStarTile _tile[TILE_X][TILE_Y];
+	aStarTile tile[TILE_X][TILE_Y];
 	vector<aStarTile*> _openList;
 	vector<aStarTile*> _closeList;
 

@@ -5,7 +5,7 @@
 class CMapSetting : public gameNode
 {
 private:
-	tagTile _tile[TILEX * TILEY];
+	tagRoom room;
 	bool isDebug;
 public:
 	CMapSetting();
@@ -27,5 +27,5 @@ public:
 
 	MONSTER_TYPE monsterSelect(int frameX, int frameY);
 
-	tagTile* getTile() { return _tile; }
+	tagTile* getTile() { return room.tile; }
 };

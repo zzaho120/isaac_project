@@ -11,6 +11,8 @@ public:
 
 	inline int getInt(int num) { return rand() % num; }
 
+	inline float getFloat() { return rand() % 10 / 10.0; }
+
 	inline int getFromIntTo(int fromNum, int toNum)
 	{
 		return rand() % (toNum - fromNum + 1) + fromNum;

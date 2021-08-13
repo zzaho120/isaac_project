@@ -3,23 +3,22 @@
 class CMap : public gameNode
 {
 private:
-	tagTile _obj[TILEX * TILEY];
-	tagOBJAttribute _OBJattribute[TILEX * TILEY];
-	DWORD _attribute[TILEX * TILEY];
+	tagRoom room;
+	tagOBJAttribute OBJattribute[TILEX * TILEY];
+	DWORD attribute[TILEX * TILEY];
 public:
 	CMap();
 	CMap(const char* fileName);
 	~CMap();
 
-	virtual HRESULT init();	
+	virtual HRESULT init(const char* fileName);
 	virtual void release();
 	virtual void update();
 	virtual void render();
 
-	void load();
 	void load(const char* fileName);
 	void tileSet();
 
 	DWORD* getAttribute() { return _attribute; }
-	tagTile* getMap() { return _obj; }
+	tagTile* getMap() { return room.tile; }
 };

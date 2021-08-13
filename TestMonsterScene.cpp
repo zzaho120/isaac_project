@@ -8,7 +8,6 @@ HRESULT TestMonsterScene::init()
     _player = new CPlayer;
     _map = new CMap;
 
-    _map->init();
     _player->init();
 
     tagTile* tile = _map->getMap();

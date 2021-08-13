@@ -187,6 +187,7 @@
     <ClInclude Include="PooterState.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
+    <ClInclude Include="RandomMapGenerator.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singleton.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="MulliganState.cpp" />
     <ClCompile Include="PooterState.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="RandomMapGenerator.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="SmallflyState.cpp" />
     <ClCompile Include="soundManager.cpp" />

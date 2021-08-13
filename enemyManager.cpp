@@ -59,6 +59,7 @@ void enemyManager::render()
 
 void enemyManager::respawnMinion(MONSTER_TYPE type, Vec2 pos)
 {
+
 	CMonster* monster;
 	switch (type)
 	{
@@ -90,6 +91,8 @@ void enemyManager::respawnMinion(MONSTER_TYPE type, Vec2 pos)
 		return;
 		break;
 	}
+
+
 	monster->init(pos.x, pos.y);
 	_vminion.push_back(monster);
 

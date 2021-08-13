@@ -168,6 +168,15 @@ enum class OBJECT
 	OBJ_NONE
 };
 
+enum class ROOM_TYPE
+{
+	NORMAL,
+	BOSS,
+	SHOP,
+	END
+};
+
+// un-develop
 enum class ITEM
 {
 	ITEM_BOMB,
@@ -216,6 +225,11 @@ struct tagOBJAttribute
 	int strength;
 };
 
+struct tagRoom
+{
+	tagTile tile[TILEX * TILEY];
+	ROOM_TYPE roomType;
+};
 
 // ============================================= MapInfo ===================================================
 // ============================================= MapInfo ===================================================

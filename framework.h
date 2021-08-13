@@ -14,7 +14,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <assert.h>
-
+#include <Cmath>
 //==========================================
 //					STL
 //==========================================
