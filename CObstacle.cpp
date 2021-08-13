@@ -9,9 +9,8 @@ CObstacle::CObstacle() :
 CObstacle::CObstacle(Vec2 _pos, RECT _rc, OBJECT _type) :
 	CObject(_pos, _rc), objType(_type)
 {
-	collider = new CCollider;
-	collider->setPos(_pos);
-	collider->setSize({ TILEWIDTH, TILEHEIGHT });
+	Vec2 colliderSize = { TILEWIDTH, TILEHEIGHT /*+ 5*/};
+	collider = new CCollider(_pos, colliderSize);
 	setObjectValue();
 }
 
@@ -35,7 +34,6 @@ void CObstacle::update()
 void CObstacle::render()
 {
 	IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
-	Rectangle(getMemDC(), collider->getPos().x - TILEWIDTH, collider->getPos().y - TILEHEIGHT, collider->getPos().x + TILEWIDTH, collider->getPos().y + TILEHEIGHT);
 }
 
 void CObstacle::setObjectValue()

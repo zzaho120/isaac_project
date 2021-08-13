@@ -26,6 +26,8 @@ HRESULT CPlayer::init()
 
 	setAni(ANIMATION->findAnimation("playeridlehead"));
 	ani_body = ANIMATION->findAnimation("playeridlebody");
+	animation anitemp = *ANIMATION->findAnimation("playeridlebody");
+	anitemp.start();
 	ANIMATION->start("playeridlebody");
 	ANIMATION->start("playeridlehead");
 	isMove = false;

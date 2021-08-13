@@ -16,12 +16,12 @@ HRESULT TestMonsterScene::init()
     {
         setMonster(tile[i].monster, tile[i].pt);
     }
-    ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
+    /*ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::HOST, {400,500});
     ENEMY->respawnMinion(MONSTER_TYPE::WORM, { 300,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::FLY, { 600,500 });
     ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 700,500 });
-    ENEMY->respawnMinion(MONSTER_TYPE::SMALLFLY, { 700,500 });
+    ENEMY->respawnMinion(MONSTER_TYPE::SMALLFLY, { 700,500 });*/
     //ENEMY->respawnMinion(MONSTER_TYPE::GURDY, { 500,300 });
     return S_OK;
 }

@@ -53,26 +53,10 @@ void CMap::render()
     case ROOM::ROOM_SHOP:
         IMAGE->render("shop", getMemDC(), 0, 0);
         break;
-    }/*
-    for (int i = 0; i < TILEX * TILEY; i++)
-        IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);*/
-    for(viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
-        IMAGE->frameRender("objectTile", getMemDC(), (*viObstacle)->getPt().x, (*viObstacle)->getPt().y, (*viObstacle)->getFrame().x, (*viObstacle)->getFrame().y);
-
-    if (vObstacle.size() > 0)
-    {
-        TCHAR str[128];
-        wsprintf(str, "%d %d", vObstacle.size(), vObstacle[0]->getFrame().x);
-        TextOut(getMemDC(), 100, 100, str, strlen(str));
-
-        vObstacle[0]->render();
     }
-
-    for (int i = 0; i < TILEX * TILEY; i++)
+    for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
     {
-        TCHAR str1[128];
-        wsprintf(str1, "%d", (int)room.tile[i].obj);
-        TextOut(getMemDC(), room.tile[i].pt.x, room.tile[i].pt.y, str1, strlen(str1));
+        (*viObstacle)->render();
     }
 }
 

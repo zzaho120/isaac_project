@@ -136,8 +136,8 @@ enum class MONSTER_TYPE
 
 // ============================================= MapInfo ===================================================
 // ============================================= MapInfo ===================================================
-const int TILEWIDTH = 57;
-const int TILEHEIGHT = 63;
+const int TILEWIDTH = 60;
+const int TILEHEIGHT = 70;
 
 const int TILEX = 15;
 const int TILEY = 9;
@@ -157,11 +157,11 @@ const int ROOMTILEY = 1;
 const int MAPSIZEX = 1024 - 15;
 const int MAPSIZEY = 768 - 39;
 
-const int MAPSTARTX = 132 - 57;
-const int MAPSTARTY = 143 - 63;
+const int MAPSTARTX = 52;
+const int MAPSTARTY = 52;
 
 const int SUBWINSIZEX = 420;
-const int SUBWINSIZEY = 500;
+const int SUBWINSIZEY = 520;
 
 #define ATTR_UNMOVABLE 0x00000001
 #define ATTR_ONLYBOMB 0x00000002
