@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "CMapSetting.h"
 
-CMapSetting::CMapSetting() : isDebug(false), roomType(ROOM::ROOM_NORMAL)
+CMapSetting::CMapSetting() : isDebug(false)
 {
     mapToolSetup();
 }
@@ -13,7 +13,7 @@ CMapSetting::~CMapSetting()
 HRESULT CMapSetting::init()
 {
     isDebug = false;
-    roomType = ROOM::ROOM_NORMAL;
+    room.roomType = ROOM::ROOM_NORMAL;
     mapToolSetup();
     return S_OK;
 }
@@ -26,12 +26,12 @@ void CMapSetting::update()
 {
     if (!SUBWIN->GetIsActive() && InputManager->isStayKeyDown(VK_LBUTTON)) setMap();
     if (!SUBWIN->GetIsActive() && InputManager->isOnceKeyDown(VK_F5)) isDebug = !isDebug;
-    roomType = (ROOM)SUBWIN->GetRoomFrame().x;
+    
 }
 
 void CMapSetting::render()
 {
-    switch (roomType)
+    switch (room.roomType)
     {
     case ROOM::ROOM_NORMAL:
         IMAGE->render("basement_normal", getMemDC(), 0, 0);
@@ -48,11 +48,11 @@ void CMapSetting::render()
     {
         if (isDebug)
         {
-            if(_tile[i].obj == OBJECT::OBJ_WALL)
-                Rectangle(getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].rcTile.right, _tile[i].rcTile.bottom);
+            if(room.tile[i].obj == OBJECT::OBJ_WALL)
+                Rectangle(getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].rcTile.right, room.tile[i].rcTile.bottom);
         }
-        IMAGE->frameRender("objectTile", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
-        IMAGE->frameRender("monsterTile", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].monsterFrame.x, _tile[i].monsterFrame.y);
+        IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);
+        IMAGE->frameRender("monsterTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].monsterFrame.x, room.tile[i].monsterFrame.y);
     }
 
     TCHAR str[128];
@@ -65,12 +65,12 @@ void CMapSetting::tileInit()
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         bool isWall = i < 15 || i % TILEX == 0 || i % TILEX == 14 || i > TILEX * TILEY - 15;
-        if (isWall) _tile[i].obj = OBJECT::OBJ_WALL;
-        else _tile[i].obj = OBJECT::OBJ_NONE;
-        _tile[i].monster = MONSTER_TYPE::NONE;
+        if (isWall) room.tile[i].obj = OBJECT::OBJ_WALL;
+        else room.tile[i].obj = OBJECT::OBJ_NONE;
+        room.tile[i].monster = MONSTER_TYPE::NONE;
 
-        _tile[i].objFrame = 0;
-        _tile[i].monsterFrame = 0;
+        room.tile[i].objFrame = 0;
+        room.tile[i].monsterFrame = 0;
     }
 }
 
@@ -80,7 +80,7 @@ void CMapSetting::mapToolSetup()
     {
         for (int j = 0; j < TILEX; j++)
         {
-            SetRect(&_tile[i * TILEX + j].rcTile,
+            SetRect(&room.tile[i * TILEX + j].rcTile,
                 j * TILEWIDTH + MAPSTARTX,
                 i * TILEHEIGHT + MAPSTARTY,
                 j * TILEWIDTH + TILEWIDTH + MAPSTARTX,
@@ -94,14 +94,14 @@ void CMapSetting::setMap()
 {
     for (int i = 0; i < TILEX * TILEY; i++)
     {
-        if (PtInRect(&_tile[i].rcTile, m_ptMouse))
+        if (PtInRect(&room.tile[i].rcTile, m_ptMouse))
         {
-            bool isNonMon = _tile[i].monsterFrame.x == 0 && _tile[i].monsterFrame.y == 0;
-            bool isWall = _tile[i].obj == OBJECT::OBJ_WALL;
+            bool isNonMon = room.tile[i].monsterFrame.x == 0 && room.tile[i].monsterFrame.y == 0;
+            bool isWall = room.tile[i].obj == OBJECT::OBJ_WALL;
             if (isNonMon && !isWall)
             {
-                _tile[i].objFrame = { static_cast<float>(SUBWIN->GetObjFrame().x), static_cast<float>(SUBWIN->GetObjFrame().y) };
-                _tile[i].obj = objSelect(SUBWIN->GetObjFrame().x, SUBWIN->GetObjFrame().y);
+                room.tile[i].objFrame = { static_cast<float>(SUBWIN->GetObjFrame().x), static_cast<float>(SUBWIN->GetObjFrame().y) };
+                room.tile[i].obj = objSelect(SUBWIN->GetObjFrame().x, SUBWIN->GetObjFrame().y);
                 InvalidateRect(m_hWnd, NULL, false);
             }
         }
@@ -109,14 +109,14 @@ void CMapSetting::setMap()
 
     for (int i = 0; i < TILEX * TILEY; i++)
     {
-        if (PtInRect(&_tile[i].rcTile, m_ptMouse))
+        if (PtInRect(&room.tile[i].rcTile, m_ptMouse))
         {
-            bool isNonObj = _tile[i].objFrame.x == 0 && _tile[i].objFrame.y == 0;
-            bool isWall = _tile[i].obj == OBJECT::OBJ_WALL;
+            bool isNonObj = room.tile[i].objFrame.x == 0 && room.tile[i].objFrame.y == 0;
+            bool isWall = room.tile[i].obj == OBJECT::OBJ_WALL;
             if (isNonObj && !isWall)
             {
-                _tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-                _tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+                room.tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+                room.tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
                 InvalidateRect(m_hWnd, NULL, false);
             }
         }
@@ -125,31 +125,33 @@ void CMapSetting::setMap()
     // must modified
     for (int i = 0; i < TILEX * TILEY; i++)
     {
-        if (_tile[i].monster == MONSTER_TYPE::GURDY)
+        if (room.tile[i].monster == MONSTER_TYPE::GURDY)
         {
-            bool isRightWall = _tile[i + 1].obj == OBJECT::OBJ_WALL;
+            bool isRightWall = room.tile[i + 1].obj == OBJECT::OBJ_WALL;
             if (isRightWall)
             {
-                _tile[i].monster = MONSTER_TYPE::NONE;
-                _tile[i].monsterFrame = 0;
+                room.tile[i].monster = MONSTER_TYPE::NONE;
+                room.tile[i].monsterFrame = 0;
                 break;
             }
 
-            _tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            _tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+            room.tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            room.tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
 
-            /*_tile[i + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            _tile[i + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+            /*tile[i + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            tile[i + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
 
-            _tile[i + TILEX].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            _tile[i + TILEX].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
+            tile[i + TILEX].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            tile[i + TILEX].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
 
-            _tile[i + TILEX + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            _tile[i + TILEX + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };*/
+            tile[i + TILEX + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
+            tile[i + TILEX + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };*/
 
             break;
         }
     }
+    if (PtInRect(&RectMake({ 0, 0 }, WINSIZEX, WINSIZEY), m_ptMouse))
+        room.roomType = (ROOM)SUBWIN->GetRoomFrame().x;
 }
 
 bool CMapSetting::save(const char* fileName)
@@ -157,11 +159,13 @@ bool CMapSetting::save(const char* fileName)
     HANDLE file;
     DWORD write;
     bool result;
+    tagRoom save[1];
 
     file = CreateFile(fileName,
         GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    result = WriteFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &write, NULL);
+    save[0] = room;
+    result = WriteFile(file, save, sizeof(tagRoom), &write, NULL);
 
     CloseHandle(file);
 
@@ -173,11 +177,14 @@ bool CMapSetting::load(const char* fileName)
     HANDLE file;
     DWORD read;
     bool result;
+    tagRoom load[1];
 
     file = CreateFile(fileName,
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    
+    result = ReadFile(file, load, sizeof(tagRoom), &read, NULL);
+    room = load[0];
 
-    result = ReadFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
     CloseHandle(file);
 
     return result;
