@@ -31,8 +31,6 @@ void mainGame::release()
 void mainGame::update()
 {
 	gameNode::update();
-
-	
 }
 
 void mainGame::render(/*HDC hdc*/)

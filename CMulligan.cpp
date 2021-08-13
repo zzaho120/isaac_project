@@ -20,18 +20,17 @@ HRESULT CMulligan::init(float x, float y)
 	ANIMATION->start("mulliganidle");
 
 
-	vector2 pt = { x, y };
 	RECT rc = RectMakeCenter(x, y, IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());
-	float shadowdistance = 20;
 	int hp = 8;
 
-	CCharacter::init(pt, rc, shadowdistance, hp);
+	CCharacter::init({ x,y }, rc,  IMAGE->findImage("mulliganhead")->getFrameHeight()/2, hp);
 
 	vector2 colliderpt = { x, y + shadowdistance };
 	vector2 collidersize;
 	collidersize.x = IMAGE->findImage("mulliganhead")->getFrameWidth();
-	collidersize.y = IMAGE->findImage("mulliganhead")->getFrameHeight();
+	collidersize.y = collidersize.x / 3;
 	collider = new CCollider(colliderpt, collidersize);
+	IMAGE->addImage("shadowMulligan", "images/shadow.bmp", collidersize.x, collidersize.y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::MULLIGAN);
 	AI_init(this, monsterType);
@@ -56,8 +55,8 @@ void CMulligan::update()
 
 void CMulligan::render()
 {
-	Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
-	Rectangle(getMemDC(), getRC().left, getRC().top + shadowdistance, getRC().right, getRC().bottom + shadowdistance);
+	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
+	IMAGE->render("shadowMulligan", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("mulliganbody")->aniRender(getMemDC(), RectX(getRC()) - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2, RectY(getRC()), getAni());
 	IMAGE->findImage("mulliganhead")->aniRender(getMemDC(), getRC().left, getRC().top, anihead);
 }

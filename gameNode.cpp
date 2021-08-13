@@ -113,6 +113,7 @@ void gameNode::render(HDC hdc)
 
 void gameNode::render()
 {
+
 	SUBWIN->render();
 	SCENE->render();
 	BULLET->render();

@@ -13,18 +13,16 @@ HRESULT CHopper::init(float x, float y)
 {
 	setAni(ANIMATION->findAnimation("idlehopper"));
 
-	vector2 pt = { x, y };
 	RECT rc = RectMakeCenter(x, y, IMAGE->findImage("hopper")->getFrameWidth(), IMAGE->findImage("hopper")->getFrameHeight());
-	shadowdistance = 20;
-	int hp = 8;
-
-	CCharacter::init(pt, rc, shadowdistance, hp);
+	hp = 8;
+	CCharacter::init({ x, y }, rc, IMAGE->findImage("hopper")->getFrameHeight()/2, 8);
 	
 	vector2 colliderpt = { x, y + shadowdistance };
 	vector2 collidersize;
 	collidersize.x = IMAGE->findImage("hopper")->getFrameWidth();
-	collidersize.y = IMAGE->findImage("hopper")->getFrameHeight();
+	collidersize.y = collidersize.x/3;
 	collider = new CCollider(colliderpt, collidersize);
+	IMAGE->addImage("shadowHopper", "images/shadow.bmp", collidersize.x, collidersize.y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::HOPPER);
 	AI_init(this, monsterType);
@@ -44,8 +42,7 @@ void CHopper::update()
 
 void CHopper::render()
 {
-	Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
-	Rectangle(getMemDC(), getRC().left, getRC().top+ shadowdistance, getRC().right, getRC().bottom+ shadowdistance);
-	//Rectangle(getMemDC(), getshadowRC().left, getshadowRC().top, getshadowRC().right, getshadowRC().bottom);
+	RECT rec = RectMakeCenter(collider->getPos().x, collider->getPos().y, collider->getSize().x, collider->getSize().y);
+	IMAGE->render("shadowHopper", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("hopper")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 }
