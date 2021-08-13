@@ -3,7 +3,8 @@
 class CMap : public gameNode
 {
 private:
-	tagTile _tile[TILEX * TILEY];
+	tagRoom room;
+	/*tagTile _tile[TILEX * TILEY];*/
 	tagOBJAttribute _OBJattribute[TILEX * TILEY];
 	DWORD _attribute[TILEX * TILEY];
 public:
@@ -17,10 +18,9 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void load();
 	void load(const char* fileName);
 	void tileSet();
 
 	DWORD* getAttribute() { return _attribute; }
-	tagTile* getMap() { return _tile; }
+	tagTile* getMap() { return room.tile; }
 };

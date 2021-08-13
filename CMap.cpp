@@ -3,7 +3,6 @@
 
 CMap::CMap()
 {
-    load();
     tileSet();
 }
 
@@ -19,7 +18,6 @@ CMap::~CMap()
 
 HRESULT CMap::init()
 {
-    load();
     tileSet();
     return S_OK;
 }
@@ -42,32 +40,34 @@ void CMap::update()
 
 void CMap::render()
 {
-    IMAGE->render("basement_normal", getMemDC(), 0, 0);
+    switch(room.roomType)
+    {
+    case ROOM::ROOM_NORMAL:
+        IMAGE->render("basement_normal", getMemDC(), 0, 0);
+        break;
+    case ROOM::ROOM_BOSS:
+        IMAGE->render("basement_boss", getMemDC(), 0, 0);
+        break;
+    case ROOM::ROOM_SHOP:
+        IMAGE->render("shop", getMemDC(), 0, 0);
+        break;
+    }
     for (int i = 0; i < TILEX * TILEY; i++)
-        IMAGE->frameRender("objectTile", getMemDC(), _tile[i].rcTile.left, _tile[i].rcTile.top, _tile[i].objFrame.x, _tile[i].objFrame.y);
-}
-
-void CMap::load()
-{
-    HANDLE file;
-    DWORD read;
-
-    file = CreateFile("save/Map2.map",
-        GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-    ReadFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
-    CloseHandle(file);
+        IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);
 }
 
 void CMap::load(const char* fileName)
 {
     HANDLE file;
     DWORD read;
+    tagRoom load[1];
 
     file = CreateFile(fileName,
         GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    ReadFile(file, _tile, sizeof(tagTile) * TILEX * TILEY, &read, NULL);
+    ReadFile(file, load, sizeof(tagRoom), &read, NULL);
+    room = load[0];
+
     CloseHandle(file);
 }
 
@@ -77,16 +77,16 @@ void CMap::tileSet()
     {
         for (size_t j = 0; j < TILEX; j++)
         {
-            SetRect(&_tile[i * TILEX + j].rcTile,
+            SetRect(&room.tile[i * TILEX + j].rcTile,
                 j * TILEWIDTH + MAPSTARTX,
                 i * TILEHEIGHT + MAPSTARTY,
                 j * TILEWIDTH + TILEWIDTH + MAPSTARTX,
                 i * TILEHEIGHT + TILEHEIGHT + MAPSTARTY);
 
-            _tile[i * TILEX + j].pt.x = RectX(_tile[i * TILEX + j].rcTile);
-            _tile[i * TILEX + j].pt.y = RectY(_tile[i * TILEX + j].rcTile);
+            room.tile[i * TILEX + j].pt.x = RectX(room.tile[i * TILEX + j].rcTile);
+            room.tile[i * TILEX + j].pt.y = RectY(room.tile[i * TILEX + j].rcTile);
 
-            switch (_tile[i * TILEX + j].obj)
+            switch (room.tile[i * TILEX + j].obj)
             {
             case OBJECT::OBJ_FIREPLACE:
                 _OBJattribute[i * TILEX + j].strength = 3;
