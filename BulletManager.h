@@ -18,7 +18,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void fire(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, int size);
+	void fire(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, int size, string _bulletType);
 	void move();
 	void removeBullet(viBullet iter);
 	void eraserBullet(int number) { _vBullet.erase(_vBullet.begin() + number); }

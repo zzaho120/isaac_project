@@ -14,13 +14,13 @@ CBullet::CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed, float _distanc
 CBullet::~CBullet()
 { }
 
-HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size)
+HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size, string _bulletType)
 {
     CObject::init(_pt,
         RectMakeCenter(_pt.x, _pt.y, size, size),
         _pt, { size,size },
        _height
-        , shadowPt, { size,size });
+        , shadowPt, { size,size/3});
     firePt = _pt;
     angle = _angle;
     speed = _speed;
@@ -28,57 +28,46 @@ HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, fl
     type = _type;
     distance = _distance;
     shadowdistance = _height;
-
+    bulletType = _bulletType;
+    bulletShadow = "Shadow";
     shadowPt.x = _pt.x;
     shadowPt.y = _pt.y + shadowdistance;
     shadow = RectMakeCenter(shadowPt.x, shadowPt.y, BULLETSIZE, BULLETSIZE);
     
-    vector2 colliderpt = { _pt.x, _pt.y + shadowdistance };
-    vector2 collidersize ;
-    collidersize.x = BULLETSIZE;
-    collidersize.y = BULLETSIZE;
-
-    collider = new CCollider(colliderpt, collidersize);
-
-    if (type == CHARACTER::PLAYER)
-    {
-        IMAGE->addFrameImage("playerbullet", "images/bullets.bmp", BULLETSIZE * 8, BULLETSIZE * 4, 9, 4, true, RGB(255, 0, 255));
-        ANIMATION->addAnimation("playerbulletrender", "playerbullet", 17, 31, 30, false, false);
-        
-        setAni(ANIMATION->findAnimation("playerbulletrender"));
-        ani->start();
-    }
-
-
+    bulletAnimation = new animation;
+    bulletAnimation->init(BULLETSIZE*13, BULLETSIZE, BULLETSIZE, BULLETSIZE);
+    bulletAnimation->setDefPlayFrame(false, false);
+    bulletAnimation->setFPS(1);
+    bulletAnimation->start();
+    bulletImage = IMAGE->findImage(_bulletType);
+    
     return S_OK;
 }
 
 void CBullet::release()
 {
+    SAFE_DELETE(bulletAnimation);
 }
 
 void CBullet::update()
 {
     move();
+    bulletAnimation->frameUpdate(30.0f);
 }
 
 void CBullet::render()
 {
-    Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-        collider->getPos().y - collider->getSize().y / 2,
-        collider->getPos().x + collider->getSize().x / 2,
-        collider->getPos().y + collider->getSize().y / 2);
-    Rectangle(getMemDC(), colliderShadow->getPos().x - colliderShadow->getSize().x / 2,
+    
+    /*Rectangle(getMemDC(), colliderShadow->getPos().x - colliderShadow->getSize().x / 2,
         colliderShadow->getPos().y - colliderShadow->getSize().y / 2,
         colliderShadow->getPos().x + colliderShadow->getSize().x / 2,
-        colliderShadow->getPos().y + colliderShadow->getSize().y / 2);
-    if (type == CHARACTER::PLAYER)
-    {
-        IMAGE->findImage("playerbullet")->aniRender(getMemDC(), getRC().left, getRC().top, ani);
-    }
-    
-    /*RECT rec = RectMakeCenter(collider->getPos(), 50, 50);
-    Rectangle(getMemDC(), rec.left, rec.top, rec.right, rec.bottom);*/
+        colliderShadow->getPos().y + colliderShadow->getSize().y / 2);*/
+
+    RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+    IMAGE->render(bulletType + bulletShadow, getMemDC(), rec.left, rec.top);
+
+    bulletImage->aniRender(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+        collider->getPos().y - collider->getSize().y / 2, bulletAnimation);
 }
 
 void CBullet::move()

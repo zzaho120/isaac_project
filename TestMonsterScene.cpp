@@ -37,6 +37,7 @@ HRESULT TestMonsterScene::init(const char* fileName)
     }
 
     return S_OK;
+    EFFECT->addEffect("pbullet", "images/bullets.bmp", 256, 128, 28, 32, 1, 0.5f, 200);
 }
 
 void TestMonsterScene::release()

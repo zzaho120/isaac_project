@@ -101,7 +101,7 @@ void Gurdy_Atk::Enter()
 	animationcount = 0;
 
 	speed = 10;
-	height = 30;
+	height = 20;
 	distance = 400;
 	bulletsize = 15;
 }
@@ -261,33 +261,33 @@ void Gurdy_Atk::FireBullet()
 	case 0:
 		angle = UTIL::getAngle(RectX(rec), RectY(rec), ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 
-		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
 
 		break;
 	case 1:
 		firePt.y += 60;
 		angle = UTIL::getAngle(RectX(rec), RectY(rec), ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 
-		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
 		break;
 	case 2:
 		firePt.x += 60;
 		firePt.y += 30;
 		angle = UTIL::getAngle(RectX(rec), RectY(rec), ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 
-		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
-		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize);
+		BULLET->fire(angle, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle + PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle - PI / 32, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle + PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
+		BULLET->fire(angle - PI / 16, speed, firePt, height, distance, CHARACTER::MONSTER, bulletsize, "GurdyBullet");
 		break;
 	default:
 		break;

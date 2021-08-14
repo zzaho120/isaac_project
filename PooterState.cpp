@@ -136,7 +136,7 @@ void Fly_Atk::update()
 		shadowDistance = 20;
 		distance = 200;
 
-		BULLET->fire(angle, speed, fire, shadowDistance, 30, CHARACTER::MONSTER, 10);
+		BULLET->fire(angle, speed, fire, shadowDistance, distance, CHARACTER::MONSTER, 15, "FlyBullet");
 		if (isleft(ENEMY->GetPlayer()->getPt().x))
 		{
 			pMon->setAni(ANIMATION->findAnimation("leftAtkfly"));

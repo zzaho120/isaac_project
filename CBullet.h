@@ -1,8 +1,6 @@
 #pragma once
 #include "CObject.h"
-
-
-
+#include "animation.h"
 class CBullet : public CObject
 {
 private:
@@ -17,12 +15,17 @@ private:
 	vector2 shadowPt;
 
 	CHARACTER type;
+
+	image* bulletImage;
+	animation* bulletAnimation;
+	string bulletType;
+	string bulletShadow;
 public:
 	CBullet();
 	CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed,float _distance, int _height, CHARACTER _type, int size);
 	~CBullet();
 
-	virtual HRESULT init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size);
+	virtual HRESULT init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size, string _bulletType);
 	virtual void release();
 	virtual void update();
 	virtual void render();
