@@ -197,6 +197,7 @@ void CPlayer::Move()
 	{
 		_slide();
 		playerspeed = 0;
+		playerfoward = FOWARD::NONE;
 	}
 	if (prevfoward != playerfoward)
 	{
@@ -209,12 +210,13 @@ void CPlayer::Move()
 		prevfoward = playerfoward;
 	}
 	
-	/*RECT rec;
+	RECT rec;
 	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))
 	{
 		movetoRight(rc, 100);
 		pt.x += 100;
-	}*/
+	}
+	pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, playerfoward);
 	/*STAGE->getCurStage()->getMap()->GetvObstacle();
 	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))*/
 	

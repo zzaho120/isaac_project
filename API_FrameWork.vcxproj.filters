@@ -112,6 +112,9 @@
     <Filter Include="Class\Object\Obstacle">
       <UniqueIdentifier>{1023ed69-b497-4c2e-beb0-24713024a34b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Object\Item">
+      <UniqueIdentifier>{f1b7a51b-02f9-439d-b68a-c723d7772307}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -303,6 +306,9 @@
     <ClInclude Include="stageManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CItem.h">
+      <Filter>Class\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -469,6 +475,9 @@
     </ClCompile>
     <ClCompile Include="stageManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
+      <Filter>Class\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
