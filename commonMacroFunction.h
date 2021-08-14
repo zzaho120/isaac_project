@@ -163,10 +163,28 @@ const int MAPSTARTY = 52;
 const int SUBWINSIZEX = 420;
 const int SUBWINSIZEY = 520;
 
-#define ATTR_UNMOVABLE 0x00000001
-#define ATTR_ONLYBOMB 0x00000002
-#define ATTR_DAMAGE 0x00000003
+const int ROOMMAXSIZE = 100;
 
+const int MINIMAPSIZEX = 300;
+const int MINIMAPSIZEY = 300;
+
+const int MINIMAPROOMX = 25;
+const int MINIMAPROOMY = 25;
+
+
+#define ATTR_UNMOVABLE		0x00000001
+#define ATTR_ONLYBOMB		0x00000002
+#define ATTR_DAMAGE			0x00000003
+
+#define ATTR_ROOM_NONEROOM	0x00000001
+#define ATTR_ROOM_CURROOM	0x00000002
+#define ATTR_ROOM_NONCHECK	0x00000003
+#define ATTR_ROOM_VISITROOM	0x00000004
+
+#define ATTR_ROOM_NONEMARK	0x00000005
+#define ATTR_ROOM_BOSS		0x00000006
+#define ATTR_ROOM_SHOP		0x00000007
+#define ATTR_ROOM_REWARD	0x00000008
 
 // map object
 enum class OBJECT
@@ -239,6 +257,13 @@ enum class CHARACTER
 	MONSTER
 };
 
+enum class MINIMAP_ATTR
+{
+	ROOM,
+	MARK
+};
+
+
 struct tagTile
 {
 	OBJECT obj;
@@ -261,12 +286,17 @@ struct tagOBJAttribute
 	int strength;
 };
 
-
 struct tagRoom
 {
 	tagTile tile[TILEX * TILEY];
 	ROOM roomType;
 };
 
+struct tagMinimap
+{
+	RECT rc;
+	Vec2 pt;
+	DWORD attribute[2];
+};
 // ============================================= MapInfo ===================================================
 // ============================================= MapInfo ===================================================

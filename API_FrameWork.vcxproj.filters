@@ -112,6 +112,12 @@
     <Filter Include="Class\Object\Obstacle">
       <UniqueIdentifier>{1023ed69-b497-4c2e-beb0-24713024a34b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Object\UI">
+      <UniqueIdentifier>{3590669d-8137-4361-bf81-2d3f7d6a6929}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\UI\Minimap">
+      <UniqueIdentifier>{d0923157-3d5d-46e9-b3cc-6a9243c28afe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -303,6 +309,15 @@
     <ClInclude Include="stageManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>Class\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CMinimap.h">
+      <Filter>Class\Object\UI\Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomMapGenerator.h">
+      <Filter>Class\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -470,6 +485,15 @@
     <ClCompile Include="stageManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>Class\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CMinimap.cpp">
+      <Filter>Class\Object\UI\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomMapGenerator.cpp">
+      <Filter>Class\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="API_FrameWork.rc">
@@ -483,5 +507,8 @@
     <Image Include="API_FrameWork.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

@@ -5,9 +5,7 @@
 class CMapSetting : public gameNode
 {
 private:
-	tagRoom room;/*
-	tagTile tile[TILEX * TILEY];
-	ROOM roomType;*/
+	tagRoom room;
 	bool isDebug;
 public:
 	CMapSetting();

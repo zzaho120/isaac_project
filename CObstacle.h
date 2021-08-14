@@ -20,5 +20,7 @@ public:
 	void setObjectValue();
 
 	Vec2 getFrame() { return frame; }
+
+	DWORD getAttribute() { return attribute; }
 };
 

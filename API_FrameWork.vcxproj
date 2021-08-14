@@ -160,6 +160,7 @@
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CMapSetting.h" />
     <ClInclude Include="CMapSettingSub.h" />
+    <ClInclude Include="CMinimap.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CMulligan.h" />
     <ClInclude Include="CObject.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Csmallfly.h" />
     <ClInclude Include="CStage.h" />
     <ClInclude Include="CState.h" />
+    <ClInclude Include="CUI.h" />
     <ClInclude Include="CWORM.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="PooterState.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
+    <ClInclude Include="RandomMapGenerator.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singleton.h" />
@@ -226,6 +229,7 @@
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CMapSetting.cpp" />
     <ClCompile Include="CMapSettingSub.cpp" />
+    <ClCompile Include="CMinimap.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMulligan.cpp" />
     <ClCompile Include="CObject.cpp" />
@@ -235,6 +239,7 @@
     <ClCompile Include="Csmallfly.cpp" />
     <ClCompile Include="CStage.cpp" />
     <ClCompile Include="CState.cpp" />
+    <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CWORM.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
@@ -253,6 +258,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PooterState.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="RandomMapGenerator.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="SmallflyState.cpp" />
     <ClCompile Include="soundManager.cpp" />
@@ -271,6 +277,9 @@
   <ItemGroup>
     <Image Include="API_FrameWork.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

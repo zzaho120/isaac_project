@@ -12,6 +12,9 @@ AniAddList::AniAddList()
 	IMAGE->addFrameImage("objectTile", "images/map/objectTile.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("monsterTile", "images/map/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("roomTile", "images/map/roomTile.bmp", TILEWIDTH * 3, TILEHEIGHT, 3, 1, true, RGB(255, 0, 255));
+
+	IMAGE->addFrameImage("minimapRoom", "images/map/minimap_room.bmp", MINIMAPROOMX * 3, MINIMAPROOMY, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("minimapMark", "images/map/minimap_special.bmp", MINIMAPROOMX * 5, MINIMAPROOMY, 5, 1, true, RGB(255, 0, 255));
 	//=================== bullet ====================================================================================
 	//=================== bullet ====================================================================================
 	IMAGE->addFrameImage("bullet", "images/bullets.bmp", 256, 128, 9, 4, true, RGB(255, 0, 255));
