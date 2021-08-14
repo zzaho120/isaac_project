@@ -48,21 +48,25 @@ void CObstacle::setObjectValue()
 	case OBJECT::OBJ_SPIKE:
 		strength = -1;
 		frame = { 2, 0 };
+		
 		attribute |= ATTR_DAMAGE;
 		break;
 	case OBJECT::OBJ_POOP:
 		strength = 3;
 		frame = { 1, 0 };
+
 		attribute |= ATTR_UNMOVABLE;
 		break;
 	case OBJECT::OBJ_ROCK:
 		frame = { 3, 0 };
+
 		attribute |= ATTR_ONLYBOMB;
 		attribute |= ATTR_UNMOVABLE;
 		break;
 	case OBJECT::OBJ_STEEL:
 		frame = { 4, 0 };
 		strength = -1;
+		
 		attribute |= ATTR_UNMOVABLE;
 		break;
 	case OBJECT::OBJ_LT_PIT:
@@ -117,6 +121,7 @@ void CObstacle::setObjectValue()
 	case OBJECT::OBJ_DOOR:
 		break;
 	case OBJECT::OBJ_NONE:
+		attribute |= ATTR_MOVABLE ;
 		break;
 	default:
 		break;

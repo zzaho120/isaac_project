@@ -11,7 +11,7 @@ HRESULT TestMonsterScene::init()
     _map->init();
     _player->init();
 
-    tagTile* tile = _map->getMap();
+    tagTile* tile = _map->getTile();
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         setMonster(tile[i].monster, tile[i].pt);
@@ -30,7 +30,7 @@ HRESULT TestMonsterScene::init(const char* fileName)
 {
     _map->init(fileName);
     _player->init();
-    tagTile* tile = _map->getMap();
+    tagTile* tile = _map->getTile();
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         setMonster(tile[i].monster, tile[i].pt);

@@ -163,6 +163,7 @@ const int MAPSTARTY = 52;
 const int SUBWINSIZEX = 420;
 const int SUBWINSIZEY = 520;
 
+#define ATTR_MOVABLE 0x00000000
 #define ATTR_UNMOVABLE 0x00000001
 #define ATTR_ONLYBOMB 0x00000002
 #define ATTR_DAMAGE 0x00000003
@@ -239,6 +240,18 @@ enum class CHARACTER
 	MONSTER
 };
 
+enum FOWARD
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	LEFTTOP,
+	RIGHTTOP,
+	LEFTDOWN,
+	RIGHTDOWN,
+	NONE
+};
 struct tagTile
 {
 	OBJECT obj;

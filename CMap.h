@@ -24,5 +24,7 @@ public:
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
 
-	tagTile* getMap() { return room.tile; }
+	vector<CObstacle*> getvObstacle() { return vObstacle; }
+	vector<CObstacle*>::iterator getviObstacle(int number);
+	tagTile* getTile() { return room.tile; }
 };

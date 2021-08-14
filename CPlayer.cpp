@@ -3,6 +3,8 @@
 #include "CFSM.h"
 #include "PlayerState.h"
 #include "CState.h"
+#include "CStage.h"
+#include "CMap.h"
 CPlayer::CPlayer() :
 	CCharacter(), isMove(false), totalTears(0)
 {
@@ -66,9 +68,11 @@ void CPlayer::update()
 		Move();
 		fire();
 	}
-	AI_update();
+	
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	collider->setPos({ RectX(rc), RectY(rc)});
+	collider->setPos({ RectX(rc), RectY(rc) });
+	AI_update();
+	
 }
 
 void CPlayer::render()
@@ -123,7 +127,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::LEFTDOWN;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2)/10;
+		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
 		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
 		pt = Vec2(pt.x - playerspeed, pt.y + playerspeed);
 	}
@@ -131,7 +135,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::LEFTTOP;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2)/10;
+		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
 		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
 		pt = Vec2(pt.x - playerspeed, pt.y - playerspeed);
 	}
@@ -139,7 +143,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::RIGHTTOP;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2) /10;
+		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
 		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
 		pt = Vec2(pt.x + playerspeed, pt.y - playerspeed);
 	}
@@ -148,7 +152,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::RIGHTDOWN;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2) /10;
+		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
 		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
 		pt = Vec2(pt.x + playerspeed, pt.y + playerspeed);
 	}
@@ -156,7 +160,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::LEFT;
-		playerspeed += PLAYERMAXSPEED  /10;
+		playerspeed += PLAYERMAXSPEED / 10;
 		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x - playerspeed, pt.y);
@@ -166,7 +170,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::DOWN;
-		playerspeed += PLAYERMAXSPEED  /10;
+		playerspeed += PLAYERMAXSPEED / 10;
 		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x, pt.y + playerspeed);
@@ -175,7 +179,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::RIGHT;
-		playerspeed += PLAYERMAXSPEED  /10;
+		playerspeed += PLAYERMAXSPEED / 10;
 		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x + playerspeed, pt.y);
@@ -184,7 +188,7 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::UP;
-		playerspeed += PLAYERMAXSPEED  /10;
+		playerspeed += PLAYERMAXSPEED / 10;
 		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x, pt.y - playerspeed);
@@ -204,8 +208,23 @@ void CPlayer::Move()
 		}
 		prevfoward = playerfoward;
 	}
+	
+	/*RECT rec;
+	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))
+	{
+		movetoRight(rc, 100);
+		pt.x += 100;
+	}*/
+	/*STAGE->getCurStage()->getMap()->GetvObstacle();
+	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))*/
+	
+
 	rc = RectMakeCenter(pt.x, pt.y, PLAYERWIDTH, PLAYERHEIGHT);
+	collider->setPos(pt);
+
 }
+	
+		
 
 void CPlayer::_slide()
 {
