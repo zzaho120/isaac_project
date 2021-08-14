@@ -32,5 +32,6 @@ public:
 	void addEffect(string effectKey, char* imageName, int imageW, int imageH, int frameW, int frameH, int fps, float elapsedTime, int buffer);
 
 	void play(string  effectKey, int x, int y);
+	void EffectMove(string  effectKey, int x, int y);
 };
 

@@ -103,7 +103,7 @@ void gameNode::update()
 	BULLET->update();
 	ANIMATION->update();
 	ENEMY->update();
-
+	EFFECT->update();
 	InvalidateRect(m_hWnd, NULL, false);
 }
 
@@ -113,12 +113,12 @@ void gameNode::render(HDC hdc)
 
 void gameNode::render()
 {
-
 	SUBWIN->render();
 	SCENE->render();
 	BULLET->render();
 	TIME->render(getMemDC());
 	ENEMY->render();
+	EFFECT->render();
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)

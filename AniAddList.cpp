@@ -16,7 +16,13 @@ AniAddList::AniAddList()
 	//=================== bullet ====================================================================================
 	IMAGE->addFrameImage("bullet", "images/bullets.bmp", 256, 128, 9, 4, true, RGB(255, 0, 255));
 	ANIMATION->addAnimation("enemybullet", "bullet", 0, 13, 10, false, false);
-
+	
+	IMAGE->addImage("FlyBullet", "images/enemybullet.bmp", 15 * 13, 15, true, RGB(255, 0, 255));
+	IMAGE->addImage("HostBullet", "images/enemybullet.bmp", 15 * 13, 15, true, RGB(255, 0, 255));
+	IMAGE->addImage("GurdyBullet", "images/enemybullet.bmp", 15 * 13, 15, true, RGB(255, 0, 255));
+	IMAGE->addImage("FlyBulletShadow", "images/shadow.bmp", 15,5, true, RGB(255, 0, 255));
+	IMAGE->addImage("HostBulletShadow", "images/shadow.bmp", 15,5, true, RGB(255, 0, 255));
+	IMAGE->addImage("GurdyBulletShadow", "images/shadow.bmp", 15,5, true, RGB(255, 0, 255));
 	//=================== player ====================================================================================
 	//=================== player ====================================================================================
 	IMAGE->addImage("shadow", "images/shadow.bmp", 150, 50, true, RGB(255, 0, 255));

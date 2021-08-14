@@ -142,3 +142,7 @@ void effectManager::play(string effectKey, int x, int y)
 		}
 	}
 }
+
+void effectManager::EffectMove(string effectKey, int x, int y)
+{
+}

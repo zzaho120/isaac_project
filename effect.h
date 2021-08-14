@@ -20,6 +20,7 @@ public:
 	void release();
 	void update();
 	void render();
+	void render(float x, float y);
 
 	//내가 원하는 좌표에 이펙트 터트리기
 	void startEffect(int x, int y);

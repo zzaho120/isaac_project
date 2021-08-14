@@ -39,9 +39,9 @@ HRESULT CPlayer::init()
 	playerspeed = 0;
 
 	//bullet information
-	bulletsize = 30; 
+	bulletsize = 15; 
 	distance = 100;
-	height = 50;
+	height = 30;
 
 	//player information
 	coin = 10;
@@ -369,7 +369,9 @@ void CPlayer::fire()
 	if (fireCnt > tearDelay)
 	{
 		fireCnt = 0;
-		BULLET->fire(fireAngle, 10, firePt, height, distance,CHARACTER::PLAYER, bulletsize);
+		IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
+		IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize/3, true, RGB(255, 0, 255));
+		BULLET->fire(fireAngle, 6, firePt, height, distance,CHARACTER::PLAYER, bulletsize, "playerBullet");
 	}
 }
 

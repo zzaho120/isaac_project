@@ -53,6 +53,14 @@ void effect::render()
 	}
 }
 
+void effect::render(float x, float y)
+{
+	if (_isRunning)
+	{
+		_effectImage->aniRender(getMemDC(), x, y, _effectAni);
+	}
+}
+
 void effect::startEffect(int x, int y)
 {
 	//위치 좌표를 센터 좌표로 만들기
