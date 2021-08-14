@@ -22,5 +22,7 @@ public:
 	void load(const char* fileName);
 	void tileSet();
 
+	void setMonster(MONSTER_TYPE type, vector2 pt);
+
 	tagTile* getMap() { return room.tile; }
 };

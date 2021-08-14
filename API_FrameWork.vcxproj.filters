@@ -300,6 +300,9 @@
     <ClInclude Include="CObstacle.h">
       <Filter>Class\Object\Obstacle</Filter>
     </ClInclude>
+    <ClInclude Include="stageManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -463,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="CObstacle.cpp">
       <Filter>Class\Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="stageManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

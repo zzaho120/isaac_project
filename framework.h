@@ -41,6 +41,7 @@
 #include"collisionManager.h"
 #include"bulletManager.h"
 #include"enemyManager.h"
+#include"stageManager.h"
 #include"AniAddList.h"
 //==========================================
 //				 매크로 설정
@@ -67,10 +68,24 @@
 #define COLLISION		collisionManager::getSingleton()
 #define BULLET			BulletManager::getSingleton()
 #define ENEMY			enemyManager::getSingleton()
+#define STAGE			stageManager::getSingleton()
 //==========================================
 //			메인게임 릴리즈에서 사용
 //==========================================
 #define SAFE_DELETE(p) {if(p) {delete(p);(p) = nullptr;}}
+
+template<typename T>
+void Safe_Delete_Vector(vector<T>& _vec)
+{
+	typename vector<T>::iterator iter = _vec.begin();
+
+	for (UINT i = 0; i < _vec.size(); ++i)
+	{
+		SAFE_DELETE(_vec[i]);
+	}
+	_vec.clear();
+}
+
 //========================================================
 //		전역변수 아이들(인스턴스,윈도우 핸들, 마우스 좌표)
 //========================================================

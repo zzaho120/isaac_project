@@ -101,3 +101,8 @@ void CMap::tileSet()
         }
     }
 }
+
+void CMap::setMonster(MONSTER_TYPE type, vector2 pt)
+{
+    ENEMY->respawnMinion(type, pt);
+}
