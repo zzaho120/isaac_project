@@ -31,9 +31,9 @@ HRESULT CCharacter::init()
 	return S_OK;
 }
 
-HRESULT CCharacter::init(vector2 _pt, RECT _rc, float _shadowdistance, int _hp)
+HRESULT CCharacter::init(vector2 _pt, RECT _rc, vector2 _objectPt, vector2 _objectSize, float _shadowdistance, vector2 _objectShadowPt, vector2 _objectShadowSize, int _hp)
 {
-	CObject::init(_pt, _rc, _shadowdistance);
+	CObject::init(_pt, _rc, _objectPt, _objectSize, _shadowdistance, _objectShadowPt, _objectShadowSize);
 	hp = _hp;
 	return S_OK;
 }

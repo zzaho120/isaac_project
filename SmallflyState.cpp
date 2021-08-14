@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "SmallflyState.h"
-
+#include "CPlayer.h"
 
 
 Smallfly_Idle::Smallfly_Idle()
@@ -29,13 +29,10 @@ void Smallfly_Idle::Enter()
 void Smallfly_Idle::update()
 {
 	CCharacter* pMon = m_pFSM->GetMon();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
 
 	Move();
 
-	if (Inrange(300, _pt))
+	if (Inrange(300, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -122,22 +119,15 @@ void Smallfly_Trace::Enter()
 {
 	count = 0;
 	CObject* pMon = m_pFSM->GetMon();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
 
-	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
+	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 }
 
 void Smallfly_Trace::update()
 {
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-
 	MovetoPlayer();
 	
-	if (!Inrange(300, _pt) || count >=100)
+	if (!Inrange(300, ENEMY->GetPlayer()->getPt()) || count >=100)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}

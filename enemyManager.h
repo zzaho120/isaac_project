@@ -19,6 +19,7 @@ class Csmallfly;
 
 class CCollider;
 
+class CPlayer;
 struct summon
 {
 	MONSTER_TYPE m_Mtype;
@@ -37,6 +38,7 @@ private:
 	vector<summon> vsummon;
 	vector<summon>::iterator visummon;
 
+	CPlayer* player;
 private:
 	//vminion _vminion;
 	//viminion _viminion;
@@ -59,5 +61,8 @@ public:
 
 	vminion getvmonster() { return _vminion; }
 	viminion getvimonster(int number);
+
+	void SetPlayer(CPlayer* _player) { player = _player; }
+	CPlayer* GetPlayer() { return player; }
 };
 

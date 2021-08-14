@@ -12,12 +12,17 @@ AniAddList::AniAddList()
 	IMAGE->addFrameImage("objectTile", "images/map/objectTile.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("monsterTile", "images/map/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("roomTile", "images/map/roomTile.bmp", TILEWIDTH * 3, TILEHEIGHT, 3, 1, true, RGB(255, 0, 255));
+	//=================== bullet ====================================================================================
+	//=================== bullet ====================================================================================
+	IMAGE->addFrameImage("bullet", "images/bullets.bmp", 256, 128, 9, 4, true, RGB(255, 0, 255));
+	ANIMATION->addAnimation("enemybullet", "bullet", 0, 13, 10, false, false);
 
 	//=================== player ====================================================================================
 	//=================== player ====================================================================================
 	IMAGE->addImage("shadow", "images/shadow.bmp", 150, 50, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaacBody", "images/player/player_body.bmp",216*2,86*2,6,3,true,RGB(255,0,255));
 	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*2, 90*2, 10, 3, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("playerbody", "images/enemy/mulliganbody.bmp", 300*2, 90*2, 10, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256*2, 32*2, 8, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaacEvent", "images/player/player_event.bmp", 200*2, 150*2, 4, 3, true, RGB(255, 0, 255));
 
@@ -27,12 +32,12 @@ AniAddList::AniAddList()
 	ANIMATION->addAnimation("left_head", "isaac", 6, 7, 10, false, false);
 	int playeridle[] = { 0 };
 	ANIMATION->addAnimation("playeridlehead", "isaac", playeridle, 1, 10, false);
-	ANIMATION->addAnimation("playerrightbody", "mulliganbody", 10, 19, 10, false, true);
-	ANIMATION->addAnimation("playerleftbody", "mulliganbody", 20, 29, 10, false, true);
-	ANIMATION->addAnimation("playerupbody", "mulliganbody", 0, 9, 10, false, true);
-	ANIMATION->addAnimation("playerdownbody", "mulliganbody", 0, 9, 10, false, true);
+	ANIMATION->addAnimation("playerrightbody", "playerbody", 10, 19, 10, false, true);
+	ANIMATION->addAnimation("playerleftbody", "playerbody", 20, 29, 10, false, true);
+	ANIMATION->addAnimation("playerupbody", "playerbody", 0, 9, 10, false, true);
+	ANIMATION->addAnimation("playerdownbody", "playerbody", 0, 9, 10, false, true);
 	int mulliganidle[] = { 0 };
-	ANIMATION->addAnimation("playeridlebody", "mulliganbody", mulliganidle, 1, 10, false);
+	ANIMATION->addAnimation("playeridlebody", "playerbody", mulliganidle, 1, 10, false);
 	IMAGE->addImage("shadow", "images/shadow.bmp", 10, 10, true, RGB(255, 0, 255));
 
 	int playerDie[] = { 3 };

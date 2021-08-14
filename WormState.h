@@ -2,6 +2,7 @@
 #include"CState.h"
 class enemyManager;
 //worm state
+class CPlayer;
 class Worm_idle : public CState
 {
 private:

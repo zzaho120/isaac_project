@@ -2,7 +2,7 @@
 #include"CState.h"
 class BulletManager;
 class enemyManager;
-
+class CPlayer;
 class Hopper_Idle : public CState
 {
 private:

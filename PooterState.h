@@ -2,7 +2,7 @@
 #include"CState.h"
 class BulletManager;
 class enemyManager;
-
+class CPlayer;
 class Fly_Idle : public CState
 {
 	int count;

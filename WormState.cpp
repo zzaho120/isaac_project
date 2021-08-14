@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "WormState.h"
 #include "enemyManager.h"
-
+#include "CPlayer.h"
 
 //지렁이 대기
 //=============================================대기상태=========================================================
@@ -26,12 +26,9 @@ void Worm_idle::Enter()
 void Worm_idle::update()
 {
 	Move();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
 	atk_count++;
 
-	if (Inrange(300, _pt) && Crossrange(50, _pt) && atk_count > 400)
+	if (Inrange(300, ENEMY->GetPlayer()->getPt()) && Crossrange(50, ENEMY->GetPlayer()->getPt()) && atk_count > 400)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -173,12 +170,10 @@ void Worm_trace::Enter()
 
 void Worm_trace::update()
 {
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
+	
 	if (foward == 0)
 	{
-		setfoward(50, _pt);
+		setfoward(50, ENEMY->GetPlayer()->getPt());
 	}
 	Move();
 

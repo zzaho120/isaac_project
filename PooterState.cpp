@@ -2,6 +2,7 @@
 #include "PooterState.h"
 #include "BulletManager.h"
 #include "enemyManager.h"
+#include "CPlayer.h"
 //=============================================대기상태=========================================================
 Fly_Idle::Fly_Idle()
 {
@@ -28,12 +29,9 @@ void Fly_Idle::Enter()
 }
 void Fly_Idle::update()
 {
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
 	atkcount++;
 	Move();
-	if (inrange(200, _pt))
+	if (inrange(200, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::ATTACK);
 	}
@@ -129,21 +127,17 @@ void Fly_Atk::Enter()
 
 void Fly_Atk::update()
 {
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-
 	CCharacter* pMon = m_pFSM->GetMon();
 	if (count == 0)
 	{
-		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
+		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 		speed = 5;
 		fire = pMon->getPt();
 		shadowDistance = 20;
 		distance = 200;
 
 		BULLET->fire(angle, speed, fire, shadowDistance, 30, CHARACTER::MONSTER, 10);
-		if (isleft(_pt.x))
+		if (isleft(ENEMY->GetPlayer()->getPt().x))
 		{
 			pMon->setAni(ANIMATION->findAnimation("leftAtkfly"));
 			ANIMATION->start("leftAtkfly");
@@ -156,7 +150,7 @@ void Fly_Atk::update()
 	}
 	if (count == 65)
 	{
-		if (isleft(_pt.x))
+		if (isleft(ENEMY->GetPlayer()->getPt().x))
 		{
 			pMon->setAni(ANIMATION->findAnimation("leftfly"));
 			ANIMATION->start("leftfly");

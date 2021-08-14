@@ -2,7 +2,7 @@
 #include "MulliganState.h"
 #include "BulletManager.h"
 #include "enemyManager.h"
-
+#include "CPlayer.h"
 
 //=============================================대기상태=========================================================
 
@@ -26,17 +26,13 @@ void Mulligan_Idle::Enter()
 void Mulligan_Idle::update()
 {
 	CCharacter* pMon = m_pFSM->GetMon();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-
 	Move();
 
 	if (count > 200)
 	{
 		//m_pFSM->ChangeState(STATE_TYPE::DEAD);
 	}
-	if (Inrange(300, _pt))
+	if (Inrange(300, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -181,18 +177,15 @@ void Mulligan_Trace::Enter()
 void Mulligan_Trace::update()
 {
 	CObject* pMon = m_pFSM->GetMon();
-	vector2 _pt;
-	_pt.x = m_ptMouse.x;
-	_pt.y = m_ptMouse.y;
-
-	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, _pt.x, _pt.y);
+	
+	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 	
 
-	if (foward != isleft(_pt) )
+	if (foward != isleft(ENEMY->GetPlayer()->getPt()) )
 	{
 		changefoward = true;
 	}
-	if (isleft(_pt))
+	if (isleft(ENEMY->GetPlayer()->getPt()))
 	{
 		if (changefoward)
 		{
@@ -215,8 +208,8 @@ void Mulligan_Trace::update()
 		}
 	}
 	Move_run();
-	foward = isleft(_pt);
-	if (!Inrange(300,_pt))
+	foward = isleft(ENEMY->GetPlayer()->getPt());
+	if (!Inrange(300,ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}

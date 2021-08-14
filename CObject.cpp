@@ -25,11 +25,17 @@ HRESULT CObject::init()
 	return S_OK;
 }
 
-HRESULT CObject::init(vector2 _pt, RECT _rc, float _shadowdistance)
+HRESULT CObject::init(vector2 _pt, RECT _rc, vector2 _objectPt, vector2 _objectSize, float _shadowdistance, vector2 _objectShadowPt, vector2 _objectShadowSize)
 {
 	pt = _pt;
 	rc = _rc;
 	shadowdistance = _shadowdistance;
+	collider = new CCollider;
+	colliderShadow = new CCollider;
+	collider->setPos(_objectPt);
+	collider->setSize(_objectSize);
+	colliderShadow->setPos(_objectShadowPt);
+	colliderShadow->setSize(_objectShadowSize);
 	return S_OK;
 }
 

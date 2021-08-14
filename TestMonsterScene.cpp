@@ -30,7 +30,6 @@ HRESULT TestMonsterScene::init(const char* fileName)
 {
     _map->init(fileName);
     _player->init();
-
     tagTile* tile = _map->getMap();
     for (int i = 0; i < TILEX * TILEY; i++)
     {
@@ -49,11 +48,12 @@ void TestMonsterScene::update()
 {
     _player->update();
     bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
+    ENEMY->SetPlayer(_player);
     for (int i = 0; i < ENEMY->getvmonster().size(); i++)
     {
         bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-        bool isprm = COLLISION->isCollision(_player->getRC(), (*ENEMY->getvimonster(i))->getRC());
-        if(ispcm && playerIdle && isprm)
+        bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
+        if(ispcm && playerIdle && ispsm)
         {
             //ENEMY->eraserEnemy(i);
             _player->sethp(_player->gethp() - 1);
@@ -66,7 +66,7 @@ void TestMonsterScene::update()
         for (int j = 0; j < BULLET->getvBullet().size(); j++)
         {
             bool ispbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-            bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->getRC(), (*ENEMY->getvimonster(i))->getRC());
+            bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
             bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
             if(ispbcm && ispbrm && ispB) 
             { 
@@ -79,9 +79,9 @@ void TestMonsterScene::update()
     for (int i = 0; i < BULLET->getvBullet().size(); i++)
     {
         bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
-        bool ismbrp = COLLISION->isCollision((*BULLET->getviBullet(i))->getRC(), _player->getRC());
+        bool ismbsp = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), _player->GetcolliderShadow());
         bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
-        if (ismbcp && ismbrp && ismB && playerIdle)
+        if (ismbcp && ismbsp && ismB && playerIdle)
         {
             BULLET->eraserBullet(i);
             _player->sethp(_player->gethp() - 1);

@@ -14,11 +14,13 @@ CBullet::CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed, float _distanc
 CBullet::~CBullet()
 { }
 
-HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, int size)
+HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size)
 {
     CObject::init(_pt,
         RectMakeCenter(_pt.x, _pt.y, size, size),
-       _height);
+        _pt, { size,size },
+       _height
+        , shadowPt, { size,size });
     firePt = _pt;
     angle = _angle;
     speed = _speed;
@@ -38,6 +40,16 @@ HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, fl
 
     collider = new CCollider(colliderpt, collidersize);
 
+    if (type == CHARACTER::PLAYER)
+    {
+        IMAGE->addFrameImage("playerbullet", "images/bullets.bmp", BULLETSIZE * 8, BULLETSIZE * 4, 9, 4, true, RGB(255, 0, 255));
+        ANIMATION->addAnimation("playerbulletrender", "playerbullet", 17, 31, 30, false, false);
+        
+        setAni(ANIMATION->findAnimation("playerbulletrender"));
+        ani->start();
+    }
+
+
     return S_OK;
 }
 
@@ -52,8 +64,19 @@ void CBullet::update()
 
 void CBullet::render()
 {
-    Rectangle(getMemDC(), shadow.left, shadow.top, shadow.right, shadow.bottom);
-    Rectangle(getMemDC(), getRC().left, getRC().top, getRC().right, getRC().bottom);
+    Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+        collider->getPos().y - collider->getSize().y / 2,
+        collider->getPos().x + collider->getSize().x / 2,
+        collider->getPos().y + collider->getSize().y / 2);
+    Rectangle(getMemDC(), colliderShadow->getPos().x - colliderShadow->getSize().x / 2,
+        colliderShadow->getPos().y - colliderShadow->getSize().y / 2,
+        colliderShadow->getPos().x + colliderShadow->getSize().x / 2,
+        colliderShadow->getPos().y + colliderShadow->getSize().y / 2);
+    if (type == CHARACTER::PLAYER)
+    {
+        IMAGE->findImage("playerbullet")->aniRender(getMemDC(), getRC().left, getRC().top, ani);
+    }
+    
     /*RECT rec = RectMakeCenter(collider->getPos(), 50, 50);
     Rectangle(getMemDC(), rec.left, rec.top, rec.right, rec.bottom);*/
 }
@@ -70,5 +93,6 @@ void CBullet::move()
     shadowPt.y -= sinf(angle) * speed;
     rc = RectMakeCenter(pt, BULLETSIZE, BULLETSIZE);
     shadow = RectMakeCenter(shadowPt, BULLETSIZE, BULLETSIZE);
-    collider->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+    colliderShadow->setPos({ RectX(shadow), RectY(shadow) });
+    collider->setPos({ RectX(rc), RectY(rc)});
 }
