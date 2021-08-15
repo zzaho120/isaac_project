@@ -9,7 +9,7 @@ void CStage::update()
 {
 	player->update();
 
-	for (int i = 0; i < ITEM->getItem().size(); i++)
+	/*for (int i = 0; i < ITEM->getItem().size(); i++)
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
 		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
@@ -30,7 +30,7 @@ void CStage::update()
 			}
 			break;
 		}
-	}
+	}*/
 	//if (InputManager->isStayKeyDown('Y'))
 	//{
 	//	testPt.y -= 3;
@@ -79,7 +79,7 @@ void CStage::render()
 	}
 	for (int i = 0; i < map->getvObstacle().size(); i++)
 	{
-		bool isTrue = (map->getvObstacle()[i]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE;
+		bool isTrue = map->getvObstacle()[i]->getUnmovalbe();
 		if (isTrue)
 		{
 			wsprintf(str, "O");

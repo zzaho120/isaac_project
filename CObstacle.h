@@ -5,8 +5,11 @@ class CObstacle : public CObject
 private:
 	OBJECT objType;
 	int strength;
-	DWORD attribute;
 	Vec2 frame;
+	
+	bool isUnmovable;
+	bool isDestroyByBomb;
+	bool isDestroyByBullet;
 
 	int test;
 public:
@@ -20,7 +23,11 @@ public:
 	virtual void render();
 
 	void setObjectValue();
-	DWORD getAttribute() { return attribute; }
+
+	bool getUnmovalbe() { return isUnmovable; }
+	bool getDestroyBomb() { return isDestroyByBomb; }
+	bool getDestroyBullet() { return isDestroyByBullet; }
+
 	Vec2 getFrame() { return frame; }
 	int gettest() { return test; }
 };

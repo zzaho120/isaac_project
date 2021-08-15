@@ -118,12 +118,12 @@ void RandomMapGenerator::roomSetting()
 	for (int i = 0; i < 100; i++)
 	{
 		if (floorplan[i])
-			map[i].setRoomAttr(ATTR_ROOM_NONCHECK);
+			map[i].setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
 		else if (!floorplan[i])
-			map[i].setRoomAttr(ATTR_ROOM_NONEROOM);
+			map[i].setRoomAttr(ROOM_TYPE_ATTR::NONEROOM);
 
-		map[bossRoomNum].setMarkAttr(ATTR_ROOM_BOSS);
-		map[shopRoomNum].setMarkAttr(ATTR_ROOM_SHOP);
-		map[rewardRoomNum].setMarkAttr(ATTR_ROOM_REWARD);
+		map[bossRoomNum].setMarkAttr(ROOM_MARK_ATTR::BOSS);
+		map[shopRoomNum].setMarkAttr(ROOM_MARK_ATTR::SHOP);
+		map[rewardRoomNum].setMarkAttr(ROOM_MARK_ATTR::REWARD);
 	}
 }

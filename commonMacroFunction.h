@@ -176,6 +176,29 @@ const int MINIMAPSIZEY = 300;
 const int MINIMAPROOMX = 25;
 const int MINIMAPROOMY = 25;
 
+enum class TILE_ATTR
+{
+	UNMOVABLE,
+	ONLYBULLET,
+	ONLYBOMB
+};
+
+enum class ROOM_TYPE_ATTR
+{
+	NONEROOM,
+	CURROOM,
+	NONCHECK,
+	VISITROOM
+};
+
+enum class ROOM_MARK_ATTR
+{
+	NONEMARK,
+	BOSS,
+	SHOP,
+	REWARD,
+	SECRET
+};
 
 #define ATTR_UNMOVABLE		0x00000001
 #define ATTR_ONLYBOMB		0x00000002
@@ -313,7 +336,8 @@ struct tagMinimap
 {
 	RECT rc;
 	Vec2 pt;
-	DWORD attribute[2];
+	ROOM_TYPE_ATTR roomAttr;
+	ROOM_MARK_ATTR markAttr;
 };
 // ============================================= MapInfo ===================================================
 // ============================================= MapInfo ===================================================

@@ -8,7 +8,9 @@ private:
 	tagRoom room;
 	vector<CObstacle*> vObstacle;
 	vector<CObstacle*>::iterator viObstacle;
-	DWORD attribute[2];
+
+	ROOM_TYPE_ATTR roomAttr;
+	ROOM_MARK_ATTR markAttr;
 public:
 	CMap();
 	CMap(const char* fileName);
@@ -25,11 +27,11 @@ public:
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
 	
-	DWORD getRoomAttr() { return attribute[(UINT)MINIMAP_ATTR::ROOM]; }
-	void setRoomAttr(DWORD attr) { attribute[(UINT)MINIMAP_ATTR::ROOM] = attr; }
+	ROOM_TYPE_ATTR getRoomAttr() { return roomAttr; }
+	void setRoomAttr(ROOM_TYPE_ATTR attr) { roomAttr = attr; }
 
-	DWORD getMarkAttr() { return attribute[(UINT)MINIMAP_ATTR::MARK]; }
-	void setMarkAttr(DWORD attr) { attribute[(UINT)MINIMAP_ATTR::MARK] = attr; }
+	ROOM_MARK_ATTR getMarkAttr() { return markAttr; }
+	void setMarkAttr(ROOM_MARK_ATTR attr) { markAttr = attr; }
 
 	vector<CObstacle*> getvObstacle() { return vObstacle; }
 	vector<CObstacle*>::iterator getviObstacle(int number);

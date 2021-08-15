@@ -260,7 +260,7 @@ vector2 collisionManager::tileCollision(CMap* _map, CCollider* _collider, int _f
 	for (int i = 0; i < 3; i++)
 	{
 		if (IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc)
-			&&(_map->getvObstacle()[testIndex[i]]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE)
+			&&(_map->getvObstacle()[testIndex[i]]->getUnmovalbe()))
 		{
 			switch (_foward)
 			{
@@ -430,7 +430,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, int _foward)
 	{
 		isBump = isCollision(rc, _map->getTile()[testIndex[i]].rcTile);
 		//isBump = IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc);
-		cant = (_map->getvObstacle()[testIndex[i]]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE;
+		cant = _map->getvObstacle()[testIndex[i]]->getUnmovalbe();
 
 		if (isBump && testIndex[i] % 10 ==0)
 		{
@@ -623,7 +623,7 @@ RECT collisionManager::reRectTileCollision(CMap* _map, vector2 _pt, int _foward)
 	for (int i = 0; i < 4; i++)
 	{
 		isBump = IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc);
-		cant = (_map->getvObstacle()[testIndex[i]]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE;
+		cant = _map->getvObstacle()[testIndex[i]]->getUnmovalbe();
 
 		if (isBump && cant)
 		{

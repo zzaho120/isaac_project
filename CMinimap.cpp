@@ -26,16 +26,16 @@ CMinimap::CMinimap()
 			
 			for (int i = 0; i < 100; i++)
 			{
-				if(i == 45) map[i].attribute[(UINT)MINIMAP_ATTR::ROOM] = ATTR_ROOM_CURROOM;
-				else if ((rnd->getRNDGenMap()[i].getRoomAttr() & ATTR_ROOM_NONCHECK) == ATTR_ROOM_NONCHECK)
-					map[i].attribute[(UINT)MINIMAP_ATTR::ROOM] = ATTR_ROOM_NONCHECK;
+				if (i == 45) map[i].roomAttr = ROOM_TYPE_ATTR::CURROOM;
+				else if (rnd->getRNDGenMap()[i].getRoomAttr() == ROOM_TYPE_ATTR::NONCHECK)
+					map[i].roomAttr = ROOM_TYPE_ATTR::NONCHECK;
 
-				if((rnd->getRNDGenMap()[i].getMarkAttr() & ATTR_ROOM_BOSS) == ATTR_ROOM_BOSS)
-					map[i].attribute[(UINT)MINIMAP_ATTR::MARK] = ATTR_ROOM_BOSS;
-				if ((rnd->getRNDGenMap()[i].getMarkAttr() & ATTR_ROOM_SHOP) == ATTR_ROOM_SHOP)
-					map[i].attribute[(UINT)MINIMAP_ATTR::MARK] = ATTR_ROOM_SHOP;
-				if ((rnd->getRNDGenMap()[i].getMarkAttr() & ATTR_ROOM_REWARD) == ATTR_ROOM_REWARD)
-					map[i].attribute[(UINT)MINIMAP_ATTR::MARK] = ATTR_ROOM_REWARD;
+				if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::BOSS)
+					map[i].markAttr = ROOM_MARK_ATTR::BOSS;
+				if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::SHOP)
+					map[i].markAttr = ROOM_MARK_ATTR::SHOP;
+				if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::REWARD)
+					map[i].markAttr = ROOM_MARK_ATTR::REWARD;
 			}
 			/*int rndnum = RND->getInt(10);
 			if(rndnum > 5)
@@ -76,21 +76,21 @@ void CMinimap::render()
 	for (int i = 0; i < 100; i++)
 	{
 		frameX = -1;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::ROOM] & ATTR_ROOM_CURROOM) == ATTR_ROOM_CURROOM)
+		if (map[i].roomAttr == ROOM_TYPE_ATTR::CURROOM)
 			frameX = 1;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::ROOM] & ATTR_ROOM_NONCHECK) == ATTR_ROOM_NONCHECK)
+		if (map[i].roomAttr == ROOM_TYPE_ATTR::NONCHECK)
 			frameX = 0;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::ROOM] & ATTR_ROOM_VISITROOM) == ATTR_ROOM_VISITROOM)
+		if (map[i].roomAttr == ROOM_TYPE_ATTR::VISITROOM)
 			frameX = 2;
 		IMAGE->frameRender("minimapRoom", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0);
 		frameX = -1;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::MARK] & ATTR_ROOM_NONEMARK) == ATTR_ROOM_NONEMARK)
+		if (map[i].markAttr == ROOM_MARK_ATTR::NONEMARK)
 			frameX = 0;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::MARK] & ATTR_ROOM_BOSS) == ATTR_ROOM_BOSS)
+		if (map[i].markAttr == ROOM_MARK_ATTR::BOSS)
 			frameX = 1;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::MARK] & ATTR_ROOM_REWARD) == ATTR_ROOM_REWARD)
+		if (map[i].markAttr == ROOM_MARK_ATTR::REWARD)
 			frameX = 2;
-		if ((map[i].attribute[(UINT)MINIMAP_ATTR::MARK] & ATTR_ROOM_SHOP) == ATTR_ROOM_SHOP)
+		if (map[i].markAttr == ROOM_MARK_ATTR::SHOP)
 			frameX = 3;
 		IMAGE->frameRender("minimapMark", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0);
 	}
