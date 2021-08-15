@@ -123,16 +123,47 @@ int RandomMapGenerator::popRandomEndRoom()
 
 void RandomMapGenerator::roomSetting()
 {
-	for (int i = 0; i < 100; i++)
+	for (int roomNum = 0; roomNum < 100; roomNum++)
 	{
-		if (floorplan[i])
-			map[i].setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
-		else if (!floorplan[i])
-			map[i].setRoomAttr(ROOM_TYPE_ATTR::NONEROOM);
+		if (floorplan[roomNum])
+		{
+			map[roomNum].setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
+			map[roomNum].setRoomType(ROOM::ROOM_NORMAL);
+		}
+		else if (!floorplan[roomNum])
+		{
+			map[roomNum].setRoomAttr(ROOM_TYPE_ATTR::NONEROOM);
+			map[roomNum].setRoomType(ROOM::ROOM_NONE);
+		}
 
 		map[bossRoomNum].setMarkAttr(ROOM_MARK_ATTR::BOSS);
 		map[shopRoomNum].setMarkAttr(ROOM_MARK_ATTR::SHOP);
 		map[rewardRoomNum].setMarkAttr(ROOM_MARK_ATTR::REWARD);
+	}
+
+	for (int roomNum = 0; roomNum < 100; roomNum++)
+	{
+		int roomLine = roomNum % 15;
+		if (roomNum - 15 >= 0)
+		{
+			if (map[roomNum - 15].getRoomType() == ROOM::ROOM_NORMAL)
+				map[roomNum].doorSetting(DOOR_DIRECTION::TOP);
+		}
+		if (roomLine > 0)
+		{
+			if (map[roomNum - 1].getRoomType() == ROOM::ROOM_NORMAL)
+				map[roomNum].doorSetting(DOOR_DIRECTION::LEFT);
+		}
+		if (roomLine < 14)
+		{
+			if (map[roomNum + 1].getRoomType() == ROOM::ROOM_NORMAL)
+				map[roomNum].doorSetting(DOOR_DIRECTION::RIGHT);
+		}
+		if (roomNum + 15 <= 134)
+		{
+			if (map[roomNum - 1].getRoomType() == ROOM::ROOM_NORMAL)
+				map[roomNum].doorSetting(DOOR_DIRECTION::BOTTOM);
+		}
 	}
 }
 

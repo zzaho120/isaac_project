@@ -34,7 +34,7 @@ void mainGame::update()
 
 void mainGame::render(/*HDC hdc*/)
 {
-	PatBlt(getMemDC(), 0, 0, MAPSIZEX, MAPSIZEY, WHITENESS);
+	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//==============================================
 	gameNode::render();
 	//==============================================

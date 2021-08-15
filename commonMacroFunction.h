@@ -154,8 +154,8 @@ const int MONSTERTILEY = 1;
 const int ROOMTILEX = 3;
 const int ROOMTILEY = 1;
 
-const int MAPSIZEX = 1024 - 15;
-const int MAPSIZEY = 768 - 39;
+const int MAPSIZEX = /*1009*/ 50;
+const int MAPSIZEY = /*729*/ 50;
 
 const int MAPSTARTX = 52;
 const int MAPSTARTY = 52;
@@ -224,6 +224,7 @@ enum class OBJECT
 
 enum class ROOM
 {
+	ROOM_NONE,
 	ROOM_NORMAL,
 	ROOM_BOSS,
 	ROOM_SHOP,
@@ -283,6 +284,14 @@ enum FOWARD
 	LEFTDOWN,
 	RIGHTDOWN,
 	NONE
+};
+
+enum class DOOR_DIRECTION
+{
+	TOP,
+	LEFT,
+	RIGHT,
+	BOTTOM
 };
 
 struct tagTile

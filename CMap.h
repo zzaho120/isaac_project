@@ -14,6 +14,7 @@ private:
 public:
 	CMap();
 	CMap(const char* fileName);
+	CMap(CMap& map);
 	~CMap();
 
 	virtual HRESULT init();
@@ -21,9 +22,11 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+	virtual void render(int destX, int destY);
 
 	void load(const char* fileName);
 	void tileSet();
+	void doorSetting(DOOR_DIRECTION direction);
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
 	
@@ -35,6 +38,8 @@ public:
 
 	vector<CObstacle*> getvObstacle() { return vObstacle; }
 	vector<CObstacle*>::iterator getviObstacle(int number);
+
 	tagTile* getTile() { return room.tile; }
 	ROOM getRoomType() { return room.roomType; }
+	void setRoomType(ROOM type) { room.roomType = type; }
 };

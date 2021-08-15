@@ -10,7 +10,7 @@
 void CStage::update()
 {
 	//player->update();
-	if (RectX(rect) < 0 && minimap->getMinimap()[curRoomIdx - 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
+	/*if (RectX(rect) < 0 && minimap->getMinimap()[curRoomIdx - 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
 		changeRoom(curRoomIdx - 1);
 		rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
@@ -30,7 +30,7 @@ void CStage::update()
 	{
 		changeRoom(curRoomIdx + 10);
 		rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
-	}
+	}*/
 
 	if (InputManager->isStayKeyDown(VK_LEFT)) OffsetRect(&rect, -5, 0);
 	if (InputManager->isStayKeyDown(VK_RIGHT)) OffsetRect(&rect, 5, 0);
@@ -42,8 +42,16 @@ void CStage::update()
 
 void CStage::render()
 {
-	curRoom->render();
+	//curRoom->render();
 	//player->render();
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (room[i * 10 + j]->getRoomType() == ROOM::ROOM_NORMAL)
+				room[i * 10 + j]->render(j, i);
+		}
+	}
 	minimap->render();
 	Rectangle(getMemDC(), rect.left, rect.top, rect.right, rect.bottom);
 
@@ -90,14 +98,11 @@ void CStage::randomMapSetting()
 {
 	for (int i = 0; i < 100; i++)
 	{
-		if (rnd->getRNDGenMap()->getRoomType() != ROOM::ROOM_NORMAL) continue;
-
 		room[i] = new CMap(rnd->getRNDGenMap()[i]);
 	}
 
 	curRoomIdx = 45;
 	curRoom = room[curRoomIdx];
-
 }
 
 void CStage::changeRoom(int roomNum)
