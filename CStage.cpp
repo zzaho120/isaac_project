@@ -63,33 +63,6 @@ void CStage::render()
 {
 	
 	map->render();
-	TCHAR str[128];
-	for (int i = 0; i < TILEY; i++)
-	{
-		for (int j = 0; j < TILEX; j++)
-		{
-			wsprintf(str, "%d", i * TILEX + j);
-			TextOut(getMemDC(), map->getTile()[i * TILEX + j].pt.x, map->getTile()[i * TILEX + j].pt.y, str, strlen(str));
-		}
-	}
-	
-	/*for (int i = 0; i < TILEY; i++)
-	{
-		for (int j = 0; j < TILEX; j++)
-		{
-			Rectangle(getMemDC(), map->getTile()[i * TILEX + j].rcTile.left,
-				map->getTile()[i * TILEX + j].rcTile.top,
-				map->getTile()[i * TILEX + j].rcTile.right,
-				map->getTile()[i * TILEX + j].rcTile.bottom);
-		}
-	}*/
-	for (int i = 0; i < map->getvObstacle().size(); i++)
-	{
-		bool deb = (map->getvObstacle()[i]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE;
-		wsprintf(str, "%d", (map->getvObstacle()[i]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE);
-		TextOut(getMemDC(), map->getvObstacle()[i]->getPt().x, map->getvObstacle()[i]->getPt().y + 20, str, strlen(str));
-	}
-	
 	player->render();
 
 	// why obstacle size 108??
@@ -101,7 +74,7 @@ void CStage::render()
 		for (int j = 0; j < TILEX; j++)
 		{
 			wsprintf(str, "%d", i * TILEX + j);
-			TextOut(getMemDC(), map->getMap()[i * TILEX + j].pt.x, map->getMap()[i * TILEX + j].pt.y, str, strlen(str));
+			TextOut(getMemDC(), map->getTile()[i * TILEX + j].pt.x, map->getTile()[i * TILEX + j].pt.y, str, strlen(str));
 		}
 	}
 	for (int i = 0; i < map->getvObstacle().size(); i++)
@@ -123,10 +96,10 @@ void CStage::render()
 	{
 		for (int j = 0; j < TILEX; j++)
 		{
-			Rectangle(getMemDC(), map->getMap()[i * TILEX + j].rcTile.left,
-				map->getMap()[i * TILEX + j].rcTile.top,
-				map->getMap()[i * TILEX + j].rcTile.right,
-				map->getMap()[i * TILEX + j].rcTile.bottom);
+			Rectangle(getMemDC(), map->getTile()[i * TILEX + j].rcTile.left,
+				map->getTile()[i * TILEX + j].rcTile.top,
+				map->getTile()[i * TILEX + j].rcTile.right,
+				map->getTile()[i * TILEX + j].rcTile.bottom);
 		}
 	}
 

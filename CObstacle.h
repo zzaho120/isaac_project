@@ -22,8 +22,6 @@ public:
 	void setObjectValue();
 	DWORD getAttribute() { return attribute; }
 	Vec2 getFrame() { return frame; }
-
-	DWORD getAttribute() { return attribute; }
 	int gettest() { return test; }
 };
 
