@@ -24,8 +24,6 @@ public:
 	void tileSet();
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
-
-	tagTile* getMap() { return room.tile; }
 	
 	DWORD getRoomAttr() { return attribute[(UINT)MINIMAP_ATTR::ROOM]; }
 	void setRoomAttr(DWORD attr) { attribute[(UINT)MINIMAP_ATTR::ROOM] = attr; }
@@ -34,9 +32,6 @@ public:
 	void setMarkAttr(DWORD attr) { attribute[(UINT)MINIMAP_ATTR::MARK] = attr; }
 
 	vector<CObstacle*> getvObstacle() { return vObstacle; }
-	vector<CObstacle*>::iterator CMap::GetviObstacle(int number)
-	{
-		viObstacle = vObstacle.begin() + number;
-		return viObstacle;
-	}
+	vector<CObstacle*>::iterator getviObstacle(int number);
+	tagTile* getTile() { return room.tile; }
 };

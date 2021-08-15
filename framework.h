@@ -41,6 +41,7 @@
 #include"collisionManager.h"
 #include"bulletManager.h"
 #include"enemyManager.h"
+#include "itemManager.h"
 #include"stageManager.h"
 #include"AniAddList.h"
 //==========================================
@@ -69,6 +70,7 @@
 #define BULLET			BulletManager::getSingleton()
 #define ENEMY			enemyManager::getSingleton()
 #define STAGE			stageManager::getSingleton()
+#define ITEM			itemManager::getSingleton()
 //==========================================
 //			메인게임 릴리즈에서 사용
 //==========================================

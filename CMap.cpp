@@ -95,7 +95,7 @@ void CMap::tileSet()
                 CObstacle* tempObstacle = new CObstacle(room.tile[i * TILEX + j].pt, 
                     RectMakeCenter(room.tile[i * TILEX + j].pt, TILEWIDTH, TILEHEIGHT), 
                     room.tile[i * TILEX + j].obj);
-
+                
                 vObstacle.push_back(tempObstacle);
             }
         }
@@ -105,4 +105,10 @@ void CMap::tileSet()
 void CMap::setMonster(MONSTER_TYPE type, vector2 pt)
 {
     ENEMY->respawnMinion(type, pt);
+}
+
+vector<CObstacle*>::iterator CMap::getviObstacle(int number)
+{
+    viObstacle = vObstacle.begin() + number;
+    return viObstacle;
 }

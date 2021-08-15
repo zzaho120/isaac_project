@@ -41,6 +41,7 @@ HRESULT gameNode::init(bool managerInit)
 		SOUND->init();
 		SUBWIN->init();
 		ENEMY->init();
+		ITEM->init();
 		STAGE->init();
 	}
 	
@@ -107,6 +108,7 @@ void gameNode::update()
 	BULLET->update();
 	ANIMATION->update();
 	ENEMY->update();
+	ITEM->update();
 	EFFECT->update();
 	InvalidateRect(m_hWnd, NULL, false);
 }
@@ -123,6 +125,7 @@ void gameNode::render()
 	BULLET->render();
 	TIME->render(getMemDC());
 	ENEMY->render();
+	ITEM->render();
 	EFFECT->render();
 }
 

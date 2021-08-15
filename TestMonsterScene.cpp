@@ -3,6 +3,7 @@
 #include "CBullet.h"
 #include "CMonster.h"
 #include "CFSM.h"
+#include "CItem.h"
 HRESULT TestMonsterScene::init()
 {
     _player = new CPlayer;
@@ -11,7 +12,7 @@ HRESULT TestMonsterScene::init()
     _map->init();
     _player->init();
 
-    tagTile* tile = _map->getMap();
+    tagTile* tile = _map->getTile();
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         setMonster(tile[i].monster, tile[i].pt);
@@ -23,7 +24,7 @@ HRESULT TestMonsterScene::init(const char* fileName)
 {
     _map->init(fileName);
     _player->init();
-    tagTile* tile = _map->getMap();
+    tagTile* tile = _map->getTile();
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         setMonster(tile[i].monster, tile[i].pt);
@@ -79,6 +80,24 @@ void TestMonsterScene::update()
         {
             BULLET->eraserBullet(i);
             _player->sethp(_player->gethp() - 1);
+            break;
+        }
+    }
+    for (int i = 0; i < ITEM->getItem().size(); i++)
+    {
+        bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), _player->getcollider());
+        bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), _player->GetcolliderShadow());
+        if (isIbcp && isIbsp)
+        {
+            switch ((*ITEM->getviItem(i))->getItemType())
+            {
+            case ITEM_TYPE::ITEM_HEART:
+                _player->sethp(_player->gethp() + 2);
+                break;
+            default:
+                break;
+            }
+            ITEM->itemRemove(i);
             break;
         }
     }

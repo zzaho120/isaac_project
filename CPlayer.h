@@ -5,18 +5,6 @@ const int PLAYERHEIGHT = 65;
 const int PLAYERACCEL = 1;
 const int PLAYERFRICTION = 1;
 
-enum FOWARD
-{
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN,
-	LEFTTOP,
-	RIGHTTOP,
-	LEFTDOWN,
-	RIGHTDOWN
-};
-
 class CMap;
 class CPlayer : public CCharacter
 {
@@ -73,4 +61,7 @@ public:
 	void setAnimationbody();
 
 	void setRoomLink(CMap* _room) { room = _room; }
+
+	int GetFoward() { return playerfoward; }
+	bool isFullHp();
 };
