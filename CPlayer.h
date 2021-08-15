@@ -63,5 +63,21 @@ public:
 	void setRoomLink(CMap* _room) { room = _room; }
 
 	int GetFoward() { return playerfoward; }
+	int getMaxHp() { return maxHp; }
+
+	int getCoin() { return coin; }
+	int getBomb() { return bomb; }
+	int getKey() { return key; }
+
+	void setMaxHp(int _maxHp) {  maxHp = _maxHp; }
+	void setCoin(int _coin) {  coin = _coin; }
+	void setBomb(int _bomb) {  bomb = _bomb; }
+	void setKey(int _key) {  key = _key; }
+
+	void cantCoinOver() { if (coin >= 99)  coin = 99; }
+	void cantBombOver() { if (bomb >= 99)  bomb = 99; }
+	void cantKeyOver() { if (key >= 99)  key = 99; }
+
 	bool isFullHp();
+	void cantHpOver();
 };

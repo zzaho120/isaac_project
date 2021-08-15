@@ -32,4 +32,5 @@ public:
 	void sethp(int _hp) { hp = _hp; }
 
 	int GetFoward() { return foward; }
+
 };

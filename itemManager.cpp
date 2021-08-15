@@ -40,6 +40,9 @@ void itemManager::respawnItem(ITEM_TYPE type, vector2 pos)
     case ITEM_TYPE::ITEM_HEART:
         _item = new CHeart(pos);
         break;
+    case ITEM_TYPE::ITEM_COIN:
+        _item = new CCoin(pos);
+        break;
     default:
         break;
     }

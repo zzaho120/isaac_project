@@ -1,6 +1,6 @@
 #pragma once
 #include "gameNode.h"
-
+#include "CPlayerUI.h"
 class CMap;
 class CPlayer;
 class CStage : public gameNode
@@ -8,6 +8,7 @@ class CStage : public gameNode
 private:
 	CMap* map;
 	CPlayer* player;
+	CPlayerUI* playerUI;
 
 	vector2 testPt;
 	vector2 testPrevPt;
