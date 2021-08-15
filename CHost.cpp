@@ -38,6 +38,7 @@ void CHost::update()
 	AI_update();
 	collider->setPos({ RectX(rc), RectY(rc)});
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	foward = COLLISION->whereAreYouGoing(prevPt, colliderShadow->getPos());
 }
 
 void CHost::render()

@@ -165,6 +165,11 @@ const int SUBWINSIZEY = 520;
 
 const int ROOMMAXSIZE = 100;
 
+#define ATTR_MOVABLE 0x00000000
+#define ATTR_UNMOVABLE 0x00000001
+#define ATTR_ONLYBOMB 0x00000002
+#define ATTR_DAMAGE 0x00000003
+
 const int MINIMAPSIZEX = 300;
 const int MINIMAPSIZEY = 300;
 
@@ -222,7 +227,7 @@ enum class ROOM
 };
 
 // un-develop
-enum class ITEM
+enum class ITEM_TYPE
 {
 	ITEM_BOMB,
 	ITEM_KEY,
@@ -263,6 +268,18 @@ enum class MINIMAP_ATTR
 	MARK
 };
 
+enum FOWARD
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	LEFTTOP,
+	RIGHTTOP,
+	LEFTDOWN,
+	RIGHTDOWN,
+	NONE
+};
 
 struct tagTile
 {

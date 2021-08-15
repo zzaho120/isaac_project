@@ -117,6 +117,8 @@
     </Filter>
     <Filter Include="Class\Object\UI\Minimap">
       <UniqueIdentifier>{d0923157-3d5d-46e9-b3cc-6a9243c28afe}</UniqueIdentifier>
+    <Filter Include="Class\Object\Item">
+      <UniqueIdentifier>{f1b7a51b-02f9-439d-b68a-c723d7772307}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +319,11 @@
     </ClInclude>
     <ClInclude Include="RandomMapGenerator.h">
       <Filter>Class\Map</Filter>
+    <ClInclude Include="CItem.h">
+      <Filter>Class\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>Class\Object\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -493,6 +500,11 @@
     </ClCompile>
     <ClCompile Include="RandomMapGenerator.cpp">
       <Filter>Class\Map</Filter>
+    <ClCompile Include="CItem.cpp">
+      <Filter>Class\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>Class\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
