@@ -111,3 +111,4 @@ STATE_TYPE CCharacter::getstate()
 	STATE_TYPE st = m_pAI->getState()->GetStateType();
 	return st;
 }
+

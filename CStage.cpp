@@ -22,6 +22,16 @@ void CStage::update()
 				else
 				{
 					player->sethp(player->gethp() + 2);
+					player->cantHpOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE ::ITEM_COIN:
+				if (player->getCoin() >= 99) { break; }
+				else
+				{
+					player->setCoin(player->getCoin() + 1);
+					player->cantCoinOver();
 					ITEM->itemRemove(i);
 					break;
 				}
@@ -64,7 +74,7 @@ void CStage::render()
 	
 	map->render();
 	player->render();
-
+	playerUI->render(player);
 	// why obstacle size 108??
 	int num = 0;
 	int size = 0;
@@ -113,6 +123,7 @@ void CStage::enter()
 {
 	player = new CPlayer;
 	map = new CMap("save/test.map");
+	playerUI = new CPlayerUI;
 
 	map->init();
 	player->init();
@@ -131,6 +142,8 @@ void CStage::enter()
 	//testSize = { 30, 30 };
 	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
 	//testFoward = 0;
+	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
 }
 
 void CStage::exit()

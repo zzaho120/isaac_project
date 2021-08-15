@@ -121,6 +121,9 @@
     <Filter Include="Class\Object\Item">
       <UniqueIdentifier>{f1b7a51b-02f9-439d-b68a-c723d7772307}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{9f8524fb-6e4b-4bd6-a9a8-bfb77670b1c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -327,6 +330,9 @@
     <ClInclude Include="itemManager.h">
       <Filter>Class\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerUI.h">
+      <Filter>Class\Object\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -508,6 +514,9 @@
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>Class\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerUI.cpp">
+      <Filter>Class\Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

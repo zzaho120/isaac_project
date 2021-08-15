@@ -28,6 +28,19 @@ public:
 	//virtual void update();
 	virtual void render();
 };
+class CCoin : public CItem
+{
+private:
+public:
+	CCoin();
+	CCoin(vector2 _pt);
+	~CCoin();
+
+	virtual HRESULT init();
+	virtual void release();
+	//virtual void update();
+	virtual void render();
+};
 
 class CBomb : public CItem
 {
