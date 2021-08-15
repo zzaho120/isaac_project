@@ -82,14 +82,15 @@ void CStage::render()
 		bool isTrue = map->getvObstacle()[i]->getUnmovalbe();
 		if (isTrue)
 		{
-			wsprintf(str, "O");
+			wsprintf(str, "O   %d", (UINT)map->getTile()[i].obj);
 			TextOut(getMemDC(), map->getvObstacle()[i]->getPt().x, map->getvObstacle()[i]->getPt().y + 20, str, strlen(str));
 			num++;
 		}
 		size++;
 	}
 	wsprintf(str, "%d %d %d", num, size, map->getvObstacle().size());
-	TextOut(getMemDC(), 100, 100, str, strlen(str));
+	TextOut(getMemDC(), 200, 70, str, strlen(str));
+
 	HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	HBRUSH oldBrush = (HBRUSH)SelectObject(getMemDC(), myBrush);
 	for (int i = 0; i < TILEY; i++)
@@ -114,7 +115,6 @@ void CStage::enter()
 	player = new CPlayer;
 	map = new CMap("save/test.map");
 
-	map->init();
 	player->init();
 	
 	tagTile* tile = map->getTile();

@@ -89,16 +89,16 @@ void CMap::tileSet()
 
             room.tile[i * TILEX + j].pt.x = RectX(room.tile[i * TILEX + j].rcTile);
             room.tile[i * TILEX + j].pt.y = RectY(room.tile[i * TILEX + j].rcTile);
-
-            if (room.tile[i * TILEX + j].obj != OBJECT::OBJ_NONE)
-            {
-                CObstacle* tempObstacle = new CObstacle(room.tile[i * TILEX + j].pt, 
-                    RectMakeCenter(room.tile[i * TILEX + j].pt, TILEWIDTH, TILEHEIGHT), 
-                    room.tile[i * TILEX + j].obj);
-                
-                vObstacle.push_back(tempObstacle);
-            }
         }
+    }
+
+    for (int i = 0; i < TILEX * TILEY; i++)
+    {
+        CObstacle* tempObstacle = new CObstacle(room.tile[i].pt,
+                RectMakeCenter(room.tile[i].pt, TILEWIDTH, TILEHEIGHT),
+                room.tile[i].obj);
+
+        vObstacle.push_back(tempObstacle);
     }
 }
 

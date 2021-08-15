@@ -31,6 +31,7 @@ void CMapSetting::update()
 
 void CMapSetting::render()
 {
+    TCHAR str[128];
     switch (room.roomType)
     {
     case ROOM::ROOM_NORMAL:
@@ -53,11 +54,10 @@ void CMapSetting::render()
         }
         IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);
         IMAGE->frameRender("monsterTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].monsterFrame.x, room.tile[i].monsterFrame.y);
-    }
 
-    TCHAR str[128];
-    wsprintf(str, "%d %d", m_ptMouse);
-    TextOut(getMemDC(), 100, 100, str, strlen(str));
+        wsprintf(str, "%d", (UINT)room.tile[i].obj);
+        TextOut(getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, str, strlen(str));
+    }
 }
 
 void CMapSetting::tileInit()
