@@ -9,6 +9,7 @@ private:
 
 	bool started;
 	bool placedSpecial;
+	bool isMapCompleted;
 
 	queue<int> cellQueue;
 	vector<int> endRoom;
@@ -29,10 +30,13 @@ public:
 	void init();
 	void start();
 	void update();
+
 	bool visit(int roomNumber);
 	int neighbourCount(int roomNumber);
 	int popRandomEndRoom();
+
 	void roomSetting();
+	void mapGenerate();
 
 	CMap* getRNDGenMap() { return map; }
 	vector<int> getEndRoom() { return endRoom; }

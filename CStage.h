@@ -1,13 +1,23 @@
 #pragma once
 #include "gameNode.h"
 
+
 class CMap;
+class CMinimap;
 class CPlayer;
+class RandomMapGenerator;
 class CStage : public gameNode
 {
 private:
-	CMap* map;
+	CMap* room[100];
+	CMap* curRoom;
+	CMinimap* minimap;
 	CPlayer* player;
+	RandomMapGenerator* rnd;
+
+	int curRoomIdx;
+
+	RECT rect;
 
 	vector2 testPt;
 	vector2 testPrevPt;
@@ -26,8 +36,10 @@ public:
 	void enter();
 	void exit();
 
+	void randomMapSetting();
 	void setPlayerLink(CPlayer* _player) { player = _player; }
 	
+	void changeRoom(int roomNum);
 	CPlayer* getPlayer() { return player; }
-	CMap* getMap() { return map; }
+	int getCurRoomIdx() { return curRoomIdx; }
 };

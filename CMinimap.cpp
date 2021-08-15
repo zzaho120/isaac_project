@@ -6,13 +6,11 @@
 
 CMinimap::CMinimap()
 {
-	rnd = new RandomMapGenerator;
-
 	memset(map, 0, sizeof(map));
 
 	int startX = 100;
 	int startY = 100;
-	//CMap** curMap = STAGE->getCurStage()->getMap();
+
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -23,30 +21,6 @@ CMinimap::CMinimap()
 				i * MINIMAPROOMY + startY,
 				j * MINIMAPROOMX + startX + MINIMAPROOMX,
 				i * MINIMAPROOMY + startY + MINIMAPROOMY);
-			
-			for (int i = 0; i < 100; i++)
-			{
-				if (i == 45) map[i].roomAttr = ROOM_TYPE_ATTR::CURROOM;
-				else if (rnd->getRNDGenMap()[i].getRoomAttr() == ROOM_TYPE_ATTR::NONCHECK)
-					map[i].roomAttr = ROOM_TYPE_ATTR::NONCHECK;
-
-				if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::BOSS)
-					map[i].markAttr = ROOM_MARK_ATTR::BOSS;
-				if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::SHOP)
-					map[i].markAttr = ROOM_MARK_ATTR::SHOP;
-				if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::REWARD)
-					map[i].markAttr = ROOM_MARK_ATTR::REWARD;
-			}
-			/*int rndnum = RND->getInt(10);
-			if(rndnum > 5)
-				map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::ROOM] += ATTR_ROOM_CURROOM;
-			else if (rndnum > 3) map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::ROOM] += ATTR_ROOM_NONCHECK;
-			else map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::ROOM] += ATTR_ROOM_VISITROOM;
-
-			if (rndnum == 5) map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::MARK] += ATTR_ROOM_BOSS;
-			else if (rndnum == 3) map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::MARK] += ATTR_ROOM_SHOP;
-			else if (rndnum == 1) map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::MARK] += ATTR_ROOM_SPECIAL;
-			else map[i * 10 + j].attribute[(UINT)MINIMAP_ATTR::MARK] += ATTR_ROOM_NONEMARK;*/
 		}
 	}
 }
@@ -64,10 +38,19 @@ HRESULT CMinimap::init()
 
 void CMinimap::release()
 {
+
 }
 
 void CMinimap::update()
 {
+	CStage* curMap = STAGE->getCurStage();
+
+	if (curRoomIdx != curMap->getCurRoomIdx())
+	{
+		map[curRoomIdx].roomAttr = ROOM_TYPE_ATTR::VISITROOM;
+		curRoomIdx = curMap->getCurRoomIdx();
+		map[curRoomIdx].roomAttr = ROOM_TYPE_ATTR::CURROOM;
+	}
 }
 
 void CMinimap::render()
@@ -79,9 +62,9 @@ void CMinimap::render()
 		if (map[i].roomAttr == ROOM_TYPE_ATTR::CURROOM)
 			frameX = 1;
 		if (map[i].roomAttr == ROOM_TYPE_ATTR::NONCHECK)
-			frameX = 0;
-		if (map[i].roomAttr == ROOM_TYPE_ATTR::VISITROOM)
 			frameX = 2;
+		if (map[i].roomAttr == ROOM_TYPE_ATTR::VISITROOM)
+			frameX = 0;
 		IMAGE->frameRender("minimapRoom", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0);
 		frameX = -1;
 		if (map[i].markAttr == ROOM_MARK_ATTR::NONEMARK)
@@ -95,31 +78,29 @@ void CMinimap::render()
 		IMAGE->frameRender("minimapMark", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0);
 	}
 
-	/*TCHAR str[128];
-	for (int i = 0; i < rnd->getEndRoom().size(); i++)
-	{
-		wsprintf(str, "%d", rnd->getEndRoom()[i]);
-		TextOut(getMemDC(), 500 + i * 20, 500, str, strlen(str));
-	}
+	TCHAR str[128];
 	wsprintf(str, "%d", rnd->getFloorplanCount());
 	TextOut(getMemDC(), 500, 520, str, strlen(str));
-	for (int i = 0; i < 10; i++)
+	
+}
+
+void CMinimap::mapAttrSetting()
+{
+	for (int i = 0; i < 100; i++)
 	{
-		for (int j = 0; j < 10; j++)
+		if (i == 45)
 		{
-			wsprintf(str, "%d", i * 10 + j);
-			TextOut(getMemDC(), 500 + j * 20, 80 + i * 30, str, strlen(str));
+			map[i].roomAttr = ROOM_TYPE_ATTR::CURROOM;
+			curRoomIdx = i;
 		}
+		else if (rnd->getRNDGenMap()[i].getRoomAttr() == ROOM_TYPE_ATTR::NONCHECK)
+			map[i].roomAttr = ROOM_TYPE_ATTR::NONCHECK;
+
+		if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::BOSS)
+			map[i].markAttr = ROOM_MARK_ATTR::BOSS;
+		if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::SHOP)
+			map[i].markAttr = ROOM_MARK_ATTR::SHOP;
+		if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::REWARD)
+			map[i].markAttr = ROOM_MARK_ATTR::REWARD;
 	}
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			if ((rnd->getRNDGenMap()[i * 10 + j].getRoomAttr() & ATTR_ROOM_NONCHECK) == ATTR_ROOM_NONCHECK)
-			{
-				wsprintf(str, "O");
-				TextOut(getMemDC(), 500 + j * 20, 100 + i * 30, str, strlen(str));
-			}
-		}
-	}	*/
 }

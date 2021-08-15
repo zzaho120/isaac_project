@@ -41,7 +41,6 @@ void CMap::update()
 
 void CMap::render()
 {
-    // obstacle Collider must modifiy jusu
     switch(room.roomType)
     {
     case ROOM::ROOM_NORMAL:

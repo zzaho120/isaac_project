@@ -1,6 +1,6 @@
 #pragma once
-#include "CObject.h"
-class CUI : public CObject
+#include "gameNode.h"
+class CUI : public gameNode
 {
 private:
 
@@ -15,4 +15,3 @@ public:
 	virtual void update();
 	virtual void render();
 };
-

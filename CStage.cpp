@@ -4,137 +4,104 @@
 #include "CStage.h"
 #include "CObstacle.h"
 #include "CItem.h"
+#include "CMinimap.h"
+#include "RandomMapGenerator.h"
 
 void CStage::update()
 {
-	player->update();
-
-	/*for (int i = 0; i < ITEM->getItem().size(); i++)
+	//player->update();
+	if (RectX(rect) < 0 && minimap->getMinimap()[curRoomIdx - 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
-		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
-		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
-		if (isIbcp && isIbsp)
-		{
-			switch ((*ITEM->getviItem(i))->getItemType())
-			{
-			case ITEM_TYPE::ITEM_HEART:
-				if (player->isFullHp()) { break; }
-				else
-				{
-					player->sethp(player->gethp() + 2);
-					ITEM->itemRemove(i);
-					break;
-				}
-			default:
-				break;
-			}
-			break;
-		}
-	}*/
-	//if (InputManager->isStayKeyDown('Y'))
-	//{
-	//	testPt.y -= 3;
-	//}
-	//if (InputManager->isStayKeyDown('H'))
-	//{
-	//	testPt.y += 3;
-	//}
-	//if (InputManager->isStayKeyDown('G'))
-	//{
-	//	testPt.x -= 3;
-	//}
-	//if (InputManager->isStayKeyDown('J'))
-	//{
-	//	testPt.x += 3;
-	//}
-	//testFoward = COLLISION->whereAreYouGoing(testPrevPt, testPt);
-	////testPt = COLLISION->tileCollision(map, testPt, testSize, testFoward);
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-	//int hereIndex = (testRc.left / TILEWIDTH - 1) + (testRc.top / TILEHEIGHT) * TILEX;
+		changeRoom(curRoomIdx - 1);
+		rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
+	if (RectX(rect) > WINSIZEX)
+	{
+		changeRoom(curRoomIdx + 1);
+		rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
 
-	//if ((map->getvObstacle()[hereIndex]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE)
-	//{
-	//	testPt = { 200, 500 };
-	//}
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
+	if (RectY(rect) < 0)
+	{
+		changeRoom(curRoomIdx - 10);
+		rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
+	if (RectY(rect) > WINSIZEY)
+	{
+		changeRoom(curRoomIdx + 10);
+		rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
+
+	if (InputManager->isStayKeyDown(VK_LEFT)) OffsetRect(&rect, -5, 0);
+	if (InputManager->isStayKeyDown(VK_RIGHT)) OffsetRect(&rect, 5, 0);
+	if (InputManager->isStayKeyDown(VK_UP)) OffsetRect(&rect, 0, -5);
+	if (InputManager->isStayKeyDown(VK_DOWN)) OffsetRect(&rect, 0, 5);
+
+	minimap->update();
 }
 
 void CStage::render()
 {
-	
-	map->render();
-	player->render();
+	curRoom->render();
+	//player->render();
+	minimap->render();
+	Rectangle(getMemDC(), rect.left, rect.top, rect.right, rect.bottom);
 
-	// why obstacle size 108??
-	int num = 0;
-	int size = 0;
 	TCHAR str[128];
-	for (int i = 0; i < TILEY; i++)
-	{
-		for (int j = 0; j < TILEX; j++)
-		{
-			wsprintf(str, "%d", i * TILEX + j);
-			TextOut(getMemDC(), map->getTile()[i * TILEX + j].pt.x, map->getTile()[i * TILEX + j].pt.y, str, strlen(str));
-		}
-	}
-	for (int i = 0; i < map->getvObstacle().size(); i++)
-	{
-		bool isTrue = map->getvObstacle()[i]->getUnmovalbe();
-		if (isTrue)
-		{
-			wsprintf(str, "O   %d", (UINT)map->getTile()[i].obj);
-			TextOut(getMemDC(), map->getvObstacle()[i]->getPt().x, map->getvObstacle()[i]->getPt().y + 20, str, strlen(str));
-			num++;
-		}
-		size++;
-	}
-	wsprintf(str, "%d %d %d", num, size, map->getvObstacle().size());
-	TextOut(getMemDC(), 200, 70, str, strlen(str));
-
-	HBRUSH myBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-	HBRUSH oldBrush = (HBRUSH)SelectObject(getMemDC(), myBrush);
-	for (int i = 0; i < TILEY; i++)
-	{
-		for (int j = 0; j < TILEX; j++)
-		{
-			Rectangle(getMemDC(), map->getTile()[i * TILEX + j].rcTile.left,
-				map->getTile()[i * TILEX + j].rcTile.top,
-				map->getTile()[i * TILEX + j].rcTile.right,
-				map->getTile()[i * TILEX + j].rcTile.bottom);
-		}
-	}
-
-
-	SelectObject(getMemDC(), oldBrush);
-	DeleteObject(myBrush);
-	/*Rectangle(getMemDC(), testRc.left, testRc.top, testRc.right, testRc.bottom);*/
+	wsprintf(str, "%d", curRoomIdx);
+	TextOut(getMemDC(), 50, 50, str, strlen(str));
 }
 
 void CStage::enter()
 {
-	player = new CPlayer;
-	map = new CMap("save/test.map");
+	curRoomIdx = 0;
+	rect = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	//player = new CPlayer;
+	minimap = new CMinimap;
+	rnd = new RandomMapGenerator;
+	rnd->mapGenerate();
+	randomMapSetting();
+	//player->init();
 
-	player->init();
-	
-	tagTile* tile = map->getTile();
+	/*tagTile* tile = ->getTile();
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
 		map->setMonster(tile[i].monster, tile[i].pt);
-	}
-	ENEMY->SetPlayer(player);
-	player->setRoomLink(map);
-	//ENEMY->setPlayerLink(player);
-	//testPt = { 500, 500 };
-	//testWidth = 30;
-	//testHeight = 30;
-	//testSize = { 30, 30 };
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-	//testFoward = 0;
+	}*/
+
+	ENEMY->SetPlayer(player);/*
+	player->setRoomLink(map);*/
+	minimap->setRND(rnd);
+	minimap->mapAttrSetting();
+
+
 }
 
 void CStage::exit()
 {
 	SAFE_DELETE(player);
-	SAFE_DELETE(map);
+	SAFE_DELETE(minimap);
+	SAFE_DELETE(rnd);
+	for(int i = 0; i < 100; i++)
+		SAFE_DELETE(room[i]);
+}
+
+void CStage::randomMapSetting()
+{
+	for (int i = 0; i < 100; i++)
+	{
+		if (rnd->getRNDGenMap()->getRoomType() != ROOM::ROOM_NORMAL) continue;
+
+		room[i] = new CMap(rnd->getRNDGenMap()[i]);
+	}
+
+	curRoomIdx = 45;
+	curRoom = room[curRoomIdx];
+
+}
+
+void CStage::changeRoom(int roomNum)
+{
+	curRoomIdx = roomNum;
+	curRoom = room[curRoomIdx];
 }

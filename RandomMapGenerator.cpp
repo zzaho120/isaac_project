@@ -2,23 +2,18 @@
 #include "RandomMapGenerator.h"
 
 RandomMapGenerator::RandomMapGenerator() :
-	started(false), placedSpecial(false), floorplanCount(0),
-	maxRooms(15), minRooms(7), bossRoomNum(-1), rewardRoomNum(-1),
+	started(false), placedSpecial(false), isMapCompleted(false),
+	floorplanCount(0),
+	maxRooms(9), minRooms(6), bossRoomNum(-1), rewardRoomNum(-1),
 	shopRoomNum(-1)
 {
 	ZeroMemory(map, sizeof(map));
 	ZeroMemory(floorplan, sizeof(floorplan));
-
-	start();
-	for(int i = 0; i < 10000; i++)
-		update();
-	
-	roomSetting();
+	endRoom.clear();
 }
 
 RandomMapGenerator::~RandomMapGenerator()
 {
-	
 }
 
 void RandomMapGenerator::init()
@@ -26,52 +21,65 @@ void RandomMapGenerator::init()
 	ZeroMemory(map, sizeof(map));
 	ZeroMemory(floorplan, sizeof(floorplan));
 
-	start();
+	memset(floorplan, 0, sizeof(floorplan));
+	endRoom.clear();
+
+	placedSpecial = false;
+	isMapCompleted = false;
+	floorplanCount = 0;
 }
 
 void RandomMapGenerator::start()
 {
 	started = true;
+	placedSpecial = false;
 	visit(45);
 }
 
 void RandomMapGenerator::update()
 {
-	bool created = false;
-	if (started)
+	while (!isMapCompleted)
 	{
-		if (cellQueue.size() > 0)
+		bool created = false;
+		if (started)
 		{
-			int roomNumber = cellQueue.front();
-			cellQueue.pop();
-			int roomLine = roomNumber % 10;
-
-			if (roomLine > 1) created = created | visit(roomNumber - 1);
-			if (roomLine < 9) created = created | visit(roomNumber + 1);
-			if (roomNumber > 20) created = created | visit(roomNumber - 10);
-			if (roomNumber < 70) created = created | visit(roomNumber + 10);
-			if (!created)
-				endRoom.push_back(roomNumber);
-		}
-		else if (!placedSpecial)
-		{
-			if (floorplanCount < minRooms)
+			if (cellQueue.size() > 0)
 			{
-				start();
-				return;
+				int roomNumber = cellQueue.front();
+				cellQueue.pop();
+				int roomLine = roomNumber % 10;
+
+				if (roomLine > 1) created = created | visit(roomNumber - 1);
+				if (roomLine < 9) created = created | visit(roomNumber + 1);
+				if (roomNumber > 20) created = created | visit(roomNumber - 10);
+				if (roomNumber < 70) created = created | visit(roomNumber + 10);
+				if (!created)
+					endRoom.push_back(roomNumber);
 			}
+			else if (!placedSpecial)
+			{
+				if (floorplanCount <= minRooms)
+				{
+					init();
+					visit(45);
+				}
+				else if (endRoom.size() >= 3)
+				{
+					bossRoomNum = endRoom.back();
+					endRoom.pop_back();
 
-			placedSpecial = true;
-
-			bossRoomNum = endRoom.back();
-			endRoom.pop_back();
-
-			rewardRoomNum = popRandomEndRoom();
-
-			shopRoomNum = popRandomEndRoom();
+					rewardRoomNum = popRandomEndRoom();
+					shopRoomNum = popRandomEndRoom();
+					isMapCompleted = true;
+				}
+				else
+				{
+					init();
+					visit(45);
+				}
+			}
 		}
 	}
-	
 }
 
 bool RandomMapGenerator::visit(int roomNumber)
@@ -126,4 +134,11 @@ void RandomMapGenerator::roomSetting()
 		map[shopRoomNum].setMarkAttr(ROOM_MARK_ATTR::SHOP);
 		map[rewardRoomNum].setMarkAttr(ROOM_MARK_ATTR::REWARD);
 	}
+}
+
+void RandomMapGenerator::mapGenerate()
+{
+	start();
+	update();
+	roomSetting();
 }

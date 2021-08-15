@@ -1,16 +1,16 @@
 #include "framework.h"
 #include "CUI.h"
 
-CUI::CUI() : 
-    CObject()
+CUI::CUI()/* : 
+    CObject()*/
 {
 }
 
-CUI::CUI(vector2 _pt, RECT _rc) :
-    CObject(_pt, _rc)
+CUI::CUI(vector2 _pt, RECT _rc) /*:
+    CObject(_pt, _rc)*/
 {
-    collider = new CCollider({ 0, 0 }, { 0, 0 });
-    colliderShadow = new CCollider({ 0, 0 }, { 0, 0 });
+    //collider = new CCollider({ 0, 0 }, { 0, 0 });
+    //colliderShadow = new CCollider({ 0, 0 }, { 0, 0 });
 }
 
 CUI::~CUI()

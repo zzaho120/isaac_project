@@ -7,6 +7,7 @@ class CMinimap : public CUI
 private:
 	tagMinimap map[100];
 	RandomMapGenerator* rnd;
+	int curRoomIdx;
 public:
 	CMinimap();
 	~CMinimap();
@@ -15,4 +16,8 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+
+	void setRND(RandomMapGenerator* _rnd) { rnd = _rnd; }
+	tagMinimap* getMinimap() { return map; }
+	void mapAttrSetting();
 };

@@ -36,4 +36,5 @@ public:
 	vector<CObstacle*> getvObstacle() { return vObstacle; }
 	vector<CObstacle*>::iterator getviObstacle(int number);
 	tagTile* getTile() { return room.tile; }
+	ROOM getRoomType() { return room.roomType; }
 };

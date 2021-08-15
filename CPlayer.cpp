@@ -210,11 +210,11 @@ void CPlayer::Move()
 	}
 	
 	RECT rec;
-	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))
+	/*if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))
 	{
 		movetoRight(rc, 100);
 		pt.x += 100;
-	}
+	}*/
 	//pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, playerfoward);
 	/*STAGE->getCurStage()->getMap()->GetvObstacle();
 	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))*/
