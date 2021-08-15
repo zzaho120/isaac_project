@@ -72,8 +72,16 @@ void CPlayer::update()
 		Move();
 		fire();
 	}
-	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	collider->setPos({ RectX(rc), RectY(rc) });
+	
+	pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, prevPt, playerfoward);
+	prevPt = pt;
+
+	colliderShadow->setPos(pt);
+	collider->setPos({ pt.x, pt.y -shadowdistance });
+	rc = RectMakeCenter(collider->getPos(), PLAYERWIDTH, PLAYERHEIGHT);
+	//colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	//collider->setPos({ RectX(rc), RectY(rc) });
+
 	AI_update();
 	
 }
@@ -212,13 +220,7 @@ void CPlayer::Move()
 		prevfoward = playerfoward;
 	}
 	
-	RECT rec;
-	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))
-	{
-		movetoRight(rc, 100);
-		pt.x += 100;
-	}
-	pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, prevPt, playerfoward);
+	
 	/*STAGE->getCurStage()->getMap()->GetvObstacle();
 	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))*/
 	

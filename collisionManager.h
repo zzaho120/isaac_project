@@ -21,5 +21,4 @@ public:
 	int whereAreYouGoing(vector2& _prevPt, vector2 _Pt);
 	
 	vector2 tileCollision(CMap* _map, vector2 _pt, vector2& _prevPt, int _foward);
-	RECT reRectTileCollision(CMap* _map, vector2 _pt, int _foward);
 };

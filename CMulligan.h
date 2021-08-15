@@ -3,7 +3,6 @@
 class CMulligan : public CMonster
 {
 private:
-	bool foward;
 	bool isleft;
 	animation* anihead;
 public:
