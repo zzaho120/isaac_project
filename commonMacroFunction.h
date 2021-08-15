@@ -205,7 +205,7 @@ enum class ROOM
 };
 
 // un-develop
-enum class ITEM
+enum class ITEM_TYPE
 {
 	ITEM_BOMB,
 	ITEM_KEY,

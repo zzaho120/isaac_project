@@ -15,6 +15,7 @@ public:
 	*/
 	bool isCollision(CCollider* _left, CCollider* _right);
 	bool isCollision(RECT _left, RECT _right);
+	//bool isRectCollision(RECT smallRc, RECT bigRc);
 
 	int whereAreYouGoing(float& _prevX, float& _prevY, float _x, float _y);
 	int whereAreYouGoing(vector2& _prevPt, vector2 _Pt);

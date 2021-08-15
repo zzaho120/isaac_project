@@ -3,10 +3,33 @@
 #include "CPlayer.h"
 #include "CStage.h"
 #include "CObstacle.h"
+#include "CItem.h"
 void CStage::update()
 {
 	player->update();
 
+	for (int i = 0; i < ITEM->getItem().size(); i++)
+	{
+		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
+		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
+		if (isIbcp && isIbsp)
+		{
+			switch ((*ITEM->getviItem(i))->getItemType())
+			{
+			case ITEM_TYPE::ITEM_HEART:
+				if (player->isFullHp()) { break; }
+				else
+				{
+					player->sethp(player->gethp() + 2);
+					ITEM->itemRemove(i);
+					break;
+				}
+			default:
+				break;
+			}
+			break;
+		}
+	}
 	//if (InputManager->isStayKeyDown('Y'))
 	//{
 	//	testPt.y -= 3;
@@ -78,7 +101,7 @@ void CStage::enter()
 
 	map->init();
 	player->init();
-
+	
 	tagTile* tile = map->getTile();
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{

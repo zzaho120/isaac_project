@@ -63,4 +63,5 @@ public:
 	void setRoomLink(CMap* _room) { room = _room; }
 
 	int GetFoward() { return playerfoward; }
+	bool isFullHp();
 };

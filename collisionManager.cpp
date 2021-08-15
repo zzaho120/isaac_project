@@ -51,6 +51,7 @@ bool collisionManager::isCollision(CCollider* _left, CCollider* _right)
 	return false;
 }
 
+
 bool collisionManager::isCollision(RECT _left, RECT _right)
 {
 	int leftSize = _left.right - _left.left;
@@ -81,6 +82,40 @@ bool collisionManager::isCollision(RECT _left, RECT _right)
 
 	return false;
 }
+//
+//bool collisionManager::isRectCollision(RECT smallRc, RECT bigRc)
+//{
+//	if (smallRc.left <= bigRc.right && smallRc.right >= bigRc.left)
+//	{
+//		if (smallRc.top <= bigRc.bottom && smallRc.top >= bigRc.top)
+//		{
+//			return true;
+//		}
+//		else if (smallRc.bottom >= bigRc.top && smallRc.bottom <= bigRc.bottom)
+//		{
+//			return true;
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//	}
+//	if (smallRc.bottom >= bigRc.top && smallRc.top <= bigRc.bottom)
+//	{
+//		if (smallRc.left <= bigRc.right && smallRc.left >= bigRc.left)
+//		{
+//			return true;
+//		}
+//		else if (smallRc.right >= bigRc.left && smallRc.right <= bigRc.right)
+//		{
+//			return true;
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//	}
+//}
 
 int collisionManager::whereAreYouGoing(float& _prevX, float& _prevY, float _x, float _y)
 {
@@ -337,6 +372,9 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, int _foward)
 	RECT rc = RectMakeCenter(_pt, width, height);
 	//int hereIndex = collider->getPos().x / TILEWIDTH + collider->getPos().y / TILEHEIGHT * TILEX;
 	int hereIndex = (rc.left / TILEWIDTH-1 ) + (rc.top / TILEHEIGHT-1 ) * TILEX;
+	int leftbottomIndex = (rc.left / TILEWIDTH-1 ) + (rc.bottom / TILEHEIGHT-1 ) * TILEX;
+	int righttopIndex = (rc.right / TILEWIDTH-1 ) + (rc.top / TILEHEIGHT-1 ) * TILEX;
+	int rightbottomIndex = (rc.left / TILEWIDTH-1 ) + (rc.bottom / TILEHEIGHT-1 ) * TILEX;
 
 	int testIndex[4] = { 0,1,2,3 };
 	switch (_foward)
@@ -361,7 +399,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, int _foward)
 		testIndex[0] = hereIndex ;
 		testIndex[1] = hereIndex + TILEX;
 		testIndex[2] = hereIndex + TILEX + 1;
-		testIndex[3] = hereIndex + TILEX - 1;
+		//testIndex[3] = hereIndex + TILEX - 1;
 		break;
 	case FOWARD::LEFTTOP:
 		testIndex[0] = hereIndex;
@@ -390,7 +428,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, int _foward)
 	
 	for (int i = 0; i < 4; i++)
 	{
-		isBump = isCollision(_map->getTile()[testIndex[i]].rcTile,rc);
+		isBump = isCollision(rc, _map->getTile()[testIndex[i]].rcTile);
 		//isBump = IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc);
 		cant = (_map->getvObstacle()[testIndex[i]]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE;
 
@@ -422,8 +460,26 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, int _foward)
 					rc.right = rc.left + width;
 					break;
 				case 1:
-					rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-					rc.right = rc.left + width;
+					/*if (rc.top < _map->getTile()[testIndex[i]].rcTile.bottom && rc.bottom > _map->getTile()[testIndex[i]].rcTile.top)
+					{
+						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+						rc.right = rc.left + width;
+					}
+					else if (rc.left < _map->getTile()[testIndex[i]].rcTile.right && rc.right >_map->getTile()[testIndex[i]].rcTile.left)
+					{
+						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+						rc.top = rc.bottom - height;
+					}*/
+					if (leftbottomIndex == testIndex[i])
+					{
+						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+						rc.right = rc.left + width;
+					}
+					else
+					{
+						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+						rc.top = rc.bottom - height;
+					}
 					break;
 				case 2:
 					rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;

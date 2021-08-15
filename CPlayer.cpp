@@ -53,7 +53,7 @@ HRESULT CPlayer::init()
 	key = 0;
 
 	AI_init(this,MONSTER_TYPE::NONE);
-
+	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
 	return S_OK;
 }
 
@@ -84,23 +84,13 @@ void CPlayer::render()
 
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowPlayer", getMemDC(), rec.left, rec.top);
-	if (getstate() == STATE_TYPE::IDLE)
-	{
-		count = 0;
-		setAnimation();
-		setAnimationbody();
-		IMAGE->findImage("playerbody")->aniRender(getMemDC(),
-			getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("playerbody")->getFrameWidth() / 2,
-			getRC().top + 28, ani_body);
-		IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
-	}
-	else if (getstate() == STATE_TYPE::ATTACK)
+	if (getstate() == STATE_TYPE::ATTACK)
 	{
 		if (count > 80)
 		{
 			count = 0;
 		}
-		if (count > 50)
+		if (count > 30)
 		{
 			setAnimation();
 			setAnimationbody();
@@ -114,6 +104,16 @@ void CPlayer::render()
 			IMAGE->findImage("isaacEvent")->aniRender(getMemDC(), getRC().left - 18, getRC().top - 18, getAni());
 		}
 		count++;
+	}
+	else if (getstate() == STATE_TYPE::IDLE)
+	{
+		count = 0;
+		setAnimation();
+		setAnimationbody();
+		IMAGE->findImage("playerbody")->aniRender(getMemDC(),
+			getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("playerbody")->getFrameWidth() / 2,
+			getRC().top + 28, ani_body);
+		IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 	}
 	else
 	{
@@ -197,7 +197,6 @@ void CPlayer::Move()
 	{
 		_slide();
 		playerspeed = 0;
-		playerfoward = FOWARD::NONE;
 	}
 	if (prevfoward != playerfoward)
 	{
@@ -494,5 +493,17 @@ void CPlayer::setAnimationbody()
 		
 	}
 	moveani++;
+}
+
+bool CPlayer::isFullHp()
+{
+	if (maxHp == hp)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 

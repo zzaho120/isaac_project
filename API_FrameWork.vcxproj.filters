@@ -309,6 +309,9 @@
     <ClInclude Include="CItem.h">
       <Filter>Class\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>Class\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -477,6 +480,9 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="CItem.cpp">
+      <Filter>Class\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
       <Filter>Class\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
