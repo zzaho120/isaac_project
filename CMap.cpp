@@ -105,6 +105,13 @@ void CMap::render(int destX, int destY)
     }
 }
 
+void CMap::testRender(int i)
+{
+    TCHAR str[128];
+    wsprintf(str, "%d", 1);
+    TextOut(getMemDC(), 500 + i * 20, 100, str, strlen(str));
+}
+
 void CMap::load(const char* fileName)
 {
     HANDLE file;

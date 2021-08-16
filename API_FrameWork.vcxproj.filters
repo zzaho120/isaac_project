@@ -339,6 +339,9 @@
     <ClInclude Include="UIManager.h">
       <Filter>Class\Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="mapManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
@@ -526,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Class\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="mapManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

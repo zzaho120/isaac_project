@@ -189,6 +189,7 @@
     <ClInclude Include="itemManager.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="mapManager.h" />
     <ClInclude Include="MulliganState.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="CPlayerUI.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="mapManager.cpp" />
     <ClCompile Include="MulliganState.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="CPlayerUI.cpp" />

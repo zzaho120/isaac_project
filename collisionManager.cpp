@@ -235,6 +235,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 	RECT temprc;
 	bool isBump = 0;
 	bool cant = 0;
+
 	if (hereIndex <= 118 && hereIndex >= 16)
 	{
 		for (int i = 0; i < 3; i++)

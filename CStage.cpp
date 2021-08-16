@@ -9,7 +9,7 @@
 
 void CStage::update()
 {
-	player->update();
+	//player->update();
 	minimap->update();
 
 	for (int i = 0; i < ITEM->getItem().size(); i++)
@@ -44,6 +44,34 @@ void CStage::update()
 			break;
 		}
 	}
+
+	if (RectX(testRc) < 0 && minimap->getMinimap()[curRoomIdx - 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
+	{
+		changeRoom(curRoomIdx - 1);
+		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
+	if (RectX(testRc) > WINSIZEX)
+	{
+		changeRoom(curRoomIdx + 1);
+		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
+
+	if (RectY(testRc) < 0)
+	{
+		changeRoom(curRoomIdx - 10);
+		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
+	if (RectY(testRc) > WINSIZEY)
+	{
+		changeRoom(curRoomIdx + 10);
+	testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+}
+
+	if (InputManager->isStayKeyDown(VK_LEFT)) OffsetRect(&testRc, -5, 0);
+	if (InputManager->isStayKeyDown(VK_RIGHT)) OffsetRect(&testRc, 5, 0);
+	if (InputManager->isStayKeyDown(VK_UP)) OffsetRect(&testRc, 0, -5);
+	if (InputManager->isStayKeyDown(VK_DOWN)) OffsetRect(&testRc, 0, 5);
+
 	//if (InputManager->isStayKeyDown('Y'))
 	//{
 	//	testPt.y -= 3;
@@ -77,14 +105,13 @@ void CStage::render()
 	curRoom->render();
 	player->render();
 	minimap->render();
-
 	playerUI->render(player);
 
-	
-
 	TCHAR str[128];
-	wsprintf(str, "%d", curRoomIdx);
-	TextOut(getMemDC(), 50, 50, str, strlen(str));
+	wsprintf(str, "%d", MAP->getMaxRoomNum(0));
+	TextOut(getMemDC(), 50, 500, str, strlen(str));
+
+	Rectangle(getMemDC(), testRc.left, testRc.top, testRc.right, testRc.bottom);
 }
 
 void CStage::enter()
@@ -118,6 +145,9 @@ void CStage::enter()
 	//testFoward = 0;
 	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
 	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
+
+	testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 50, 50);
+
 }
 
 void CStage::exit()

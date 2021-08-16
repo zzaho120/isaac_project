@@ -134,8 +134,27 @@ void RandomMapGenerator::roomSetting()
 {
 	for (int roomNum = 0; roomNum < 100; roomNum++)
 	{
-		if (floorplan[roomNum])
+		int rndNum = -1;
+		if (roomNum == bossRoomNum)
 		{
+			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::BOSS));
+			room[bossRoomNum] = new CMap(MAP->getBossRoom()[rndNum]);
+			room[bossRoomNum]->setMarkAttr(ROOM_MARK_ATTR::BOSS);
+		}
+		else if (roomNum == shopRoomNum)
+		{
+			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::SHOP));
+			room[shopRoomNum] = new CMap(MAP->getShopRoom()[rndNum]);
+			room[shopRoomNum]->setMarkAttr(ROOM_MARK_ATTR::SHOP);
+		}
+		else if (roomNum == rewardRoomNum)
+		{
+			room[rewardRoomNum]->setMarkAttr(ROOM_MARK_ATTR::REWARD);
+		}
+		else if (floorplan[roomNum])
+		{
+			/*rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL));
+			room[roomNum] = new CMap(MAP->getNormalRoom()[rndNum]);*/
 			room[roomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
 			room[roomNum]->setRoomType(ROOM::ROOM_NORMAL);
 		}
@@ -144,10 +163,6 @@ void RandomMapGenerator::roomSetting()
 			room[roomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONEROOM);
 			room[roomNum]->setRoomType(ROOM::ROOM_NONE);
 		}
-
-		room[bossRoomNum]->setMarkAttr(ROOM_MARK_ATTR::BOSS);
-		room[shopRoomNum]->setMarkAttr(ROOM_MARK_ATTR::SHOP);
-		room[rewardRoomNum]->setMarkAttr(ROOM_MARK_ATTR::REWARD);
 	}
 
 	for (int roomNum = 0; roomNum < 100; roomNum++)

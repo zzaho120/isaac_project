@@ -8,11 +8,7 @@ private:
 public:
 	collisionManager();
 	~collisionManager();
-	/*HRESULT init();
-	void release();
-	void update();
-	void render();
-	*/
+
 	bool isCollision(CCollider* _left, CCollider* _right);
 	bool isCollision(RECT _left, RECT _right);
 	//bool isRectCollision(RECT smallRc, RECT bigRc);

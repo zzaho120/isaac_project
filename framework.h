@@ -41,8 +41,9 @@
 #include"collisionManager.h"
 #include"bulletManager.h"
 #include"enemyManager.h"
-#include "itemManager.h"
+#include"itemManager.h"
 #include"stageManager.h"
+#include"mapManager.h"
 #include"AniAddList.h"
 //==========================================
 //				 매크로 설정
@@ -71,6 +72,7 @@
 #define ENEMY			enemyManager::getSingleton()
 #define STAGE			stageManager::getSingleton()
 #define ITEM			itemManager::getSingleton()
+#define MAP				mapManager::getSingleton()
 //==========================================
 //			메인게임 릴리즈에서 사용
 //==========================================

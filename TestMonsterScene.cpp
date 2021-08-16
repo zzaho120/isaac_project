@@ -6,11 +6,9 @@
 #include "CItem.h"
 HRESULT TestMonsterScene::init()
 {
-    _player = new CPlayer;
     _map = new CMap;
 
     _map->init();
-    _player->init();
 
     tagTile* tile = _map->getTile();
     for (int i = 0; i < TILEX * TILEY; i++)
@@ -22,11 +20,13 @@ HRESULT TestMonsterScene::init()
 
 HRESULT TestMonsterScene::init(const char* fileName)
 {
+    _map = new CMap;
+
     _map->init(fileName);
-    _player->init();
     tagTile* tile = _map->getTile();
     for (int i = 0; i < TILEX * TILEY; i++)
     {
+        if (tile[i].monster == MONSTER_TYPE::NONE) continue;
         setMonster(tile[i].monster, tile[i].pt);
     }
 
@@ -36,77 +36,16 @@ HRESULT TestMonsterScene::init(const char* fileName)
 
 void TestMonsterScene::release()
 {
-   // SAFE_DELETE(_player);
+    ENEMY->release();
 }
 
 void TestMonsterScene::update()
 {
-    _player->update();
-    bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
-    ENEMY->SetPlayer(_player);
-    for (int i = 0; i < ENEMY->getvmonster().size(); i++)
-    {
-        bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-        bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
-        if(ispcm && playerIdle && ispsm)
-        {
-            //ENEMY->eraserEnemy(i);
-            _player->sethp(_player->gethp() - 1);
-            _player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-            break;
-        }
-    }
-    for (int i = 0; i < ENEMY->getvmonster().size(); i++)
-    {
-        for (int j = 0; j < BULLET->getvBullet().size(); j++)
-        {
-            bool ispbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-            bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
-            bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
-            if(ispbcm && ispbrm && ispB) 
-            { 
-                ENEMY->eraserEnemy(i);
-                BULLET->eraserBullet(j);
-                break;
-            }
-        }
-    }
-    for (int i = 0; i < BULLET->getvBullet().size(); i++)
-    {
-        bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
-        bool ismbsp = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), _player->GetcolliderShadow());
-        bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
-        if (ismbcp && ismbsp && ismB && playerIdle)
-        {
-            BULLET->eraserBullet(i);
-            _player->sethp(_player->gethp() - 1);
-            break;
-        }
-    }
-    for (int i = 0; i < ITEM->getItem().size(); i++)
-    {
-        bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), _player->getcollider());
-        bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), _player->GetcolliderShadow());
-        if (isIbcp && isIbsp)
-        {
-            switch ((*ITEM->getviItem(i))->getItemType())
-            {
-            case ITEM_TYPE::ITEM_HEART:
-                _player->sethp(_player->gethp() + 2);
-                break;
-            default:
-                break;
-            }
-            ITEM->itemRemove(i);
-            break;
-        }
-    }
 }
 
 void TestMonsterScene::render()
 {
     _map->render();
-    _player->render();
 }
 
 void TestMonsterScene::setMonster(MONSTER_TYPE type, vector2 pt)

@@ -11,7 +11,6 @@ class TestMonsterScene : public gameNode
 private:
 	int count;
 	CMap* _map;
-	CPlayer* _player;
 public:
 	HRESULT init();
 	HRESULT init(const char* fileName);
@@ -20,5 +19,4 @@ public:
 	void render();
 
 	void setMonster(MONSTER_TYPE type, vector2 pt);
-	CPlayer* getplayer() { return _player; }
 };

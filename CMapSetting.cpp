@@ -55,7 +55,7 @@ void CMapSetting::render()
         IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);
         IMAGE->frameRender("monsterTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].monsterFrame.x, room.tile[i].monsterFrame.y);
 
-        wsprintf(str, "%d", (UINT)room.tile[i].obj);
+        wsprintf(str, "%d %d", (UINT)room.tile[i].obj, (UINT)room.tile[i].monster);
         TextOut(getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, str, strlen(str));
     }
 }
@@ -150,6 +150,7 @@ void CMapSetting::setMap()
             break;
         }
     }
+
     if (PtInRect(&RectMake({ 0, 0 }, WINSIZEX, WINSIZEY), m_ptMouse))
         room.roomType = (ROOM)SUBWIN->GetRoomFrame().x;
 }

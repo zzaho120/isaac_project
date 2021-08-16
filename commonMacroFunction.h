@@ -229,10 +229,10 @@ enum class OBJECT
 
 enum class ROOM
 {
-	ROOM_NONE,
 	ROOM_NORMAL,
 	ROOM_BOSS,
 	ROOM_SHOP,
+	ROOM_NONE,
 	ROOM_END
 };
 
@@ -297,6 +297,14 @@ enum class DOOR_DIRECTION
 	LEFT,
 	RIGHT,
 	BOTTOM
+};
+
+enum class FILE_TYPE
+{
+	NORMAL,
+	BOSS,
+	SHOP,
+	END
 };
 
 struct tagTile

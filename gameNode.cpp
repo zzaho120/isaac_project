@@ -42,6 +42,7 @@ HRESULT gameNode::init(bool managerInit)
 		SUBWIN->init();
 		ENEMY->init();
 		ITEM->init();
+		MAP->init();
 		STAGE->init();
 	}
 	
@@ -77,6 +78,7 @@ void gameNode::release()
 		SUBWIN->releaseSingleton();
 		ENEMY->releaseSingleton();
 		COLLISION->releaseSingleton();
+		MAP->releaseSingleton();
 		
 
 		SCENE->release();
@@ -97,10 +99,10 @@ void gameNode::release()
 void gameNode::update()
 {
 	//더블버퍼 이후 사용하지 않는다 true->false
-	/*if (InputManager->isOnceKeyDown(VK_F2))
+	if (InputManager->isOnceKeyDown(VK_F2))
 		SCENE->changeScene("main");
 	if (InputManager->isOnceKeyDown(VK_F3))
-		SCENE->changeScene("test");*/
+		SCENE->changeScene("test");
 
 	SUBWIN->update();
 	//SCENE->update();
@@ -127,6 +129,7 @@ void gameNode::render()
 	ENEMY->render();
 	ITEM->render();
 	EFFECT->render();
+	MAP->render();
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
