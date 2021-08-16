@@ -11,6 +11,7 @@ class CStage : public gameNode
 private:
 	CMap* room[100];
 	CMap* curRoom;
+
 	CMinimap* minimap;
 	CPlayer* player;
 	RandomMapGenerator* rnd;

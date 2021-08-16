@@ -137,18 +137,26 @@ void RandomMapGenerator::roomSetting()
 		int rndNum = -1;
 		if (roomNum == bossRoomNum)
 		{
-			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::BOSS));
-			room[bossRoomNum] = new CMap(MAP->getBossRoom()[rndNum]);
+			/*rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::BOSS));
+			room[bossRoomNum] = new CMap(MAP->getBossRoom()[rndNum]);*/
+
+			room[bossRoomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
 			room[bossRoomNum]->setMarkAttr(ROOM_MARK_ATTR::BOSS);
+			room[bossRoomNum]->setRoomType(ROOM::ROOM_BOSS);
 		}
 		else if (roomNum == shopRoomNum)
 		{
-			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::SHOP));
-			room[shopRoomNum] = new CMap(MAP->getShopRoom()[rndNum]);
+			/*rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::SHOP));
+			room[shopRoomNum] = new CMap(MAP->getShopRoom()[rndNum]);*/
+
+			room[shopRoomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
 			room[shopRoomNum]->setMarkAttr(ROOM_MARK_ATTR::SHOP);
+			room[shopRoomNum]->setRoomType(ROOM::ROOM_SHOP);
+			
 		}
 		else if (roomNum == rewardRoomNum)
 		{
+			room[rewardRoomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
 			room[rewardRoomNum]->setMarkAttr(ROOM_MARK_ATTR::REWARD);
 		}
 		else if (floorplan[roomNum])
@@ -170,22 +178,22 @@ void RandomMapGenerator::roomSetting()
 		int roomLine = roomNum % 10;
 		if (roomNum - 10 >= 0)
 		{
-			if (room[roomNum - 10]->getRoomType() == ROOM::ROOM_NORMAL)
+			if (room[roomNum - 10]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::TOP);
 		}
 		if (roomLine > 0)
 		{
-			if (room[roomNum - 1]->getRoomType() == ROOM::ROOM_NORMAL)
+			if (room[roomNum - 1]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::LEFT);
 		}
 		if (roomLine < 9)
 		{
-			if (room[roomNum + 1]->getRoomType() == ROOM::ROOM_NORMAL)
+			if (room[roomNum + 1]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::RIGHT);
 		}
 		if (roomNum + 15 <= 100)
 		{
-			if (room[roomNum + 10]->getRoomType() == ROOM::ROOM_NORMAL)
+			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
 		}
 	}

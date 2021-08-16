@@ -9,10 +9,10 @@
 
 void CStage::update()
 {
-	//player->update();
+	player->update();
 	minimap->update();
 
-	for (int i = 0; i < ITEM->getItem().size(); i++)
+	/*for (int i = 0; i < ITEM->getItem().size(); i++)
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
 		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
@@ -43,7 +43,7 @@ void CStage::update()
 			}
 			break;
 		}
-	}
+	}*/
 
 	if (RectX(testRc) < 0 && minimap->getMinimap()[curRoomIdx - 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
@@ -64,8 +64,8 @@ void CStage::update()
 	if (RectY(testRc) > WINSIZEY)
 	{
 		changeRoom(curRoomIdx + 10);
-	testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
-}
+		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
+	}
 
 	if (InputManager->isStayKeyDown(VK_LEFT)) OffsetRect(&testRc, -5, 0);
 	if (InputManager->isStayKeyDown(VK_RIGHT)) OffsetRect(&testRc, 5, 0);
@@ -128,11 +128,11 @@ void CStage::enter()
 
 	minimap->setRND(rnd);
 	minimap->mapAttrSetting();
-	tagTile* tile = curRoom->getTile();
+	/*tagTile* tile = curRoom->getTile();
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
 		curRoom->setMonster(tile[i].monster, tile[i].pt);
-	}
+	}*/
 
 	ENEMY->SetPlayer(player);
 	player->setRoomLink(curRoom);
