@@ -153,15 +153,19 @@ void CMap::doorSetting(DOOR_DIRECTION direction)
     {
     case DOOR_DIRECTION::TOP:
         vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
+        vObstacle[7]->setDoorFrame({ 0, 0 });
         break;
     case DOOR_DIRECTION::LEFT:
         vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
+        vObstacle[60]->setDoorFrame({ 2, 0 });
         break;
     case DOOR_DIRECTION::RIGHT:
         vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
+        vObstacle[74]->setDoorFrame({ 3, 0 });
         break;
     case DOOR_DIRECTION::BOTTOM:
         vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
+        vObstacle[127]->setDoorFrame({ 1, 0 });
         break;
     default:
         return;

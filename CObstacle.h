@@ -32,5 +32,6 @@ public:
 	int gettest() { return test; }
 
 	void setObjType(OBJECT obj) { objType = obj; }
+	void setDoorFrame(Vec2 doorFrame) { frame = doorFrame; }
 };
 

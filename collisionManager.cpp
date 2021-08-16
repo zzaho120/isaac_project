@@ -235,136 +235,138 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 	RECT temprc;
 	bool isBump = 0;
 	bool cant = 0;
-	
-	for (int i = 0; i < 3; i++)
+	if (hereIndex <= 119 && hereIndex >= 16)
 	{
-		isBump = isCollision(rc, _map->getTile()[testIndex[i]].rcTile);
-		//isBump = IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc);
-		cant = (_map->getvObstacle()[testIndex[i]]->getUnmovalbe());
-		
-		if (isBump && cant)
+		for (int i = 0; i < 3; i++)
 		{
-			switch (_foward)
+			isBump = isCollision(rc, _map->getTile()[testIndex[i]].rcTile);
+			//isBump = IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc);
+			cant = (_map->getvObstacle()[testIndex[i]]->getUnmovalbe());
+
+			if (isBump && cant)
 			{
-			case FOWARD::DOWN:
-				rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-				rc.top = rc.bottom - height;
-				break;
-			case FOWARD::LEFT:
-				rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-				rc.right = rc.left + width;
-				break;
-			case FOWARD::RIGHT:
-				rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-				rc.left = rc.right - width;
-				break;
-			case FOWARD::UP:
-				rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-				rc.bottom = rc.top + height;
-				break;
-			case FOWARD::LEFTDOWN:
-				switch (i)
+				switch (_foward)
 				{
-				case 0:
-					rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-					rc.right = rc.left + width;
-					break;
-				case 1:
-					if (prevRc.left >= _map->getTile()[testIndex[i]].rcTile.right)
-					{
-						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-						rc.right = rc.left + width;
-					}
-					else
-					{
-						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-						rc.top = rc.bottom - height;
-					}
-					break;
-				case 2:
+				case FOWARD::DOWN:
 					rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
 					rc.top = rc.bottom - height;
 					break;
-				}
-				break;
-			case FOWARD::LEFTTOP:
-				switch (i)
-				{
-				case 0:
+				case FOWARD::LEFT:
 					rc.left = _map->getTile()[testIndex[i]].rcTile.right;
 					rc.right = rc.left + width;
 					break;
-				case 1:
-					if (prevRc.top >= _map->getTile()[testIndex[i]].rcTile.bottom)
+				case FOWARD::RIGHT:
+					rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+					rc.left = rc.right - width;
+					break;
+				case FOWARD::UP:
+					rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+					rc.bottom = rc.top + height;
+					break;
+				case FOWARD::LEFTDOWN:
+					switch (i)
 					{
-						
-						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-						rc.bottom = rc.top + height;
-					}
-					else
-					{
+					case 0:
 						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
 						rc.right = rc.left + width;
-					}
-					break;
-				case 2:
-					rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-					rc.bottom = rc.top + height;
-					break;
-				}
-				break;
-			case FOWARD::RIGHTDOWN:
-				switch (i)
-				{
-				case 0:
-					rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-					rc.left = rc.right - width;
-					break;
-				case 1:
-					if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
-					{
-						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-						rc.left = rc.right - width;
-					}
-					else
-					{
+						break;
+					case 1:
+						if (prevRc.left >= _map->getTile()[testIndex[i]].rcTile.right)
+						{
+							rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+							rc.right = rc.left + width;
+						}
+						else
+						{
+							rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+							rc.top = rc.bottom - height;
+						}
+						break;
+					case 2:
 						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
 						rc.top = rc.bottom - height;
+						break;
 					}
 					break;
-				case 2:
-					rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-					rc.top = rc.bottom - height;
-					break;
-				}
-				break;
-			case FOWARD::RIGHTTOP:
-				switch (i)
-				{
-				case 0:
-					rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-					rc.left = rc.right - width;
-					break;
-				case 1:
-					if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
+				case FOWARD::LEFTTOP:
+					switch (i)
 					{
-						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-						rc.left = rc.right - width;
-					}
-					else
-					{
+					case 0:
+						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+						rc.right = rc.left + width;
+						break;
+					case 1:
+						if (prevRc.top >= _map->getTile()[testIndex[i]].rcTile.bottom)
+						{
+
+							rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+							rc.bottom = rc.top + height;
+						}
+						else
+						{
+							rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+							rc.right = rc.left + width;
+						}
+						break;
+					case 2:
 						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
 						rc.bottom = rc.top + height;
+						break;
 					}
 					break;
-				case 2:
-					rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-					rc.bottom = rc.top + height;
+				case FOWARD::RIGHTDOWN:
+					switch (i)
+					{
+					case 0:
+						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+						rc.left = rc.right - width;
+						break;
+					case 1:
+						if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
+						{
+							rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+							rc.left = rc.right - width;
+						}
+						else
+						{
+							rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+							rc.top = rc.bottom - height;
+						}
+						break;
+					case 2:
+						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+						rc.top = rc.bottom - height;
+						break;
+					}
+					break;
+				case FOWARD::RIGHTTOP:
+					switch (i)
+					{
+					case 0:
+						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+						rc.left = rc.right - width;
+						break;
+					case 1:
+						if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
+						{
+							rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+							rc.left = rc.right - width;
+						}
+						else
+						{
+							rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+							rc.bottom = rc.top + height;
+						}
+						break;
+					case 2:
+						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+						rc.bottom = rc.top + height;
+						break;
+					}
+					break;
+				default:
 					break;
 				}
-				break;
-			default:
-				break;
 			}
 		}
 	}

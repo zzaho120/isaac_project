@@ -80,6 +80,8 @@ void CStage::render()
 
 	playerUI->render(player);
 
+	
+
 	TCHAR str[128];
 	wsprintf(str, "%d", curRoomIdx);
 	TextOut(getMemDC(), 50, 50, str, strlen(str));
@@ -99,11 +101,11 @@ void CStage::enter()
 
 	minimap->setRND(rnd);
 	minimap->mapAttrSetting();
-	/*tagTile* tile = ->getTile();
+	tagTile* tile = curRoom->getTile();
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
-		map->setMonster(tile[i].monster, tile[i].pt);
-	}*/
+		curRoom->setMonster(tile[i].monster, tile[i].pt);
+	}
 
 	ENEMY->SetPlayer(player);
 	player->setRoomLink(curRoom);

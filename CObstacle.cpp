@@ -36,7 +36,16 @@ void CObstacle::update()
 
 void CObstacle::render()
 {
-	IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
+	if (objType == OBJECT::OBJ_TOPDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 52, rc.top - 50, frame.x, frame.y);
+	else if(objType == OBJECT::OBJ_BOTTOMDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 52, rc.top - 25, frame.x, frame.y);
+	else if (objType == OBJECT::OBJ_LEFTDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 70, rc.top - 40, frame.x, frame.y);
+	else if (objType == OBJECT::OBJ_RIGHTDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 27, rc.top - 40, frame.x, frame.y);
+
+	else IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
 
 void CObstacle::setObjectValue()
