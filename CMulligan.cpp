@@ -44,7 +44,7 @@ void CMulligan::update()
 	rcPt.x = RectX(rc);
 	rcPt.y = RectY(rc)+shadowdistance;
 	foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
-	rcPt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), rcPt, prevPt, foward , 1);
+	rcPt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), rcPt, prevPt, foward , 1);
 	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
 	colliderShadow->setPos(rcPt);
 	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());

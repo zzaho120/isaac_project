@@ -41,4 +41,5 @@ public:
 	void changeRoom(int roomNum);
 	CPlayer* getPlayer() { return player; }
 	int getCurRoomIdx() { return curRoomIdx; }
+	CMap* getCurRoom() { return curRoom; }
 };

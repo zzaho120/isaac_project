@@ -73,7 +73,7 @@ void CPlayer::update()
 		fire();
 	}
 	
-	pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, prevPt, playerfoward, 0);
+	pt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), pt, prevPt, playerfoward, 0);
 	prevPt = pt;
 
 	colliderShadow->setPos(pt);

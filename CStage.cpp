@@ -106,7 +106,7 @@ void CStage::enter()
 	}*/
 
 	ENEMY->SetPlayer(player);
-	player->setRoomLink(map);
+	player->setRoomLink(curRoom);
 	//ENEMY->setPlayerLink(player);
 	//testPt = { 500, 500 };
 	//testWidth = 30;
