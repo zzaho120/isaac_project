@@ -108,9 +108,12 @@ void CStage::render()
 	playerUI->render(player);
 
 	TCHAR str[128];
-	wsprintf(str, "%d", MAP->getMaxRoomNum(0));
-	TextOut(getMemDC(), 50, 500, str, strlen(str));
-
+	for (int i = 0; i < 3; i++)
+	{
+		wsprintf(str, "%d", MAP->getMaxRoomNum(i));
+		TextOut(getMemDC(), 50 + i * 50, 500, str, strlen(str));
+	}
+	
 	Rectangle(getMemDC(), testRc.left, testRc.top, testRc.right, testRc.bottom);
 }
 
@@ -147,7 +150,6 @@ void CStage::enter()
 	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
 
 	testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 50, 50);
-
 }
 
 void CStage::exit()

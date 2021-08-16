@@ -20,7 +20,10 @@ CMap::CMap(CMap& map)
     
     room.roomType = map.room.roomType;
 
-    vObstacle.swap(map.vObstacle);
+    for (int i = 0; i < map.vObstacle.size(); i++)
+    {
+        vObstacle.push_back(map.vObstacle[i]);
+    }
 
     roomAttr = map.roomAttr;
     markAttr = map.markAttr;
@@ -33,7 +36,10 @@ CMap::CMap(CMap* map)
 
     room.roomType = map->room.roomType;
 
-    vObstacle.swap(map->vObstacle);
+    for (int i = 0; i < map->vObstacle.size(); i++)
+    {
+        vObstacle.push_back(map->vObstacle[i]);
+    }
 
     roomAttr = map->roomAttr;
     markAttr = map->markAttr;
@@ -103,13 +109,6 @@ void CMap::render(int destX, int destY)
     {
         (*viObstacle)->render();
     }
-}
-
-void CMap::testRender(int i)
-{
-    TCHAR str[128];
-    wsprintf(str, "%d", 1);
-    TextOut(getMemDC(), 500 + i * 20, 100, str, strlen(str));
 }
 
 void CMap::load(const char* fileName)

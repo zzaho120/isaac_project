@@ -25,8 +25,6 @@ public:
 	virtual void render();
 	virtual void render(int destX, int destY);
 
-	void testRender(int i);
-
 	void load(const char* fileName);
 	void tileSet();
 	void doorSetting(DOOR_DIRECTION direction);
