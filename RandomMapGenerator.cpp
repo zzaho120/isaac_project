@@ -10,11 +10,10 @@ RandomMapGenerator::RandomMapGenerator() :
 	ZeroMemory(room, sizeof(room));
 	ZeroMemory(floorplan, sizeof(floorplan));
 	endRoom.clear();
-	
+
 	for (int roomNum = 0; roomNum < 100; roomNum++)
 	{
 		room[roomNum] = new CMap;
-		room[roomNum]->setRoomAttr(ROOM_TYPE_ATTR::CURROOM);
 	}
 }
 
@@ -176,26 +175,25 @@ void RandomMapGenerator::roomSetting()
 
 	for (int roomNum = 0; roomNum < 100; roomNum++)
 	{
-		int roomLine = roomNum % 10;
 		if (roomNum - 10 >= 0)
 		{
 			if (room[roomNum - 10]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::TOP);
 		}
-		if (roomLine > 0)
+		if (roomNum + 10 < 100)
+		{
+			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
+				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
+		}
+		if (roomNum % 10 > 0)
 		{
 			if (room[roomNum - 1]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::LEFT);
 		}
-		if (roomLine < 9)
+		if (roomNum % 10 < 9)
 		{
 			if (room[roomNum + 1]->getRoomType() != ROOM::ROOM_NONE)
 				room[roomNum]->doorSetting(DOOR_DIRECTION::RIGHT);
-		}
-		if (roomNum + 15 <= 100)
-		{
-			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
-				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
 		}
 	}
 }

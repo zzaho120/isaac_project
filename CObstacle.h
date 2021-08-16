@@ -30,6 +30,7 @@ public:
 
 	Vec2 getFrame() { return frame; }
 	int gettest() { return test; }
+	OBJECT getObjType() { return objType; }
 
 	void setObjType(OBJECT obj) { objType = obj; }
 	void setDoorFrame(Vec2 doorFrame) { frame = doorFrame; }

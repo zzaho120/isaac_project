@@ -14,7 +14,7 @@ private:
 	vector<CMap*> vShopRoom;
 	vector<CMap*>::iterator viShopRoom;
 
-	int maxRoomNum[3];
+	int maxRoomNum[(UINT)FILE_TYPE::END];
 public:
 	mapManager();
 	~mapManager();

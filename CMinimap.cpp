@@ -8,8 +8,8 @@ CMinimap::CMinimap()
 {
 	memset(map, 0, sizeof(map));
 
-	int startX = 100;
-	int startY = 100;
+	int startX = 700;
+	int startY = 0;
 
 
 	for (int i = 0; i < 10; i++)
@@ -65,7 +65,7 @@ void CMinimap::render()
 			frameX = 2;
 		if (map[i].roomAttr == ROOM_TYPE_ATTR::VISITROOM)
 			frameX = 0;
-		IMAGE->frameRender("minimapRoom", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0);
+		IMAGE->alphaFrameRender("minimapRoom", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0, 200);
 		frameX = -1;
 		if (map[i].markAttr == ROOM_MARK_ATTR::NONEMARK)
 			frameX = 0;
@@ -75,13 +75,8 @@ void CMinimap::render()
 			frameX = 2;
 		if (map[i].markAttr == ROOM_MARK_ATTR::SHOP)
 			frameX = 3;
-		IMAGE->frameRender("minimapMark", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0);
+		IMAGE->alphaFrameRender("minimapMark", getMemDC(), map[i].rc.left, map[i].rc.top, frameX, 0, 200);
 	}
-
-	TCHAR str[128];
-	wsprintf(str, "%d", rnd->getFloorplanCount());
-	TextOut(getMemDC(), 500, 520, str, strlen(str));
-	
 }
 
 void CMinimap::mapAttrSetting()

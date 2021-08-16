@@ -12,7 +12,7 @@ void CStage::update()
 	player->update();
 	minimap->update();
 
-	/*for (int i = 0; i < ITEM->getItem().size(); i++)
+	for (int i = 0; i < ITEM->getItem().size(); i++)
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
 		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
@@ -43,25 +43,25 @@ void CStage::update()
 			}
 			break;
 		}
-	}*/
+	}
 
 	if (RectX(testRc) < 0 && minimap->getMinimap()[curRoomIdx - 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
 		changeRoom(curRoomIdx - 1);
 		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
 	}
-	if (RectX(testRc) > WINSIZEX)
+	if (RectX(testRc) > WINSIZEX && minimap->getMinimap()[curRoomIdx + 1].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
 		changeRoom(curRoomIdx + 1);
 		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
 	}
 
-	if (RectY(testRc) < 0)
+	if (RectY(testRc) < 0 && minimap->getMinimap()[curRoomIdx - 10].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
 		changeRoom(curRoomIdx - 10);
 		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
 	}
-	if (RectY(testRc) > WINSIZEY)
+	if (RectY(testRc) > WINSIZEY && minimap->getMinimap()[curRoomIdx + 10].roomAttr != ROOM_TYPE_ATTR::NONEROOM)
 	{
 		changeRoom(curRoomIdx + 10);
 		testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 100, 100);
@@ -71,33 +71,6 @@ void CStage::update()
 	if (InputManager->isStayKeyDown(VK_RIGHT)) OffsetRect(&testRc, 5, 0);
 	if (InputManager->isStayKeyDown(VK_UP)) OffsetRect(&testRc, 0, -5);
 	if (InputManager->isStayKeyDown(VK_DOWN)) OffsetRect(&testRc, 0, 5);
-
-	//if (InputManager->isStayKeyDown('Y'))
-	//{
-	//	testPt.y -= 3;
-	//}
-	//if (InputManager->isStayKeyDown('H'))
-	//{
-	//	testPt.y += 3;
-	//}
-	//if (InputManager->isStayKeyDown('G'))
-	//{
-	//	testPt.x -= 3;
-	//}
-	//if (InputManager->isStayKeyDown('J'))
-	//{
-	//	testPt.x += 3;
-	//}
-	//testFoward = COLLISION->whereAreYouGoing(testPrevPt, testPt);
-	////testPt = COLLISION->tileCollision(map, testPt, testSize, testFoward);
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-	//int hereIndex = (testRc.left / TILEWIDTH - 1) + (testRc.top / TILEHEIGHT) * TILEX;
-
-	//if ((map->getvObstacle()[hereIndex]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE)
-	//{
-	//	testPt = { 200, 500 };
-	//}
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
 }
 
 void CStage::render()
@@ -107,13 +80,6 @@ void CStage::render()
 	minimap->render();
 	playerUI->render(player);
 
-	TCHAR str[128];
-	for (int i = 0; i < 3; i++)
-	{
-		wsprintf(str, "%d", MAP->getMaxRoomNum(i));
-		TextOut(getMemDC(), 50 + i * 50, 500, str, strlen(str));
-	}
-	
 	Rectangle(getMemDC(), testRc.left, testRc.top, testRc.right, testRc.bottom);
 }
 
@@ -131,23 +97,9 @@ void CStage::enter()
 
 	minimap->setRND(rnd);
 	minimap->mapAttrSetting();
-	/*tagTile* tile = curRoom->getTile();
-	for (int i = 0; i < TILEX * TILEY; i++)
-	{
-		curRoom->setMonster(tile[i].monster, tile[i].pt);
-	}*/
-
+	
 	ENEMY->SetPlayer(player);
 	player->setRoomLink(curRoom);
-	//ENEMY->setPlayerLink(player);
-	//testPt = { 500, 500 };
-	//testWidth = 30;
-	//testHeight = 30;
-	//testSize = { 30, 30 };
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-	//testFoward = 0;
-	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
 
 	testRc = RectMakeCenter({ WINSIZEX / 2, WINSIZEY / 2 }, 50, 50);
 }
@@ -164,16 +116,18 @@ void CStage::exit()
 void CStage::randomMapSetting()
 {
 	for (int i = 0; i < 100; i++)
-	{
 		room[i] = new CMap(*rnd->getRNDGenMap(i));
-	}
-
-	curRoomIdx = 45;
-	curRoom = room[curRoomIdx];
+	changeRoom(45);
 }
 
 void CStage::changeRoom(int roomNum)
 {
+	ENEMY->eraserAllEnemy();
+
 	curRoomIdx = roomNum;
 	curRoom = room[curRoomIdx];
+	for (int i = 0; i < TILEX * TILEY; i++)
+	{
+		curRoom->setMonster(curRoom->getTile()[i].monster, curRoom->getTile()[i].pt);
+	}
 }

@@ -58,6 +58,7 @@ public:
 	void respawnMinion(MONSTER_TYPE type, Vec2 pos);
 	void respawn(MONSTER_TYPE type, Vec2 pos);
 	void eraserEnemy(int number) { _vminion.erase(_vminion.begin() + number); }
+	void eraserAllEnemy() { _vminion.clear(); }
 
 	vminion getvmonster() { return _vminion; }
 	viminion getvimonster(int number);

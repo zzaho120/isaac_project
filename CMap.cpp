@@ -89,25 +89,17 @@ void CMap::render()
     {
         (*viObstacle)->render();
     }
-}
 
-void CMap::render(int destX, int destY)
-{
-    switch (room.roomType)
+    for (int i = 0; i < TILEX * TILEY; i++)
     {
-    case ROOM::ROOM_NORMAL:
-        IMAGE->render("basement_normal", getMemDC(), destX * MAPSIZEX, destY * MAPSIZEY);
-        break;
-    case ROOM::ROOM_BOSS:
-        IMAGE->render("basement_boss", getMemDC(), destX * MAPSIZEX, destY * MAPSIZEY);
-        break;
-    case ROOM::ROOM_SHOP:
-        IMAGE->render("shop", getMemDC(), destX * MAPSIZEX, destY * MAPSIZEY);
-        break;
-    }
-    for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
-    {
-        (*viObstacle)->render();
+        if (room.tile[i].obj == OBJECT::OBJ_TOPDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 52, room.tile[i].rcTile.top - 50, 0, 0);
+        if (room.tile[i].obj == OBJECT::OBJ_BOTTOMDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 52, room.tile[i].rcTile.top - 25, 1, 0);
+        if (room.tile[i].obj == OBJECT::OBJ_LEFTDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 70, room.tile[i].rcTile.top - 40, 2, 0);
+        if (room.tile[i].obj == OBJECT::OBJ_RIGHTDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 27, room.tile[i].rcTile.top - 40, 3, 0);
     }
 }
 
@@ -158,20 +150,20 @@ void CMap::doorSetting(DOOR_DIRECTION direction)
     switch (direction)
     {
     case DOOR_DIRECTION::TOP:
+        room.tile[7].obj = OBJECT::OBJ_TOPDOOR;
         vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
-        vObstacle[7]->setDoorFrame({ 0, 0 });
         break;
     case DOOR_DIRECTION::LEFT:
+        room.tile[60].obj = OBJECT::OBJ_LEFTDOOR;
         vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
-        vObstacle[60]->setDoorFrame({ 2, 0 });
         break;
     case DOOR_DIRECTION::RIGHT:
+        room.tile[74].obj = OBJECT::OBJ_RIGHTDOOR;
         vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
-        vObstacle[74]->setDoorFrame({ 3, 0 });
         break;
     case DOOR_DIRECTION::BOTTOM:
+        room.tile[127].obj = OBJECT::OBJ_BOTTOMDOOR;
         vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
-        vObstacle[127]->setDoorFrame({ 1, 0 });
         break;
     default:
         return;

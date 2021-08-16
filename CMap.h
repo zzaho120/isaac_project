@@ -23,7 +23,6 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
-	virtual void render(int destX, int destY);
 
 	void load(const char* fileName);
 	void tileSet();
