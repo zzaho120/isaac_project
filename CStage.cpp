@@ -65,6 +65,10 @@ void CStage::enter()
 	ITEM->respawnItem(ITEM_TYPE::ITEM_BOMB, { 700,500 });
 	ITEM->respawnItem(ITEM_TYPE::ITEM_KEY, { 300,500 });
 	ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 200,500 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { 250,350 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_MOMSLIPSTICK, { 350,350 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_PENTAGRAM, { 450,350 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { 550,350 });
 	ITEM->respawnRandomBasicItem({ 300,400 });
 }
 
@@ -145,41 +149,27 @@ void CStage::playerGetItem()
 				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
 				break;
 			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
-				if (player->getKey() >= 99) { break; }
-				else
-				{
-					player->setKey(player->getKey() + 1);
-					player->cantKeyOver();
-					ITEM->itemRemove(i);
-					break;
-				}
+				player->setBulletDistance(player->getBulletDistance() + 100);
+				ITEM->itemRemove(i);
+				break;
 			case ITEM_TYPE::ITEM_PENTAGRAM:
-				if (player->getKey() >= 99) { break; }
-				else
-				{
-					player->setKey(player->getKey() + 1);
-					player->cantKeyOver();
-					ITEM->itemRemove(i);
-					break;
-				}
+				player->setBulletDamage(player->getBulletDamage() + 1);
+				ITEM->itemRemove(i);
+				break;
 			case ITEM_TYPE::ITEM_BLOODBAG:
-				if (player->getKey() >= 99) { break; }
-				else
-				{
-					player->setKey(player->getKey() + 1);
-					player->cantKeyOver();
-					ITEM->itemRemove(i);
-					break;
-				}
+				player->setMaxHp(player->getMaxHp() + 2);
+				player->sethp(player->gethp() + 10);
+				player->cantHpOver();
+				player->setSpeed(player->getSpeed() + 0.3);
+				player->cantSpeedOver();
+				ITEM->itemRemove(i);
+				break;
 			case ITEM_TYPE::ITEM_SPEEDBALL:
-				if (player->getKey() >= 99) { break; }
-				else
-				{
-					player->setKey(player->getKey() + 1);
-					player->cantKeyOver();
-					ITEM->itemRemove(i);
-					break;
-				}
+				player->setSpeed(player->getSpeed() + 0.3);
+				player->cantSpeedOver();
+				player->setBulletSpeed(player->getBulletSpeed() + 0.2);
+				player->cantBulletSpeedOver();
+				ITEM->itemRemove(i);
 			default:
 				break;
 			}

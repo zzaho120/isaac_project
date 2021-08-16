@@ -54,6 +54,7 @@ HRESULT CPlayer::init()
 	bulletdistance = 100;
 	bulletDamage = 2;
 	height = 30;
+	bulletSpeed = 5;
 
 	//player information
 	coin = 10;
@@ -74,6 +75,7 @@ void CPlayer::update()
 	{
 		Move();
 		fire();
+		UseBomb();
 	}
 	
 	pt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), pt, prevPt, playerfoward, 0);
@@ -102,8 +104,9 @@ void CPlayer::render()
 		{
 			count = 0;
 		}
-		if (count > 30)
+		if (count >= 30)
 		{
+			if(count ==30 )atkani = 0;
 			setAnimation();
 			setAnimationbody();
 			IMAGE->findImage("playerbody")->aniRender(getMemDC(),
@@ -120,12 +123,12 @@ void CPlayer::render()
 	else if (getstate() == STATE_TYPE::IDLE)
 	{
 		count = 0;
-		setAnimation();
-		setAnimationbody();
 		IMAGE->findImage("playerbody")->aniRender(getMemDC(),
 			getRC().left + IMAGE->findImage("isaac")->getFrameWidth() / 2 - IMAGE->findImage("playerbody")->getFrameWidth() / 2,
 			getRC().top + 28, ani_body);
 		IMAGE->findImage("isaac")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
+		setAnimation();
+		setAnimationbody();
 	}
 	else
 	{
@@ -349,26 +352,35 @@ void CPlayer::fire()
 		{
 			if (headfoward <= 1)
 			{
-				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y -20}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y +20}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, bulletSpeed, {firePt.x, firePt.y -20}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, bulletSpeed, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, bulletSpeed, {firePt.x, firePt.y +20}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
 			}
 			else
 			{
-				BULLET->fire(fireAngle, 6, { firePt.x-20, firePt.y}, height, bulletdistance,bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, { firePt.x+20, firePt.y}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, bulletSpeed, { firePt.x-20, firePt.y}, height, bulletdistance,bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, bulletSpeed, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, bulletSpeed, { firePt.x+20, firePt.y}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
 			}
 		}
 		else
 		{
-			BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+			BULLET->fire(fireAngle, bulletSpeed, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
 		}
+	}
+}
+
+void CPlayer::UseBomb()
+{
+	if (InputManager->isOnceKeyDown('E'))
+	{
+		ITEM->playerSummonItem(USE_ITEM::BOMB, pt);
 	}
 }
 
 void CPlayer::setAnimation()
 {
+	
 	if (headfoward != prevhead)
 	{
 		atkani = 0;
@@ -417,6 +429,7 @@ void CPlayer::setAnimation()
 		if (atkani == 0) atkani = -1;
 	}
 	atkani++;
+	
 }
 
 void CPlayer::setAnimationbody()

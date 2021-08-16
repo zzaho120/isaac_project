@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "itemManager.h"
 #include "CItem.h"
+#include "UseItem.h"
 itemManager::itemManager()
 {
 }
@@ -20,7 +21,11 @@ void itemManager::release()
 
 void itemManager::update()
 {
-
+    iItem = item.begin();
+    for (iItem; iItem < item.end(); ++iItem)
+    {
+        (*iItem)->render();
+    }
 }
 
 void itemManager::render()
@@ -63,6 +68,20 @@ void itemManager::respawnItem(ITEM_TYPE type, vector2 pos)
         break;
     case ITEM_TYPE::ITEM_SPEEDBALL:
         _item = new CSpeedBall(pos);
+        break;
+    default:
+        break;
+    }
+    item.push_back(_item);
+}
+
+void itemManager::playerSummonItem(USE_ITEM type, vector2 pos)
+{
+    CItem* _item;
+    switch (type)
+    {
+    case USE_ITEM::BOMB:
+        _item = new CUseBomb(pos);
         break;
     default:
         break;

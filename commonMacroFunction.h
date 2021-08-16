@@ -256,7 +256,11 @@ enum class ITEM_TYPE
 	ITEM_SPEEDBALL,
 	ITEM_NONE
 };
-
+enum class USE_ITEM
+{
+	BOMB,
+	NONE
+};
 // sub-window button function
 enum class CTRL
 {

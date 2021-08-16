@@ -22,7 +22,7 @@ private:
 	float bulletdistance;
 	float height;
 	float bulletDamage;
-
+	float bulletSpeed;
 
 	bool isMove;		// player move 
 	float playerspeed;
@@ -74,7 +74,9 @@ public:
 	int getBulletSize() { return bulletsize; }
 	float getBulletDistance() { return bulletdistance; }
 	float getBulletDamage() { return bulletDamage; }
+	float getBulletSpeed() { return bulletSpeed; }
 	float getSpeed() { return playerMaxSpeed; }
+	int getTearDelay() { return tearDelay; }
 
 	void setMaxHp(int _maxHp) {  maxHp = _maxHp; }
 	void setCoin(int _coin) {  coin = _coin; }
@@ -83,7 +85,9 @@ public:
 	void setBulletSize(int _bulletsize) { bulletsize = _bulletsize; }
 	void setBulletDistance(float _bulletDistance) { bulletdistance = _bulletDistance; }
 	void setBulletDamage(float _bulletDamage) { bulletDamage = _bulletDamage; }
+	void setBulletSpeed(float _bulletSpeed) { bulletSpeed = _bulletSpeed; }
 	void setSpeed(float _speed) { playerMaxSpeed = _speed; }
+	void setTearDelay(int _tearDelay) { tearDelay = _tearDelay; }
 
 	void cantCoinOver() { if (coin >= 99)  coin = 99; }
 	void cantBombOver() { if (bomb >= 99)  bomb = 99; }
@@ -92,6 +96,7 @@ public:
 	void cantBDistanceOver() { if (bulletdistance >= 400) bulletdistance = 400; }
 	void cantBDamageOver() { if (bulletDamage >= 5) bulletDamage = 5; }
 	void cantSpeedOver() { if (playerMaxSpeed >= 10) playerMaxSpeed = 10; }
+	void cantBulletSpeedOver() { if (bulletSpeed >= 10)bulletSpeed = 10; }
 
 	bool isFullHp();
 	void cantHpOver();

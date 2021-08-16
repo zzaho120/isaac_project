@@ -3,6 +3,7 @@
 #include "singleton.h"
 
 class CItem;
+class CUseItem;
 typedef vector <CItem*> vItem;
 typedef vector <CItem*>::iterator viItem;
 class itemManager : public Singleton<itemManager>
@@ -20,6 +21,7 @@ public :
 	void render();
 
 	void respawnItem(ITEM_TYPE type, vector2 pos);
+	void playerSummonItem(USE_ITEM type, vector2 pos);
 	vItem getItem() { return item; }
 	viItem getviItem(int number);
 	void itemRemove(int number);
