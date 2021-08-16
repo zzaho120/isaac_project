@@ -153,7 +153,22 @@ void CObstacle::setObjectValue()
 		isDestroyByBullet = false;
 		isDestroyByBomb = false;
 		break;
-	case OBJECT::OBJ_DOOR:
+	case OBJECT::OBJ_TOPDOOR:
+		isUnmovable = false;
+		isDestroyByBullet = false;
+		isDestroyByBomb = false;
+		break;
+	case OBJECT::OBJ_LEFTDOOR:
+		isUnmovable = false;
+		isDestroyByBullet = false;
+		isDestroyByBomb = false;
+		break;
+	case OBJECT::OBJ_RIGHTDOOR:
+		isUnmovable = false;
+		isDestroyByBullet = false;
+		isDestroyByBomb = false;
+		break;
+	case OBJECT::OBJ_BOTTOMDOOR:
 		isUnmovable = false;
 		isDestroyByBullet = false;
 		isDestroyByBomb = false;

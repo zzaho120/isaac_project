@@ -5,7 +5,7 @@
 class RandomMapGenerator
 {
 private:
-	CMap map[100];
+	CMap* room[100];
 
 	bool started;
 	bool placedSpecial;
@@ -38,7 +38,7 @@ public:
 	void roomSetting();
 	void mapGenerate();
 
-	CMap* getRNDGenMap() { return map; }
+	CMap* getRNDGenMap(int arrNum) { return room[arrNum]; }
 	vector<int> getEndRoom() { return endRoom; }
 	int getFloorplanCount() { return floorplanCount; }
 	bool* getFloorplan() { return floorplan; }

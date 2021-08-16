@@ -17,8 +17,6 @@ private:
 
 	int curRoomIdx;
 
-	RECT rect;
-
 	vector2 testPt;
 	vector2 testPrevPt;
 	vector2 testSize;

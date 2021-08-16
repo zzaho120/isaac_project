@@ -1,7 +1,7 @@
 #pragma once
 #include"image.h"
 #include"AniAddList.h"
-static image* _backBuffer = IMAGE->addImage("backBuffer", WINSIZEX * 10, WINSIZEY * 10);
+static image* _backBuffer = IMAGE->addImage("backBuffer", WINSIZEX, WINSIZEY);
 class gameNode
 {
 

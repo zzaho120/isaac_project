@@ -93,14 +93,14 @@ void CMinimap::mapAttrSetting()
 			map[i].roomAttr = ROOM_TYPE_ATTR::CURROOM;
 			curRoomIdx = i;
 		}
-		else if (rnd->getRNDGenMap()[i].getRoomAttr() == ROOM_TYPE_ATTR::NONCHECK)
+		else if (rnd->getRNDGenMap(i)->getRoomAttr() == ROOM_TYPE_ATTR::NONCHECK)
 			map[i].roomAttr = ROOM_TYPE_ATTR::NONCHECK;
 
-		if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::BOSS)
+		if (rnd->getRNDGenMap(i)->getMarkAttr() == ROOM_MARK_ATTR::BOSS)
 			map[i].markAttr = ROOM_MARK_ATTR::BOSS;
-		if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::SHOP)
+		if (rnd->getRNDGenMap(i)->getMarkAttr() == ROOM_MARK_ATTR::SHOP)
 			map[i].markAttr = ROOM_MARK_ATTR::SHOP;
-		if (rnd->getRNDGenMap()[i].getMarkAttr() == ROOM_MARK_ATTR::REWARD)
+		if (rnd->getRNDGenMap(i)->getMarkAttr() == ROOM_MARK_ATTR::REWARD)
 			map[i].markAttr = ROOM_MARK_ATTR::REWARD;
 	}
 }

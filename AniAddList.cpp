@@ -15,6 +15,7 @@ AniAddList::AniAddList()
 
 	IMAGE->addFrameImage("minimapRoom", "images/map/minimap_room.bmp", MINIMAPROOMX * 3, MINIMAPROOMY, 3, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("minimapMark", "images/map/minimap_special.bmp", MINIMAPROOMX * 5, MINIMAPROOMY, 5, 1, true, RGB(255, 0, 255));
+
 	//=================== bullet ====================================================================================
 	//=================== bullet ====================================================================================
 	IMAGE->addFrameImage("bullet", "images/bullets.bmp", 256, 128, 9, 4, true, RGB(255, 0, 255));

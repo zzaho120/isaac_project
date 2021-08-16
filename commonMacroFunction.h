@@ -154,8 +154,8 @@ const int MONSTERTILEY = 1;
 const int ROOMTILEX = 3;
 const int ROOMTILEY = 1;
 
-const int MAPSIZEX = /*1009*/ 50;
-const int MAPSIZEY = /*729*/ 50;
+const int MAPSIZEX = 1009 /*50*/;
+const int MAPSIZEY = 729 /*50*/;
 
 const int MAPSTARTX = 52;
 const int MAPSTARTY = 52;
@@ -218,7 +218,12 @@ enum class OBJECT
 	OBJ_RB_PIT,
 
 	OBJ_WALL,
-	OBJ_DOOR,
+
+	OBJ_TOPDOOR,
+	OBJ_LEFTDOOR,
+	OBJ_RIGHTDOOR,
+	OBJ_BOTTOMDOOR,
+
 	OBJ_NONE
 };
 

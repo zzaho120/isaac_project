@@ -26,6 +26,19 @@ CMap::CMap(CMap& map)
     markAttr = map.markAttr;
 }
 
+CMap::CMap(CMap* map)
+{
+    for (int i = 0; i < TILEX * TILEY; i++)
+        room.tile[i] = map->room.tile[i];
+
+    room.roomType = map->room.roomType;
+
+    vObstacle.swap(map->vObstacle);
+
+    roomAttr = map->roomAttr;
+    markAttr = map->markAttr;
+}
+
 CMap::~CMap()
 {
 }
@@ -139,16 +152,16 @@ void CMap::doorSetting(DOOR_DIRECTION direction)
     switch (direction)
     {
     case DOOR_DIRECTION::TOP:
-        //vObstacle[7]->setObjType(OBJECT::OBJ_DOOR);
+        vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
         break;
     case DOOR_DIRECTION::LEFT:
-       // vObstacle[60]->setObjType(OBJECT::OBJ_DOOR);
+        vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
         break;
     case DOOR_DIRECTION::RIGHT:
-        //vObstacle[74]->setObjType(OBJECT::OBJ_DOOR);
+        vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
         break;
     case DOOR_DIRECTION::BOTTOM:
-       // vObstacle[127]->setObjType(OBJECT::OBJ_DOOR);
+        vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
         break;
     default:
         return;

@@ -218,11 +218,9 @@ void CPlayer::Move()
 	//pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, playerfoward);
 	/*STAGE->getCurStage()->getMap()->GetvObstacle();
 	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))*/
-	
 
 	rc = RectMakeCenter(pt.x, pt.y, PLAYERWIDTH, PLAYERHEIGHT);
 	collider->setPos(pt);
-
 }
 	
 		

@@ -15,6 +15,7 @@ public:
 	CMap();
 	CMap(const char* fileName);
 	CMap(CMap& map);
+	CMap(CMap* map);
 	~CMap();
 
 	virtual HRESULT init();
