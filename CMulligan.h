@@ -5,6 +5,9 @@ class CMulligan : public CMonster
 private:
 	bool isleft;
 	animation* anihead;
+
+	CCollider* thisCollider;
+	CCollider* thisShadowCollider;
 public:
 	CMulligan();
 	~CMulligan();

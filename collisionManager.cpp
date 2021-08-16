@@ -5,6 +5,7 @@
 #include "CStage.h"
 #include "CPlayer.h"
 #include "CObstacle.h"
+#include "CMonster.h"
 collisionManager::collisionManager()
 {
 }
@@ -172,7 +173,7 @@ int collisionManager::whereAreYouGoing(vector2& _prevPt, vector2 _Pt)
 }
 
 
-vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevPt, int _foward)
+vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevPt, int _foward ,int _type)
 {
 	float width = 30;
 	float height = 30;
@@ -367,7 +368,160 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 			}
 		}
 	}
+	if (_type == 1)
+	{
+		monsterCollision(rc, prevRc, _foward);
+	}
 	vector2 Pt = { RectX(rc), RectY(rc) };
 	_prevPt = Pt;
 	return Pt;
+}
+
+void collisionManager::monsterCollision(RECT& _rc, RECT& _prevRc, int _foward)
+{
+	float width = 30;
+	float height = 30;
+
+	bool isBump = 0;
+
+	for (int i = 0; i < ENEMY->getvmonster().size(); i++)
+	{
+		RECT rec = RectMakeCenter((*ENEMY->getvimonster(i))->getcollider()->getPos(), 30, 30);
+		if (RectX(_rc) == RectX(rec) && RectY(_rc) == RectY(rec))
+		{
+			break;
+		}
+		isBump = isCollision(_rc, rec);
+		if (isBump)
+		{
+			switch (_foward)
+			{
+			case FOWARD::DOWN:
+				_rc.bottom = rec.top;
+				_rc.top = _rc.bottom - height;
+				break;
+			case FOWARD::LEFT:
+				_rc.left = rec.right;
+				_rc.right = _rc.left + width;
+				break;
+			case FOWARD::RIGHT:
+				_rc.right = rec.left;
+				_rc.left = _rc.right - width;
+				break;
+			case FOWARD::UP:
+				_rc.top = rec.bottom;
+				_rc.bottom = _rc.top + height;
+				break;
+			case FOWARD::LEFTDOWN:
+				switch (i)
+				{
+				case 0:
+					_rc.left = rec.right;
+					_rc.right = _rc.left + width;
+					break;
+				case 1:
+					if (_prevRc.left >= rec.right)
+					{
+						_rc.left = rec.right;
+						_rc.right = _rc.left + width;
+					}
+					else
+					{
+						_rc.bottom = rec.top;
+						_rc.top = _rc.bottom - height;
+					}
+					break;
+				case 2:
+					_rc.bottom = rec.top;
+					_rc.top = _rc.bottom - height;
+					break;
+				}
+				break;
+			case FOWARD::LEFTTOP:
+				switch (i)
+				{
+				case 0:
+					_rc.left = rec.right;
+					_rc.right = _rc.left + width;
+					break;
+				case 1:
+					if (_prevRc.top >= rec.bottom)
+					{
+
+						_rc.top = rec.bottom;
+						_rc.bottom = _rc.top + height;
+					}
+					else
+					{
+						_rc.left = rec.right;
+						_rc.right = _rc.left + width;
+					}
+					break;
+				case 2:
+					_rc.top = rec.bottom;
+					_rc.bottom = _rc.top + height;
+					break;
+				}
+				break;
+			case FOWARD::RIGHTDOWN:
+				switch (i)
+				{
+				case 0:
+					_rc.right = rec.left;
+					_rc.left = _rc.right - width;
+					break;
+				case 1:
+					if (_prevRc.right <= rec.left)
+					{
+						_rc.right = rec.left;
+						_rc.left = _rc.right - width;
+					}
+					else
+					{
+						_rc.bottom = rec.top;
+						_rc.top = _rc.bottom - height;
+					}
+					break;
+				case 2:
+					_rc.bottom = rec.top;
+					_rc.top = _rc.bottom - height;
+					break;
+				}
+				break;
+			case FOWARD::RIGHTTOP:
+				switch (i)
+				{
+				case 0:
+					_rc.right = rec.left;
+					_rc.left = _rc.right - width;
+					break;
+				case 1:
+					if (_prevRc.right <= rec.left)
+					{
+						_rc.right = rec.left;
+						_rc.left = _rc.right - width;
+					}
+					else
+					{
+						_rc.top = rec.bottom;
+						_rc.bottom = _rc.top + height;
+					}
+					break;
+				case 2:
+					_rc.top = rec.bottom;
+					_rc.bottom = _rc.top + height;
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+vector2 collisionManager::sliding(int _foward, vector2 _pt)
+{
+
+	return vector2();
 }
