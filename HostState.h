@@ -18,6 +18,7 @@ public:
 class Host_Trace : public CState
 {
 private:
+	int delay;
 public:
 	Host_Trace();
 	~Host_Trace();

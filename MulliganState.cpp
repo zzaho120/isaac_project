@@ -28,11 +28,11 @@ void Mulligan_Idle::update()
 	CCharacter* pMon = m_pFSM->GetMon();
 	Move();
 
-	if (count > 200)
+	if (pMon->gethp() <= 0)
 	{
-		//m_pFSM->ChangeState(STATE_TYPE::DEAD);
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
 	}
-	if (Inrange(300, ENEMY->GetPlayer()->getPt()))
+	else if (Inrange(300, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -176,7 +176,7 @@ void Mulligan_Trace::Enter()
 
 void Mulligan_Trace::update()
 {
-	CObject* pMon = m_pFSM->GetMon();
+	CCharacter* pMon = m_pFSM->GetMon();
 	
 	angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 	
@@ -209,7 +209,11 @@ void Mulligan_Trace::update()
 	}
 	Move_run();
 	foward = isleft(ENEMY->GetPlayer()->getPt());
-	if (!Inrange(300,ENEMY->GetPlayer()->getPt()))
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (!Inrange(300,ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}

@@ -64,7 +64,21 @@ public:
 
 class Hopper_Atk :public CState
 {
+private:
+public:
+	Hopper_Atk();
+	virtual ~Hopper_Atk();
+	virtual void update();
+	virtual void Enter();
+	virtual void Exit();
 };
 class Hopper_Die : public CState
 {
+private:
+public:
+	Hopper_Die();
+	virtual ~Hopper_Die();
+	virtual void update();
+	virtual void Enter();
+	virtual void Exit();
 };

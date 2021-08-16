@@ -40,7 +40,7 @@ void CWORM::update()
 	rcPt.y = RectY(rc) + shadowdistance;
 	foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
 	rcPt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), rcPt, prevPt, foward , 0);
-
+	rcPt = COLLISION->wallCollision(rcPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
 	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
 	colliderShadow->setPos(rcPt);
 	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());

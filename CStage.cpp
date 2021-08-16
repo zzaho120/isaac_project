@@ -4,13 +4,11 @@
 #include "CStage.h"
 #include "CObstacle.h"
 #include "CItem.h"
-//#include "CMinimap.h"
 #include "RandomMapGenerator.h"
 
 void CStage::update()
 {
 	player->update();
-	//minimap->update();
 	if (InputManager->isOnceKeyDown('N'))
 	{
 		player->setBulletSize(player->getBulletSize() + 1);
@@ -27,6 +25,76 @@ void CStage::update()
 	{
 		player->setInnerEye(true);
 	}
+	playerGetItem();
+	COLLISION->stageCollision(player);
+	COLLISION->isMonsterDie();
+}
+
+void CStage::render()
+{
+	curRoom->render();
+	player->render();
+
+	TCHAR str[128];
+	wsprintf(str, "%d", curRoomIdx);
+	TextOut(getMemDC(), 50, 50, str, strlen(str));
+}
+
+void CStage::enter()
+{
+	curRoomIdx = 0;
+	player = new CPlayer;
+	rnd = new RandomMapGenerator;
+
+	rnd->mapGenerate();
+	randomMapSetting();
+	player->init();
+	ALLUI->setPlayer(player);
+	ALLUI->setrandomMap(rnd);
+
+
+	ENEMY->SetPlayer(player);
+	player->setRoomLink(curRoom);
+	//ENEMY->setPlayerLink(player);
+	ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
+	ENEMY->respawnMinion(MONSTER_TYPE::FLY, { 500,500 });
+	ENEMY->respawnMinion(MONSTER_TYPE::WORM, { 400,500 });
+	ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 600,500 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_BOMB, { 700,500 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_KEY, { 300,500 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 200,500 });
+	ITEM->respawnRandomBasicItem({ 300,400 });
+}
+
+void CStage::exit()
+{
+	SAFE_DELETE(player);
+	SAFE_DELETE(rnd);
+	for(int i = 0; i < 100; i++)
+		SAFE_DELETE(room[i]);
+}
+
+void CStage::randomMapSetting()
+{
+	for (int i = 0; i < 100; i++)
+	{
+		room[i] = new CMap(*rnd->getRNDGenMap(i));
+	}
+
+	curRoomIdx = 45;
+	curRoom = room[curRoomIdx];
+}
+
+void CStage::changeRoom(int roomNum)
+{
+	curRoomIdx = roomNum;
+	curRoom = room[curRoomIdx];
+}
+
+void CStage::playerGetItem()
+{
 	for (int i = 0; i < ITEM->getItem().size(); i++)
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
@@ -44,7 +112,7 @@ void CStage::update()
 					ITEM->itemRemove(i);
 					break;
 				}
-			case ITEM_TYPE ::ITEM_COIN:
+			case ITEM_TYPE::ITEM_COIN:
 				if (player->getCoin() >= 99) { break; }
 				else
 				{
@@ -72,14 +140,10 @@ void CStage::update()
 					break;
 				}
 			case ITEM_TYPE::ITEM_THEINNEREYE:
-				if (player->getKey() >= 99) { break; }
-				else
-				{
-					player->setKey(player->getKey() + 1);
-					player->cantKeyOver();
-					ITEM->itemRemove(i);
-					break;
-				}
+				player->setInnerEye(true);
+				ITEM->itemRemove(i);
+				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
+				break;
 			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
 				if (player->getKey() >= 99) { break; }
 				else
@@ -122,105 +186,4 @@ void CStage::update()
 			break;
 		}
 	}
-	//if (InputManager->isStayKeyDown('Y'))
-	//{
-	//	testPt.y -= 3;
-	//}
-	//if (InputManager->isStayKeyDown('H'))
-	//{
-	//	testPt.y += 3;
-	//}
-	//if (InputManager->isStayKeyDown('G'))
-	//{
-	//	testPt.x -= 3;
-	//}
-	//if (InputManager->isStayKeyDown('J'))
-	//{
-	//	testPt.x += 3;
-	//}
-	//testFoward = COLLISION->whereAreYouGoing(testPrevPt, testPt);
-	////testPt = COLLISION->tileCollision(map, testPt, testSize, testFoward);
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-	//int hereIndex = (testRc.left / TILEWIDTH - 1) + (testRc.top / TILEHEIGHT) * TILEX;
-
-	//if ((map->getvObstacle()[hereIndex]->getAttribute() & ATTR_UNMOVABLE) == ATTR_UNMOVABLE)
-	//{
-	//	testPt = { 200, 500 };
-	//}
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-}
-
-void CStage::render()
-{
-	curRoom->render();
-	player->render();
-	//minimap->render();
-
-	//playerUI->render(player);
-
-	TCHAR str[128];
-	wsprintf(str, "%d", curRoomIdx);
-	TextOut(getMemDC(), 50, 50, str, strlen(str));
-}
-
-void CStage::enter()
-{
-	curRoomIdx = 0;
-	player = new CPlayer;
-	//minimap = new CMinimap;
-	rnd = new RandomMapGenerator;
-	//playerUI = new CPlayerUI;
-
-	rnd->mapGenerate();
-	randomMapSetting();
-	player->init();
-	ALLUI->setPlayer(player);
-	ALLUI->setrandomMap(rnd);
-	//minimap->setRND(rnd);
-	//minimap->mapAttrSetting();
-	/*tagTile* tile = ->getTile();
-	for (int i = 0; i < TILEX * TILEY; i++)
-	{
-		map->setMonster(tile[i].monster, tile[i].pt);
-	}*/
-
-	ENEMY->SetPlayer(player);
-	player->setRoomLink(curRoom);
-	//ENEMY->setPlayerLink(player);
-	//testPt = { 500, 500 };
-	//testWidth = 30;
-	//testHeight = 30;
-	//testSize = { 30, 30 };
-	//testRc = RectMakeCenter(testPt, testWidth, testHeight);
-	//testFoward = 0;
-	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_BOMB, { 700,500 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_KEY, { 300,500 });
-}
-
-void CStage::exit()
-{
-	SAFE_DELETE(player);
-	//SAFE_DELETE(minimap);
-	SAFE_DELETE(rnd);
-	for(int i = 0; i < 100; i++)
-		SAFE_DELETE(room[i]);
-}
-
-void CStage::randomMapSetting()
-{
-	for (int i = 0; i < 100; i++)
-	{
-		room[i] = new CMap(*rnd->getRNDGenMap(i));
-	}
-
-	curRoomIdx = 45;
-	curRoom = room[curRoomIdx];
-}
-
-void CStage::changeRoom(int roomNum)
-{
-	curRoomIdx = roomNum;
-	curRoom = room[curRoomIdx];
 }

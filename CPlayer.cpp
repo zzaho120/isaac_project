@@ -52,6 +52,7 @@ HRESULT CPlayer::init()
 	//bullet information
 	bulletsize = 20; 
 	bulletdistance = 100;
+	bulletDamage = 2;
 	height = 30;
 
 	//player information
@@ -82,8 +83,6 @@ void CPlayer::update()
 	colliderShadow->setPos(pt);
 	collider->setPos({ pt.x, pt.y -shadowdistance });
 	rc = RectMakeCenter(collider->getPos(), PLAYERWIDTH, PLAYERHEIGHT);
-	//colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	//collider->setPos({ RectX(rc), RectY(rc) });
 
 	AI_update();
 }
@@ -350,20 +349,20 @@ void CPlayer::fire()
 		{
 			if (headfoward <= 1)
 			{
-				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y -20}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y +20}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y -20}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y +20}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
 			}
 			else
 			{
-				BULLET->fire(fireAngle, 6, { firePt.x-20, firePt.y}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
-				BULLET->fire(fireAngle, 6, { firePt.x+20, firePt.y}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, { firePt.x-20, firePt.y}, height, bulletdistance,bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, { firePt.x+20, firePt.y}, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
 			}
 		}
 		else
 		{
-			BULLET->fire(fireAngle, 6, firePt, height, bulletdistance,CHARACTER::PLAYER, bulletsize, "playerBullet");
+			BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, bulletDamage, CHARACTER::PLAYER, bulletsize, "playerBullet");
 		}
 	}
 }

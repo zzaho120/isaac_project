@@ -28,11 +28,13 @@ void Smallfly_Idle::Enter()
 
 void Smallfly_Idle::update()
 {
-	CCharacter* pMon = m_pFSM->GetMon();
-
 	Move();
-
-	if (Inrange(300, ENEMY->GetPlayer()->getPt()))
+	CCharacter* pMon = m_pFSM->GetMon();
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (Inrange(300, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -126,8 +128,12 @@ void Smallfly_Trace::Enter()
 void Smallfly_Trace::update()
 {
 	MovetoPlayer();
-	
-	if (!Inrange(300, ENEMY->GetPlayer()->getPt()) || count >=100)
+	CCharacter* pMon = m_pFSM->GetMon();
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (!Inrange(300, ENEMY->GetPlayer()->getPt()) || count >=100)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}

@@ -29,9 +29,15 @@ void Fly_Idle::Enter()
 }
 void Fly_Idle::update()
 {
+	CCharacter* pMon = m_pFSM->GetMon();
 	atkcount++;
 	Move();
-	if (inrange(200, ENEMY->GetPlayer()->getPt()))
+
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (inrange(200, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::ATTACK);
 	}
@@ -51,15 +57,17 @@ void Fly_Idle::Move()
 		count = 0;
 		parabola = 0.0f;
 		foward = RND->getFromIntTo(0, 7);
-		distance = RND->getFromIntTo(0, 2);
+		distance = 0;
 	}
 	RECT rec = pMon->getRC();
+	
+	distance += 0.1;
 
 	if (count <= movetime && count % 2 == 0)
 	{
 		rec = RectMakeCenter(
-			RectX(rec) + cosf(PI - foward * PI_4) * (distance - parabola),
-			RectY(rec) - sinf(PI - foward * PI_4) * (distance - parabola),
+			RectX(rec) + cosf(PI - foward * PI_4) * distance,
+			RectY(rec) - sinf(PI - foward * PI_4) * distance,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		parabola += PI_16;
 	}
@@ -87,14 +95,22 @@ bool Fly_Idle::inrange(int range, vector2 pt)
 
 
 //=============================================감지상태=========================================================
+
+
+Fly_Trace::Fly_Trace()
+{
+	m_eState = STATE_TYPE::TRACE;
+}
+
+Fly_Trace::~Fly_Trace()
+{
+}
 void Fly_Trace::Enter()
 {
 }
-
 void Fly_Trace::update()
 {
 }
-
 
 void Fly_Trace::Exit()
 {
@@ -136,7 +152,7 @@ void Fly_Atk::update()
 		shadowDistance = 20;
 		distance = 200;
 
-		BULLET->fire(angle, speed, fire, shadowDistance, distance, CHARACTER::MONSTER, 15, "FlyBullet");
+		BULLET->fire(angle, speed, fire, shadowDistance, distance,1, CHARACTER::MONSTER, 15, "FlyBullet");
 		if (isleft(ENEMY->GetPlayer()->getPt().x))
 		{
 			pMon->setAni(ANIMATION->findAnimation("leftAtkfly"));
@@ -163,8 +179,11 @@ void Fly_Atk::update()
 	}
 
 	count++;
-
-	if (count > delay)
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (count > delay)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}
@@ -185,3 +204,24 @@ bool Fly_Atk::isleft(float x)
 }
 
 //=============================================공격상태=========================================================
+
+Fly_Die::Fly_Die()
+{
+	m_eState = STATE_TYPE::DEAD;
+}
+
+Fly_Die::~Fly_Die()
+{
+}
+
+void Fly_Die::Enter()
+{
+}
+
+void Fly_Die::update()
+{
+}
+
+void Fly_Die::Exit()
+{
+}

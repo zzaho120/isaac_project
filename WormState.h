@@ -45,7 +45,23 @@ public:
 };
 class Worm_Atk : public CState
 {
+private:
+public:
+	Worm_Atk();
+	virtual~Worm_Atk();
+
+	virtual void update();
+	virtual void Enter();
+	virtual void Exit();
 };
 class Worm_Die : public CState
 {
+private:
+public:
+	Worm_Die();
+	virtual~Worm_Die();
+
+	virtual void update();
+	virtual void Enter();
+	virtual void Exit();
 };

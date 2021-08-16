@@ -75,5 +75,69 @@ class CInnerEye : public CItem
 {
 private:
 public:
+	CInnerEye();
+	CInnerEye(vector2 _pt);
+	~CInnerEye();
 
+	virtual HRESULT init();
+	virtual void release();
+	//virtual void update();
+	virtual void render();
+};
+
+class CLipstick : public CItem
+{
+private:
+public:
+	CLipstick();
+	CLipstick(vector2 _pt);
+	~CLipstick();
+
+	virtual HRESULT init();
+	virtual void release();
+	//virtual void update();
+	virtual void render();
+};
+
+class CPentagram : public CItem
+{
+private:
+public:
+	CPentagram();
+	CPentagram(vector2 _pt);
+	~CPentagram();
+
+
+	virtual HRESULT init();
+	virtual void release();
+	//virtual void update();
+	virtual void render();
+};
+
+class CBloodbag : public CItem
+{
+private:
+public:
+	CBloodbag();
+	CBloodbag(vector2 _pt);
+	~CBloodbag();
+
+	virtual HRESULT init();
+	virtual void release();
+	//virtual void update();
+	virtual void render();
+};
+
+class CSpeedBall : public CItem
+{
+private:
+public:
+	CSpeedBall();
+	CSpeedBall(vector2 _pt);
+	~CSpeedBall();
+
+	virtual HRESULT init();
+	virtual void release();
+	//virtual void update();
+	virtual void render();
 };

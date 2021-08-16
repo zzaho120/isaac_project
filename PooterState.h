@@ -30,12 +30,18 @@ public:
 };
 class Fly_Trace : public CState
 {
+private:
+public:
+	Fly_Trace();
+	virtual~Fly_Trace();
 	virtual void update();
 	virtual void Enter();
 	virtual void Exit();
 };
 class Fly_Atk : public CState
 {
+private:
+
 	int count;
 	int delay;
 
@@ -56,3 +62,14 @@ public:
 	virtual void Exit();
 };
 
+class Fly_Die : public CState
+{
+private:
+public:
+	Fly_Die();
+	virtual ~Fly_Die();
+
+	virtual void Enter();
+	virtual void update();
+	virtual void Exit();
+};

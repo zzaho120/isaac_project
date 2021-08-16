@@ -18,11 +18,12 @@ private:
 
 	
 
-	int bulletDamage;	// bullet infomation
-	int bulletsize; 
+	int bulletsize; 			// bullet infomation
 	float bulletdistance;
 	float height;
-	
+	float bulletDamage;
+
+
 	bool isMove;		// player move 
 	float playerspeed;
 	float playerMaxSpeed;
@@ -72,7 +73,7 @@ public:
 	int getKey() { return key; }
 	int getBulletSize() { return bulletsize; }
 	float getBulletDistance() { return bulletdistance; }
-	int getBulletDamage() { return bulletDamage; }
+	float getBulletDamage() { return bulletDamage; }
 	float getSpeed() { return playerMaxSpeed; }
 
 	void setMaxHp(int _maxHp) {  maxHp = _maxHp; }

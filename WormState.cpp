@@ -25,10 +25,14 @@ void Worm_idle::Enter()
 
 void Worm_idle::update()
 {
+	CCharacter* pMon = m_pFSM->GetMon();
 	Move();
 	atk_count++;
-
-	if (Inrange(300, ENEMY->GetPlayer()->getPt()) && Crossrange(50, ENEMY->GetPlayer()->getPt()) && atk_count > 400)
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (Inrange(300, ENEMY->GetPlayer()->getPt()) && Crossrange(50, ENEMY->GetPlayer()->getPt()) && atk_count > 400)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -170,7 +174,7 @@ void Worm_trace::Enter()
 
 void Worm_trace::update()
 {
-	
+	CCharacter* pMon = m_pFSM->GetMon();
 	if (foward == 0)
 	{
 		setfoward(50, ENEMY->GetPlayer()->getPt());
@@ -178,7 +182,11 @@ void Worm_trace::update()
 	Move();
 
 	count++;
-	if (count > 200)
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (count > 200)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}
@@ -277,3 +285,48 @@ int Worm_trace::setfoward(int range, vector2 pt)
 }
 
 //=============================================감지상태=========================================================
+
+
+
+Worm_Atk::Worm_Atk()
+{
+	m_eState = STATE_TYPE::ATTACK;
+}
+
+Worm_Atk::~Worm_Atk()
+{
+}
+
+void Worm_Atk::update()
+{
+}
+
+void Worm_Atk::Enter()
+{
+}
+
+void Worm_Atk::Exit()
+{
+}
+
+Worm_Die::Worm_Die()
+{
+	m_eState = STATE_TYPE::DEAD;
+}
+
+Worm_Die::~Worm_Die()
+{
+}
+
+void Worm_Die::update()
+{
+}
+
+void Worm_Die::Enter()
+{
+	ITEM->respawnRandomBasicItem(m_pFSM->GetMon()->GetcolliderShadow()->getPos());
+}
+
+void Worm_Die::Exit()
+{
+}

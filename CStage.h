@@ -42,4 +42,7 @@ public:
 	CPlayer* getPlayer() { return player; }
 	int getCurRoomIdx() { return curRoomIdx; }
 	CMap* getCurRoom() { return curRoom; }
+
+	void playerGetItem();
+
 };

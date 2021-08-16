@@ -6,6 +6,9 @@
 #include "CPlayer.h"
 #include "CObstacle.h"
 #include "CMonster.h"
+#include "CFSM.h"
+#include "CPlayer.h"
+#include "CBullet.h"
 collisionManager::collisionManager()
 {
 }
@@ -559,4 +562,62 @@ vector2 collisionManager::wallCollision(vector2 _objectPt, vector2 _startPt, flo
 	}
 	vector2 Pt = { RectX(rc), RectY(rc) };
 	return Pt;
+}
+
+void collisionManager::stageCollision(CPlayer* _player)
+{
+	bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
+	ENEMY->SetPlayer(_player);
+	for (int i = 0; i < ENEMY->getvmonster().size(); i++) //player and monster collision
+	{
+		bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
+		bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
+		if (ispcm && playerIdle && ispsm)
+		{
+			//ENEMY->eraserEnemy(i);
+			_player->sethp(_player->gethp() - 1);
+			_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
+			break;
+		}
+	}
+	for (int i = 0; i < ENEMY->getvmonster().size(); i++)		//playerBullet and monster collision
+	{
+		for (int j = 0; j < BULLET->getvBullet().size(); j++)
+		{
+			bool ispbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
+			bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
+			bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
+			if (ispbcm && ispbrm && ispB)
+			{
+				(*ENEMY->getvimonster(i))->sethp((*ENEMY->getvimonster(i))->gethp() - (*BULLET->getviBullet(j))->getDamage());
+				BULLET->eraserBullet(j);
+				break;
+			}
+		}
+	}
+	for (int i = 0; i < BULLET->getvBullet().size(); i++)	 //monsterBullet and player collision
+	{
+		bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
+		bool ismbsp = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), _player->GetcolliderShadow());
+		bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
+		if (ismbcp && ismbsp && ismB && playerIdle)
+		{
+			BULLET->eraserBullet(i);
+			_player->sethp(_player->gethp() - 1);
+			_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
+			break;
+		}
+	}
+}
+
+void collisionManager::isMonsterDie()
+{
+	for (int i = 0; i < ENEMY->getvmonster().size(); i++)		//playerBullet and monster collision
+	{
+		if ((*ENEMY->getvimonster(i))->getstate() == STATE_TYPE::DEAD)
+		{
+			ENEMY->eraserEnemy(i);
+			break;
+		}
+	}
 }
