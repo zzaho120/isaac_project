@@ -386,7 +386,7 @@ void collisionManager::monsterCollision(RECT& _rc, RECT& _prevRc, int _foward)
 
 	for (int i = 0; i < ENEMY->getvmonster().size(); i++)
 	{
-		RECT rec = RectMakeCenter((*ENEMY->getvimonster(i))->getcollider()->getPos(), 30, 30);
+		RECT rec = RectMakeCenter((*ENEMY->getvimonster(i))->GetcolliderShadow()->getPos(), 30, 30);
 		if (RectX(_rc) == RectX(rec) && RectY(_rc) == RectY(rec))
 		{
 			break;
