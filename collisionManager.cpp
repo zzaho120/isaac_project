@@ -235,7 +235,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 	RECT temprc;
 	bool isBump = 0;
 	bool cant = 0;
-	if (hereIndex <= 119 && hereIndex >= 16)
+	if (hereIndex <= 118 && hereIndex >= 16)
 	{
 		for (int i = 0; i < 3; i++)
 		{
@@ -370,6 +370,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 			}
 		}
 	}
+
 	if (_type == 1)
 	{
 		monsterCollision(rc, prevRc, _foward);
@@ -526,4 +527,36 @@ vector2 collisionManager::sliding(int _foward, vector2 _pt)
 {
 
 	return vector2();
+}
+
+vector2 collisionManager::wallCollision(vector2 _objectPt, vector2 _startPt, float _sizeX, float _sizeY)
+{
+	float width = 30;
+	float height = 30;
+
+	RECT rc = RectMakeCenter(_objectPt, width, height);
+	RECT map = RectMake(_startPt, _sizeX, _sizeY);
+
+	if (rc.right > map.right)
+	{
+		rc.right = map.right;
+		rc.left = rc.right - width;
+	}
+	if (rc.left < map.left)
+	{
+		rc.left = map.left;
+		rc.right = rc.left + width;
+	}
+	if (rc.top < map.top)
+	{
+		rc.top = map.top;
+		rc.bottom = rc.top + height;
+	}
+	if (rc.bottom > map.bottom)
+	{
+		rc.bottom = map.bottom;
+		rc.top = rc.bottom - height;
+	}
+	vector2 Pt = { RectX(rc), RectY(rc) };
+	return Pt;
 }

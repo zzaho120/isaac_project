@@ -74,6 +74,7 @@ void CPlayer::update()
 	}
 	
 	pt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), pt, prevPt, playerfoward, 0);
+	pt = COLLISION->wallCollision(pt, { MAPSTARTX+ TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX- TILEWIDTH*2, TILESIZEY - TILEHEIGHT*2);
 	prevPt = pt;
 
 	colliderShadow->setPos(pt);
@@ -83,7 +84,6 @@ void CPlayer::update()
 	//collider->setPos({ RectX(rc), RectY(rc) });
 
 	AI_update();
-	
 }
 
 void CPlayer::render()

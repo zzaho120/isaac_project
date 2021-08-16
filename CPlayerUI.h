@@ -1,7 +1,7 @@
 #pragma once
-#include "gameNode.h"
+#include "CUI.h"
 class CPlayer;
-class CPlayerUI : public gameNode
+class CPlayerUI : public CUI
 {
 private:
 public:
