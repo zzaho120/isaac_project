@@ -23,6 +23,6 @@ public :
 	vItem getItem() { return item; }
 	viItem getviItem(int number);
 	void itemRemove(int number);
-	
+	void respawnRandomBasicItem(vector2 pos);
 };
 

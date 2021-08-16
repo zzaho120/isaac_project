@@ -21,7 +21,12 @@ void Host_Idle::Enter()
 }
 void Host_Idle::update()
 {
-	if (inrange(300, ENEMY->GetPlayer()->getPt()) && crossrange(20, ENEMY->GetPlayer()->getPt()))
+	CCharacter* pMon = m_pFSM->GetMon();
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (inrange(300, ENEMY->GetPlayer()->getPt()) && crossrange(20, ENEMY->GetPlayer()->getPt()))
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
@@ -70,11 +75,21 @@ void Host_Trace::Enter()
 	CCharacter* pMon = m_pFSM->GetMon();
 	pMon->setAni(ANIMATION->findAnimation("hosttrace"));
 	ANIMATION->start("hosttrace");
+	delay = 0;
 }
 
 void Host_Trace::update()
 {
-	m_pFSM->ChangeState(STATE_TYPE::ATTACK);
+	delay++;
+	CCharacter* pMon = m_pFSM->GetMon();
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (delay >30)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::ATTACK);
+	}
 }
 
 
@@ -120,11 +135,15 @@ void Host_Atk::update()
 		shadowDistance = 20;
 		distance = 200;
 
-		BULLET->fire(angle, speed, fire, shadowDistance, distance, CHARACTER::MONSTER, 15, "HostBullet");
+		BULLET->fire(angle, speed, fire, shadowDistance, distance,1, CHARACTER::MONSTER, 15, "HostBullet");
 	}
 	count++;
 
-	if (count > delay)
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (count > delay)
 	{
 		if (inrange(300, ENEMY->GetPlayer()->getPt()) && crossrange(20, ENEMY->GetPlayer()->getPt()))
 		{

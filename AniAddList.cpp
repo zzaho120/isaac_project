@@ -22,6 +22,8 @@ AniAddList::AniAddList()
 	IMAGE->addImage("itemshadow", "images/shadow.bmp", 30, 10, true, RGB(255, 0, 255));
 
 	IMAGE->addFrameImage("heartitem", "images/item/heart.bmp", 90, 30, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("bomb", "images/item/bomb.bmp", 30*1.5, 30*1.5, 1, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("key", "images/item/key.bmp", 30*1.5, 30*1.5, 1, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("passiveitem", "images/item/passiveitem.bmp", 150, 50, 5, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("coin", "images/item/coin.bmp", 180, 30, 6, 1, true, RGB(255, 0, 255));
 	ANIMATION->addAnimation("coinani", "coin", 0, 5, 10, false, true);

@@ -27,7 +27,7 @@ void Hopper_Idle::Enter()
 
 	parabola = 0;
 	foward = RND->getFromIntTo(0, 7);
-	distance = RND->getFromIntTo(2, 6);
+	distance = RND->getFromIntTo(50, 100);
 
 	CObject* pMon = m_pFSM->GetMon();
 	shadow = pMon->getRC();
@@ -35,12 +35,18 @@ void Hopper_Idle::Enter()
 
 void Hopper_Idle::update()
 {
+	CCharacter* pMon = m_pFSM->GetMon();
 	Jump();
 	
-	if (Inrange(300, ENEMY->GetPlayer()->getPt()) && idle)
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (Inrange(300, ENEMY->GetPlayer()->getPt()) && idle)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::TRACE);
 	}
+	
 }
 
 
@@ -56,15 +62,34 @@ void Hopper_Idle::Jump()
 	{
 		count = 0;
 		parabola = 0.0f;
-		foward = RND->getFromIntTo(0, 7);
-		distance = RND->getFromIntTo(2, 6);
+		bool isok=true;
+		while (isok)
+		{
+			foward = RND->getFromIntTo(0, 7);
+			distance = RND->getFromIntTo(50, 100);
+			break;
+		}
+		/*foward = RND->getFromIntTo(0, 7);
+		distance = RND->getFromIntTo(50, 100);*/
 		jumpstart = 1;
 		downstart = 1;
 		idlestart = 1;
 		
 	}
-		RECT rec = pMon->getRC();
+	RECT rec = pMon->getRC();
 	if (count <= movetime && count % 2 == 0)
+	{
+		shadow = RectMakeCenter(
+			RectX(shadow) + cosf(PI - foward * PI_4) * distance / 16,
+			RectY(shadow) - sinf(PI - foward * PI_4) * distance / 16,
+			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
+		rec = RectMakeCenter(
+			RectX(shadow),
+			RectY(shadow) - sinf(parabola) * 50 + 5,
+			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
+		parabola += PI_16;
+	}
+	/*if (count <= movetime && count % 2 == 0)
 	{
 
 		shadow = RectMakeCenter(
@@ -76,7 +101,7 @@ void Hopper_Idle::Jump()
 			RectY(shadow) - sinf(parabola) * 50 + 5,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		parabola += PI_16;
-	}
+	}*/
 	if (count <= movetime / 2)
 	{
 		pMon->setAni(ANIMATION->findAnimation("jumphopper"));
@@ -172,8 +197,8 @@ void Hopper_Trace::Enter()
 
 void Hopper_Trace::update()
 {
-	CObject* pMon = m_pFSM->GetMon();
 	
+	CCharacter* pMon = m_pFSM->GetMon();
 	if (count == 0)
 	{
 		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
@@ -181,7 +206,12 @@ void Hopper_Trace::update()
 	}
 	Jump();
 
-	if (idle)
+	
+	if (pMon->gethp() <= 0)
+	{
+		m_pFSM->ChangeState(STATE_TYPE::DEAD);
+	}
+	else if (idle)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::IDLE);
 	}
@@ -257,3 +287,46 @@ void Hopper_Trace::Jump()
 	count++;
 }
 //=============================================감지상태=========================================================
+
+Hopper_Atk::Hopper_Atk()
+{
+	m_eState = STATE_TYPE::ATTACK;
+}
+
+Hopper_Atk::~Hopper_Atk()
+{
+}
+
+void Hopper_Atk::Enter()
+{
+}
+
+void Hopper_Atk::update()
+{
+}
+
+void Hopper_Atk::Exit()
+{
+}
+
+Hopper_Die::Hopper_Die()
+{
+	m_eState = STATE_TYPE::DEAD;
+}
+
+Hopper_Die::~Hopper_Die()
+{
+}
+
+void Hopper_Die::Enter()
+{
+	m_pFSM->GetMon()->release();
+}
+
+void Hopper_Die::update()
+{
+}
+
+void Hopper_Die::Exit()
+{
+}

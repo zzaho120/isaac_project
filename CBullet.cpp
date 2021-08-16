@@ -6,15 +6,15 @@ CBullet::CBullet() :
     fallingHeight(0)
 { }
 
-CBullet::CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed, float _distance, int _height, CHARACTER _type, int size) :
+CBullet::CBullet(Vec2 _pos, RECT _rc, float _angle, float _speed, float _distance, float _damage, int _height, CHARACTER _type, int size) :
     CObject(_pos, _rc), firePt(_pos), angle(_angle), speed(_speed),
-    fallingHeight(_height), distance(_distance), type(_type), BULLETSIZE(size)
+    fallingHeight(_height), distance(_distance), type(_type), BULLETSIZE(size),bulletDamage(_damage)
 { }
 
 CBullet::~CBullet()
 { }
 
-HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, float _distance, CHARACTER _type, float size, string _bulletType)
+HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, float _distance,float _damage, CHARACTER _type, float size, string _bulletType)
 {
     CObject::init(_pt,
         RectMakeCenter(_pt.x, _pt.y, size, size),
@@ -27,6 +27,7 @@ HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, fl
     BULLETSIZE = size;
     type = _type;
     distance = _distance;
+    bulletDamage = _damage;
     shadowdistance = _height;
     bulletType = _bulletType;
     bulletShadow = "Shadow";
@@ -36,8 +37,9 @@ HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, fl
     
     bulletAnimation = new animation;
     bulletAnimation->init(BULLETSIZE*13, BULLETSIZE, BULLETSIZE, BULLETSIZE);
-    bulletAnimation->setDefPlayFrame(false, false);
-    bulletAnimation->setFPS(1);
+    //bulletAnimation->setDefPlayFrame(false, false);
+    bulletAnimation->setPlayFrame(10, 12, false, false);
+    bulletAnimation->setFPS(100);
     bulletAnimation->start();
     bulletImage = IMAGE->findImage(_bulletType);
     
@@ -52,7 +54,7 @@ void CBullet::release()
 void CBullet::update()
 {
     move();
-    bulletAnimation->frameUpdate(30.0f);
+    bulletAnimation->frameUpdate(1.0f);
 }
 
 void CBullet::render()

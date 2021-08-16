@@ -44,6 +44,7 @@ HRESULT gameNode::init(bool managerInit)
 		ITEM->init();
 		MAP->init();
 		STAGE->init();
+		ALLUI->init();
 	}
 	
 
@@ -79,7 +80,7 @@ void gameNode::release()
 		ENEMY->releaseSingleton();
 		COLLISION->releaseSingleton();
 		MAP->releaseSingleton();
-		
+		ALLUI->releaseSingleton();
 
 		SCENE->release();
 		IMAGE->release();
@@ -112,6 +113,7 @@ void gameNode::update()
 	ENEMY->update();
 	ITEM->update();
 	EFFECT->update();
+	ALLUI->update();
 	InvalidateRect(m_hWnd, NULL, false);
 }
 
@@ -130,6 +132,7 @@ void gameNode::render()
 	ITEM->render();
 	EFFECT->render();
 	MAP->render();
+	ALLUI->render();
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)

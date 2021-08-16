@@ -16,17 +16,18 @@ private:
 	int maxHp;
 	int coin;
 
-	bool isMove;
-	/*float velocityX;
-	float velocityY;*/
-	float playerspeed;
-	float PLAYERMAXSPEED;
+	
 
-	int bulletsize; // bullet infomation
-	float distance;
+	int bulletsize; 			// bullet infomation
+	float bulletdistance;
 	float height;
+	float bulletDamage;
 
-	int playerfoward; // player move 
+
+	bool isMove;		// player move 
+	float playerspeed;
+	float playerMaxSpeed;
+	int playerfoward;	
 	int prevfoward;
 	
 	int headfoward;
@@ -43,6 +44,8 @@ private:
 	int atkani;
 
 	CMap* room;
+
+	bool theInnerEye;
 public:
 	CPlayer();
 	CPlayer(Vec2 _pos, RECT _rc, int _hp);
@@ -68,16 +71,30 @@ public:
 	int getCoin() { return coin; }
 	int getBomb() { return bomb; }
 	int getKey() { return key; }
+	int getBulletSize() { return bulletsize; }
+	float getBulletDistance() { return bulletdistance; }
+	float getBulletDamage() { return bulletDamage; }
+	float getSpeed() { return playerMaxSpeed; }
 
 	void setMaxHp(int _maxHp) {  maxHp = _maxHp; }
 	void setCoin(int _coin) {  coin = _coin; }
 	void setBomb(int _bomb) {  bomb = _bomb; }
 	void setKey(int _key) {  key = _key; }
+	void setBulletSize(int _bulletsize) { bulletsize = _bulletsize; }
+	void setBulletDistance(float _bulletDistance) { bulletdistance = _bulletDistance; }
+	void setBulletDamage(float _bulletDamage) { bulletDamage = _bulletDamage; }
+	void setSpeed(float _speed) { playerMaxSpeed = _speed; }
 
 	void cantCoinOver() { if (coin >= 99)  coin = 99; }
 	void cantBombOver() { if (bomb >= 99)  bomb = 99; }
 	void cantKeyOver() { if (key >= 99)  key = 99; }
+	void cantBSizeOver() { if (bulletsize >= 99) bulletsize = 99; }
+	void cantBDistanceOver() { if (bulletdistance >= 400) bulletdistance = 400; }
+	void cantBDamageOver() { if (bulletDamage >= 5) bulletDamage = 5; }
+	void cantSpeedOver() { if (playerMaxSpeed >= 10) playerMaxSpeed = 10; }
 
 	bool isFullHp();
 	void cantHpOver();
+
+	void setInnerEye(bool _istrue) { theInnerEye = _istrue; }
 };

@@ -47,12 +47,15 @@ void CCharacter::AI_init(CCharacter* monster, MONSTER_TYPE type)
 		m_pAI->AddState(new Fly_Idle);
 		m_pAI->AddState(new Fly_Trace);
 		m_pAI->AddState(new Fly_Atk);
+		m_pAI->AddState(new Fly_Die);
 		m_pAI->SetState(STATE_TYPE::IDLE);
 		break;
 	case MONSTER_TYPE::HOPPER:
 
 		m_pAI->AddState(new Hopper_Idle);
 		m_pAI->AddState(new Hopper_Trace);
+		m_pAI->AddState(new Hopper_Atk);
+		m_pAI->AddState(new Hopper_Die);
 		m_pAI->SetState(STATE_TYPE::IDLE);
 		break;
 	case MONSTER_TYPE::HOST:
@@ -73,6 +76,8 @@ void CCharacter::AI_init(CCharacter* monster, MONSTER_TYPE type)
 	case MONSTER_TYPE::WORM:
 		m_pAI->AddState(new Worm_idle);
 		m_pAI->AddState(new Worm_trace);
+		m_pAI->AddState(new Worm_Atk);
+		m_pAI->AddState(new Worm_Die);
 		m_pAI->SetState(STATE_TYPE::IDLE);
 		break;
 	case MONSTER_TYPE::GURDY:

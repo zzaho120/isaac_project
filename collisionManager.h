@@ -2,6 +2,8 @@
 #include"singleton.h"
 class CCollider;
 class CMap;
+class CPlayer;
+class CFSM;
 class collisionManager : public Singleton<collisionManager>
 {
 private:
@@ -20,4 +22,6 @@ public:
 	void monsterCollision(RECT& _rc, RECT& _prevRc, int _foward);
 	vector2 sliding(int _foward, vector2 _pt);
 	vector2 wallCollision(vector2 _objectPt, vector2 _startPt, float _sizeX, float _sizeY);
+	void stageCollision(CPlayer* _player);
+	void isMonsterDie();
 };
