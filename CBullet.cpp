@@ -36,8 +36,9 @@ HRESULT CBullet::init(float _angle, float _speed, vector2 _pt, float _height, fl
     
     bulletAnimation = new animation;
     bulletAnimation->init(BULLETSIZE*13, BULLETSIZE, BULLETSIZE, BULLETSIZE);
-    bulletAnimation->setDefPlayFrame(false, false);
-    bulletAnimation->setFPS(1);
+    //bulletAnimation->setDefPlayFrame(false, false);
+    bulletAnimation->setPlayFrame(10, 12, false, false);
+    bulletAnimation->setFPS(100);
     bulletAnimation->start();
     bulletImage = IMAGE->findImage(_bulletType);
     
@@ -52,7 +53,7 @@ void CBullet::release()
 void CBullet::update()
 {
     move();
-    bulletAnimation->frameUpdate(30.0f);
+    bulletAnimation->frameUpdate(1.0f);
 }
 
 void CBullet::render()

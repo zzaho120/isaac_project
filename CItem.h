@@ -62,10 +62,18 @@ class CKey : public CItem
 private:
 public:
 	CKey();
+	CKey(vector2 _pt);
 	~CKey();
 
 	virtual HRESULT init();
 	virtual void release();
 	//virtual void update();
 	virtual void render();
+};
+
+class CInnerEye : public CItem
+{
+private:
+public:
+
 };

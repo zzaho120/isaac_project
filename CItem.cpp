@@ -95,6 +95,13 @@ CBomb::CBomb()
 {
 }
 
+CBomb::CBomb(vector2 _pt)
+{
+	rc = RectMakeCenter(_pt, 30, 30);
+	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 10 }, { 30, 10 });
+	type = ITEM_TYPE::ITEM_BOMB;
+}
+
 CBomb::~CBomb()
 {
 }
@@ -110,5 +117,42 @@ void CBomb::release()
 
 void CBomb::render()
 {
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 45, 45);
+	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	
+	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
+	IMAGE->frameRender("bomb", getMemDC(), rec.left, rec.top, 0, 0);
 }
 
+CKey::CKey()
+{
+}
+
+CKey::CKey(vector2 _pt)
+{
+	rc = RectMakeCenter(_pt, 30, 30);
+	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 10 }, { 30, 10 });
+	type = ITEM_TYPE::ITEM_KEY;
+}
+
+CKey::~CKey()
+{
+}
+
+HRESULT CKey::init()
+{
+	return E_NOTIMPL;
+}
+
+void CKey::release()
+{
+}
+
+void CKey::render()
+{
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 45, 45);
+	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+
+	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
+	IMAGE->frameRender("key", getMemDC(), rec.left, rec.top, 0, 0);
+}

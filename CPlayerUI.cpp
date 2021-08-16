@@ -57,11 +57,11 @@ void CPlayerUI::render(CPlayer* _player)
 	IMAGE->frameRender("number", getMemDC(), 80, 95 + 1 * 23, coinTen, 0);
 	IMAGE->frameRender("number",getMemDC(),94, 95 + 1 * 23, coinOne, 0);
 	
-	IMAGE->frameRender("number", getMemDC(), 80, 95 + 2 * 23, bombTen, 0);
-	IMAGE->frameRender("number", getMemDC(), 94, 95 + 2 * 23, bombOne, 0);
+	IMAGE->frameRender("number", getMemDC(), 80, 95 + 2 * 23, keyTen, 0);
+	IMAGE->frameRender("number", getMemDC(), 94, 95 + 2 * 23, keyOne, 0);
 	
-	IMAGE->frameRender("number", getMemDC(), 80, 95 + 3 * 23, keyTen, 0);
-	IMAGE->frameRender("number", getMemDC(), 94, 95 + 3 * 23, keyOne, 0);
+	IMAGE->frameRender("number", getMemDC(), 80, 95 + 3 * 23, bombTen, 0);
+	IMAGE->frameRender("number", getMemDC(), 94, 95 + 3 * 23, bombOne, 0);
 
 	//wsprintf(coin, TEXT("%d"), _player->getCoin());
 	//TextOut(getMemDC(), 80, 100 + 1 * 23, coin, strlen(coin));

@@ -46,7 +46,7 @@ bool collisionManager::isCollision(CCollider* _left, CCollider* _right)
 		{
 			// y축으로 겹친다.
 			return true;
-		}
+		} 
 	}
 
 	return false;

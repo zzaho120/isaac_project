@@ -5,10 +5,12 @@
 #include "CState.h"
 #include "CStage.h"
 #include "CMap.h"
+#include "CBullet.h"
 CPlayer::CPlayer() :
 	CCharacter(), isMove(false), totalTears(0)
 {
 	setAni(ANIMATION->findAnimation("down_head"));
+	theInnerEye = false;
 }
 
 CPlayer::CPlayer(Vec2 _pos, RECT _rc, int _hp) :
@@ -38,18 +40,18 @@ HRESULT CPlayer::init()
 	ANIMATION->start("playeridlehead");
 	isMove = false;
 	totalTears = 0;
-
+	tearDelay = 100;
 	//player item and hp
 	maxHp = 10;
 	hp = 9;
 
 	//player speed
-	PLAYERMAXSPEED = 4;
+	playerMaxSpeed = 4;
 	playerspeed = 0;
 
 	//bullet information
-	bulletsize = 15; 
-	distance = 100;
+	bulletsize = 20; 
+	bulletdistance = 100;
 	height = 30;
 
 	//player information
@@ -138,24 +140,24 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::LEFTDOWN;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
-		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
+		playerspeed += playerMaxSpeed / sqrtf(2) / 10;
+		if (playerspeed >= playerMaxSpeed / sqrtf(2)) playerspeed = playerMaxSpeed / sqrtf(2);
 		pt = Vec2(pt.x - playerspeed, pt.y + playerspeed);
 	}
 	else if (InputManager->isStayKeyDown('A') && InputManager->isStayKeyDown('W'))
 	{
 		movecount = 5;
 		playerfoward = FOWARD::LEFTTOP;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
-		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
+		playerspeed += playerMaxSpeed / sqrtf(2) / 10;
+		if (playerspeed >= playerMaxSpeed / sqrtf(2)) playerspeed = playerMaxSpeed / sqrtf(2);
 		pt = Vec2(pt.x - playerspeed, pt.y - playerspeed);
 	}
 	else if (InputManager->isStayKeyDown('D') && InputManager->isStayKeyDown('W'))
 	{
 		movecount = 5;
 		playerfoward = FOWARD::RIGHTTOP;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
-		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
+		playerspeed += playerMaxSpeed / sqrtf(2) / 10;
+		if (playerspeed >= playerMaxSpeed / sqrtf(2)) playerspeed = playerMaxSpeed / sqrtf(2);
 		pt = Vec2(pt.x + playerspeed, pt.y - playerspeed);
 	}
 
@@ -163,16 +165,16 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::RIGHTDOWN;
-		playerspeed += PLAYERMAXSPEED / sqrtf(2) / 10;
-		if (playerspeed >= PLAYERMAXSPEED / sqrtf(2)) playerspeed = PLAYERMAXSPEED / sqrtf(2);
+		playerspeed += playerMaxSpeed / sqrtf(2) / 10;
+		if (playerspeed >= playerMaxSpeed / sqrtf(2) +0.2) playerspeed = playerMaxSpeed / sqrtf(2) + 0.2;
 		pt = Vec2(pt.x + playerspeed, pt.y + playerspeed);
 	}
 	else if (InputManager->isStayKeyDown('A'))
 	{
 		movecount = 5;
 		playerfoward = FOWARD::LEFT;
-		playerspeed += PLAYERMAXSPEED / 10;
-		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
+		playerspeed += playerMaxSpeed / 10;
+		if (playerspeed >= playerMaxSpeed) playerspeed = playerMaxSpeed;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x - playerspeed, pt.y);
 	}
@@ -181,8 +183,8 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::DOWN;
-		playerspeed += PLAYERMAXSPEED / 10;
-		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
+		playerspeed += playerMaxSpeed / 10;
+		if (playerspeed >= playerMaxSpeed) playerspeed = playerMaxSpeed;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x, pt.y + playerspeed);
 	}
@@ -190,8 +192,8 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::RIGHT;
-		playerspeed += PLAYERMAXSPEED / 10;
-		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
+		playerspeed += playerMaxSpeed / 10;
+		if (playerspeed >= playerMaxSpeed) playerspeed = playerMaxSpeed;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x + playerspeed, pt.y);
 	}
@@ -199,8 +201,8 @@ void CPlayer::Move()
 	{
 		movecount = 5;
 		playerfoward = FOWARD::UP;
-		playerspeed += PLAYERMAXSPEED / 10;
-		if (playerspeed >= PLAYERMAXSPEED) playerspeed = PLAYERMAXSPEED;
+		playerspeed += playerMaxSpeed / 10;
+		if (playerspeed >= playerMaxSpeed) playerspeed = playerMaxSpeed;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x, pt.y - playerspeed);
 	}
@@ -278,124 +280,91 @@ void CPlayer::_slide()
 
 	else movenatual = 0;
 }
-//
-////�÷��̾� ������
-//void CPlayer::move()
-//{
-//	// �ƽ�Ű �ڵ带 �̿��� �̵� �ӵ� ����
-//	if (InputManager->isStayKeyDown(65)) setMoveSpeed(65);
-//	if (InputManager->isStayKeyDown(68)) setMoveSpeed(68);
-//	if (InputManager->isStayKeyDown(87)) setMoveSpeed(87);
-//	if (InputManager->isStayKeyDown(83)) setMoveSpeed(83);
-//
-//	// ���� Ű�� ���ٸ� �̵����� �ʴ� ����
-//	if (InputManager->isOnceKeyUp('A') ||
-//		InputManager->isOnceKeyUp('W') ||
-//		InputManager->isOnceKeyUp('S') ||
-//		InputManager->isOnceKeyUp('D'))
-//	{
-//		movecount = 0;
-//	}
-//
-//	// �����̴� ���� �ƴϸ�
-//	if(!isMove)
-//	{
-//		if (velocityX > 0)
-//			velocityX -= PLAYERFRICTION;
-//		else if (velocityX < 0)
-//			velocityX += PLAYERFRICTION;
-//
-//		if (velocityY > 0)
-//			velocityY -= PLAYERFRICTION;
-//		else if (velocityY < 0)
-//			velocityY += PLAYERFRICTION;
-//	}
-//
-//	pt = Vec2(pt.x + velocityX, pt.y + velocityY);
-//	rc = RectMakeCenter(pt, PLAYERWIDTH, PLAYERHEIGHT);
-//}
-//
-//void CPlayer::setMoveSpeed(int key)
-//{
-//	isMove = true;
-//	switch (key)
-//	{
-//	case 65:
-//		// ����, aŰ
-//		velocityX -= PLAYERACCEL;
-//		if (velocityX < -PLAYERMAXSPEED)
-//			velocityX = -PLAYERMAXSPEED;
-//		break;
-//	case 68:
-//		// ������, dŰ
-//		velocityX += PLAYERACCEL;
-//		if (velocityX > PLAYERMAXSPEED)
-//			velocityX = PLAYERMAXSPEED;
-//		break;
-//	case 87:
-//		// ��, wŰ
-//		velocityY -= PLAYERACCEL;
-//		if (velocityY < -PLAYERMAXSPEED)
-//			velocityY = -PLAYERMAXSPEED;
-//		break;
-//	case 83: 
-//		// �Ʒ�, sŰ
-//		velocityY += PLAYERACCEL;
-//		if (velocityY > PLAYERMAXSPEED)
-//			velocityY = PLAYERMAXSPEED;
-//		break;
-//	}
-//}
+
 
 void CPlayer::fire()
 {
 	static int fireCnt = 0;
 	static vector2 firePt = { 0, 0 };
 	float fireAngle = PI;
-
-	
-	if (totalTears * 1.3 + 1 > 0)
-		tearDelay = 16 - 6 * sqrtf(totalTears * 1.3 + 1);
-	else if (totalTears * 1.3 + 1 < 0)
-		tearDelay = 16 - 6 * totalTears;
+	totalTears = 0;
+	for (int i = 0; i < BULLET->getvBullet().size(); i++)
+	{
+		bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
+		if (ismB)
+		{
+			totalTears++;
+		}
+	}
+	int tdelay = 0;
+	if (totalTears == 0)
+	{
+		tdelay = 5;
+	}
+	else
+	{
+		tdelay = tearDelay;
+	}
 
 	
 	if (InputManager->isStayKeyDown(VK_UP))
 	{
 		headfoward = FOWARD::UP;
 		fireAngle = PI_2;
-		firePt = { pt.x, static_cast<float>(rc.top + 20) };
+		firePt = { pt.x, static_cast<float>(rc.top - 50) };
 		fireCnt++;
 	}
-	if (InputManager->isStayKeyDown(VK_DOWN))
+	else if (InputManager->isStayKeyDown(VK_DOWN))
 	{
 		headfoward = FOWARD::DOWN;
 		fireAngle = PI + PI_2;
-		firePt = { pt.x, static_cast<float>(rc.top + 20) };
+		firePt = { pt.x, static_cast<float>(rc.bottom - 20) }; 
 		fireCnt++;
 	}
-	if (InputManager->isStayKeyDown(VK_LEFT))
+	else if (InputManager->isStayKeyDown(VK_LEFT))
 	{
 		headfoward = FOWARD::LEFT;
 		fireAngle = PI;
-		firePt = { static_cast<float>(rc.left), static_cast<float>(rc.top + 20) };
+		firePt = { static_cast<float>(rc.left), static_cast<float>(rc.top) };
 		fireCnt++;
 	}
-	if (InputManager->isStayKeyDown(VK_RIGHT))
+	else if (InputManager->isStayKeyDown(VK_RIGHT))
 	{
 		headfoward = FOWARD::RIGHT;
 		fireAngle = PI2;
 		firePt = { static_cast<float>(rc.right), static_cast<float>(rc.top) };
 		fireCnt++;
 	}
-
-	
-	if (fireCnt > tearDelay)
+	else
 	{
 		fireCnt = 0;
+	}
+	if (fireCnt > tdelay)
+	{
+		fireCnt = 0;
+		IMAGE->deleteImage("playerBullet");
+		IMAGE->deleteImage("playerBulletShadow");
 		IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
 		IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize/3, true, RGB(255, 0, 255));
-		BULLET->fire(fireAngle, 6, firePt, height, distance,CHARACTER::PLAYER, bulletsize, "playerBullet");
+		if (theInnerEye)
+		{
+			if (headfoward <= 1)
+			{
+				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y -20}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, {firePt.x, firePt.y +20}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+			}
+			else
+			{
+				BULLET->fire(fireAngle, 6, { firePt.x-20, firePt.y}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, firePt, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+				BULLET->fire(fireAngle, 6, { firePt.x+20, firePt.y}, height, bulletdistance, CHARACTER::PLAYER, bulletsize, "playerBullet");
+			}
+		}
+		else
+		{
+			BULLET->fire(fireAngle, 6, firePt, height, bulletdistance,CHARACTER::PLAYER, bulletsize, "playerBullet");
+		}
 	}
 }
 

@@ -44,6 +44,7 @@
 #include "itemManager.h"
 #include"stageManager.h"
 #include"AniAddList.h"
+#include "UIManager.h"
 //==========================================
 //				 매크로 설정
 //==========================================
@@ -71,6 +72,7 @@
 #define ENEMY			enemyManager::getSingleton()
 #define STAGE			stageManager::getSingleton()
 #define ITEM			itemManager::getSingleton()
+#define ALLUI			UIManager::getSingleton()
 //==========================================
 //			메인게임 릴리즈에서 사용
 //==========================================

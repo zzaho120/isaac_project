@@ -4,14 +4,29 @@
 #include "CStage.h"
 #include "CObstacle.h"
 #include "CItem.h"
-#include "CMinimap.h"
+//#include "CMinimap.h"
 #include "RandomMapGenerator.h"
 
 void CStage::update()
 {
 	player->update();
-	minimap->update();
-
+	//minimap->update();
+	if (InputManager->isOnceKeyDown('N'))
+	{
+		player->setBulletSize(player->getBulletSize() + 1);
+	}
+	if (InputManager->isOnceKeyDown('M'))
+	{
+		player->setBulletDistance(player->getBulletDistance() + 10);
+	}
+	if (InputManager->isOnceKeyDown('B'))
+	{
+		player->setSpeed(player->getSpeed() + 1);
+	}
+	if (InputManager->isOnceKeyDown('V'))
+	{
+		player->setInnerEye(true);
+	}
 	for (int i = 0; i < ITEM->getItem().size(); i++)
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
@@ -35,6 +50,69 @@ void CStage::update()
 				{
 					player->setCoin(player->getCoin() + 1);
 					player->cantCoinOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_BOMB:
+				if (player->getBomb() >= 99) { break; }
+				else
+				{
+					player->setBomb(player->getBomb() + 1);
+					player->cantBombOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_KEY:
+				if (player->getKey() >= 99) { break; }
+				else
+				{
+					player->setKey(player->getKey() + 1);
+					player->cantKeyOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_THEINNEREYE:
+				if (player->getKey() >= 99) { break; }
+				else
+				{
+					player->setKey(player->getKey() + 1);
+					player->cantKeyOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
+				if (player->getKey() >= 99) { break; }
+				else
+				{
+					player->setKey(player->getKey() + 1);
+					player->cantKeyOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_PENTAGRAM:
+				if (player->getKey() >= 99) { break; }
+				else
+				{
+					player->setKey(player->getKey() + 1);
+					player->cantKeyOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_BLOODBAG:
+				if (player->getKey() >= 99) { break; }
+				else
+				{
+					player->setKey(player->getKey() + 1);
+					player->cantKeyOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_SPEEDBALL:
+				if (player->getKey() >= 99) { break; }
+				else
+				{
+					player->setKey(player->getKey() + 1);
+					player->cantKeyOver();
 					ITEM->itemRemove(i);
 					break;
 				}
@@ -76,9 +154,9 @@ void CStage::render()
 {
 	curRoom->render();
 	player->render();
-	minimap->render();
+	//minimap->render();
 
-	playerUI->render(player);
+	//playerUI->render(player);
 
 	TCHAR str[128];
 	wsprintf(str, "%d", curRoomIdx);
@@ -89,16 +167,17 @@ void CStage::enter()
 {
 	curRoomIdx = 0;
 	player = new CPlayer;
-	minimap = new CMinimap;
+	//minimap = new CMinimap;
 	rnd = new RandomMapGenerator;
-	playerUI = new CPlayerUI;
+	//playerUI = new CPlayerUI;
 
 	rnd->mapGenerate();
 	randomMapSetting();
 	player->init();
-
-	minimap->setRND(rnd);
-	minimap->mapAttrSetting();
+	ALLUI->setPlayer(player);
+	ALLUI->setrandomMap(rnd);
+	//minimap->setRND(rnd);
+	//minimap->mapAttrSetting();
 	/*tagTile* tile = ->getTile();
 	for (int i = 0; i < TILEX * TILEY; i++)
 	{
@@ -116,12 +195,14 @@ void CStage::enter()
 	//testFoward = 0;
 	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
 	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_BOMB, { 700,500 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_KEY, { 300,500 });
 }
 
 void CStage::exit()
 {
 	SAFE_DELETE(player);
-	SAFE_DELETE(minimap);
+	//SAFE_DELETE(minimap);
 	SAFE_DELETE(rnd);
 	for(int i = 0; i < 100; i++)
 		SAFE_DELETE(room[i]);

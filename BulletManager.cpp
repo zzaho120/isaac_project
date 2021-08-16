@@ -49,7 +49,7 @@ void BulletManager::move()
 		//(*_viBullet)->move();
 
 		// 총알 RECT가 총알의 그림자 RECT와 충돌이 된다면
-		if(COLLISION->isCollision((*_viBullet)->getRC(), (*_viBullet)->getshadow()))
+		if((*_viBullet)->getRC().bottom >= RectY((*_viBullet)->getshadow()))
 		{
 			removeBullet(_viBullet);
 			break;
