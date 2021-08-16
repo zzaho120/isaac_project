@@ -24,7 +24,7 @@ void itemManager::update()
     iItem = item.begin();
     for (iItem; iItem < item.end(); ++iItem)
     {
-        (*iItem)->render();
+        (*iItem)->update();
     }
 }
 

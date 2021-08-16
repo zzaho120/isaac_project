@@ -53,7 +53,7 @@ HRESULT CUseBomb::init()
 
 void CUseBomb::release()
 {
-	
+	delete this;
 }
 
 void CUseBomb::update()
@@ -71,4 +71,5 @@ void CUseBomb::render()
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("bomb", getMemDC(), rec.left, rec.top, 0, 0);
+
 }
