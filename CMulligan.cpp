@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "CMulligan.h"
-
+#include "CStage.h"
 CMulligan::CMulligan()
 {
 }
@@ -21,8 +21,8 @@ HRESULT CMulligan::init(float x, float y)
 
 	CCharacter::init({ x,y }, // make pos
 		RectMakeCenter(x, y, IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight()), //rc
-		{ x, y }, { 70,70 }, //collider
-		35,	//collider -> shadow distance
+		{ x, y }, { 50,50 }, //collider
+		30,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("mulliganhead")->getFrameWidth(),IMAGE->findImage("mulliganhead")->getFrameWidth() / 3 }, // collider.shadow
 		10);//hp
 	IMAGE->addImage("shadowMulligan", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
@@ -31,7 +31,7 @@ HRESULT CMulligan::init(float x, float y)
 	AI_init(this, monsterType);
 
 	return S_OK;
-}
+} 
 
 void CMulligan::release()
 {
@@ -40,15 +40,20 @@ void CMulligan::release()
 void CMulligan::update()
 {
 	AI_update();
+	vector2 rcPt;
+	rcPt.x = RectX(rc);
+	rcPt.y = RectY(rc)+shadowdistance;
+	foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
+	rcPt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), rcPt, prevPt, foward , 1);
+	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
+	colliderShadow->setPos(rcPt);
+	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());
+
 	if (ani == ANIMATION->findAnimation("leftbody"))
 	{
 		anihead = ANIMATION->findAnimation("lefthead");
 	}
 	else anihead = ANIMATION->findAnimation("righthead");
-
-	collider->setPos({ RectX(rc), RectY(rc)});
-	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	foward = COLLISION->whereAreYouGoing(prevPt, colliderShadow->getPos());
 }
 
 void CMulligan::render()

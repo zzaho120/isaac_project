@@ -5,6 +5,7 @@ class CObject : public gameNode
 {
 protected:
 	vector2			pt;
+	//vector2			precPt;
 	//vector2			shadowpt;
 	RECT			rc;
 	animation*		ani;
@@ -13,7 +14,14 @@ protected:
 
 	animation anitest;
 
+	int foward;
+	vector2 prevPt;
+
 	float shadowdistance;
+
+	int moveCount;
+	int moveNatual;
+
 public:
 	CObject();
 	CObject(Vec2 _pos, RECT _rc);
@@ -37,5 +45,11 @@ public:
 	CCollider* getcollider() { return collider; }
 	CCollider* GetcolliderShadow() { return colliderShadow; }
 	void setshadowdistance(float distance) { shadowdistance = distance; }
+	int GetFoward() { return foward; }
+
+	int getMoveCount() { return moveCount; }
+	void setMoveCount(int _moveCount) { moveCount = _moveCount; }
+	int getMoveNatual() { return moveNatual; }
+	void setMoveNatual(int _moveNatual) { moveNatual = _moveNatual; }
 };
 

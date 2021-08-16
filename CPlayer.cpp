@@ -39,6 +39,11 @@ HRESULT CPlayer::init()
 	isMove = false;
 	totalTears = 0;
 
+	//player item and hp
+	maxHp = 10;
+	hp = 9;
+
+	//player speed
 	PLAYERMAXSPEED = 4;
 	playerspeed = 0;
 
@@ -53,7 +58,6 @@ HRESULT CPlayer::init()
 	key = 0;
 
 	AI_init(this,MONSTER_TYPE::NONE);
-	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
 	return S_OK;
 }
 
@@ -69,8 +73,15 @@ void CPlayer::update()
 		fire();
 	}
 	
-	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	collider->setPos({ RectX(rc), RectY(rc) });
+	pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, prevPt, playerfoward, 0);
+	prevPt = pt;
+
+	colliderShadow->setPos(pt);
+	collider->setPos({ pt.x, pt.y -shadowdistance });
+	rc = RectMakeCenter(collider->getPos(), PLAYERWIDTH, PLAYERHEIGHT);
+	//colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	//collider->setPos({ RectX(rc), RectY(rc) });
+
 	AI_update();
 	
 }
@@ -208,14 +219,7 @@ void CPlayer::Move()
 		}
 		prevfoward = playerfoward;
 	}
-	
-	RECT rec;
-	/*if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))
-	{
-		movetoRight(rc, 100);
-		pt.x += 100;
-	}*/
-	//pt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), pt, playerfoward);
+
 	/*STAGE->getCurStage()->getMap()->GetvObstacle();
 	if (IntersectRect(&rec, &rc, &STAGE->getCurStage()->getMap()->getTile()[20].rcTile))*/
 
@@ -502,6 +506,14 @@ bool CPlayer::isFullHp()
 	else
 	{
 		return false;
+	}
+}
+
+void CPlayer::cantHpOver()
+{
+	if (hp > maxHp)
+	{
+		hp = maxHp;
 	}
 }
 

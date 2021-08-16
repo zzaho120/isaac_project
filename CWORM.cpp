@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "CWORM.h"
-
+#include "CStage.h"
 CWORM::CWORM()
 {
 }
@@ -35,9 +35,15 @@ void CWORM::release() {}
 void CWORM::update()
 {
 	AI_update();
-	collider->setPos({ RectX(rc), RectY(rc)});
-	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	foward = COLLISION->whereAreYouGoing(prevPt, colliderShadow->getPos());
+	vector2 rcPt;
+	rcPt.x = RectX(rc);
+	rcPt.y = RectY(rc) + shadowdistance;
+	foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
+	rcPt = COLLISION->tileCollision(STAGE->getCurStage()->getMap(), rcPt, prevPt, foward , 0);
+
+	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
+	colliderShadow->setPos(rcPt);
+	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());
 }
 
 void CWORM::render()

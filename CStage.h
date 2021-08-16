@@ -1,6 +1,6 @@
 #pragma once
 #include "gameNode.h"
-
+#include "CPlayerUI.h"
 
 class CMap;
 class CMinimap;
@@ -16,6 +16,7 @@ private:
 	RandomMapGenerator* rnd;
 
 	int curRoomIdx;
+	CPlayerUI* playerUI;
 
 	vector2 testPt;
 	vector2 testPrevPt;

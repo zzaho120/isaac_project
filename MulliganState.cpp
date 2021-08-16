@@ -227,11 +227,11 @@ void Mulligan_Trace::Move_run()
 
 	RECT rec = pMon->getRC();
 
-	if (count % 5 == 0)
+	if (count % 3 == 0)
 	{
 		rec = RectMakeCenter(
-			RectX(rec) + cosf(angle-PI) * 2,
-			RectY(rec) - sinf(angle-PI) * 2,
+			RectX(rec) + cosf(angle-PI) * 4,
+			RectY(rec) - sinf(angle-PI) * 4,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 	}
 	

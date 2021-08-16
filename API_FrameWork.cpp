@@ -128,6 +128,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	return message.wParam;
 }
 
+
+
+
 //윈도우 프로시져 : 메세지를 운영체제에 전달한다. 강제로 운영체제가 호출
 //hWnd : 윈도우가 발생한 메세지인지 구분
 //imessage : 메세지 구분번호

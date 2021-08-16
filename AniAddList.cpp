@@ -16,6 +16,21 @@ AniAddList::AniAddList()
 	IMAGE->addFrameImage("minimapRoom", "images/map/minimap_room.bmp", MINIMAPROOMX * 3, MINIMAPROOMY, 3, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("minimapMark", "images/map/minimap_special.bmp", MINIMAPROOMX * 5, MINIMAPROOMY, 5, 1, true, RGB(255, 0, 255));
 
+	//====================================item=========================================================================
+	//====================================item=========================================================================
+	IMAGE->addImage("itemshadow", "images/shadow.bmp", 30, 10, true, RGB(255, 0, 255));
+
+	IMAGE->addFrameImage("heartitem", "images/item/heart.bmp", 90, 30, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("passiveitem", "images/item/passiveitem.bmp", 150, 50, 5, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("coin", "images/item/coin.bmp", 180, 30, 6, 1, true, RGB(255, 0, 255));
+	ANIMATION->addAnimation("coinani", "coin", 0, 5, 10, false, true);
+
+	//=================================UI============================================================================
+	//=================================UI============================================================================
+	IMAGE->addFrameImage("hpUI", "images/UI/HpUI.bmp", 48 * 2, 16*2, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("basicitemUI", "images/UI/haveitemUI.bmp", 60*2, 20*2, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("number", "images/UI/number.bmp", 200, 20, 10, 1, true, RGB(255, 0, 255));
+
 	//=================== bullet ====================================================================================
 	//=================== bullet ====================================================================================
 	IMAGE->addFrameImage("bullet", "images/bullets.bmp", 256, 128, 9, 4, true, RGB(255, 0, 255));
@@ -31,7 +46,7 @@ AniAddList::AniAddList()
 	//=================== player ====================================================================================
 	IMAGE->addImage("shadow", "images/shadow.bmp", 150, 50, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaacBody", "images/player/player_body.bmp",216*2,86*2,6,3,true,RGB(255,0,255));
-	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*2, 90*2, 10, 3, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("mulliganbody", "images/enemy/mulliganbody.bmp", 300*1.5, 90*1.5, 10, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("playerbody", "images/enemy/mulliganbody.bmp", 300*2, 90*2, 10, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaac", "images/player/player_head.bmp", 256*2, 32*2, 8, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("isaacEvent", "images/player/player_event.bmp", 200*2, 150*2, 4, 3, true, RGB(255, 0, 255));
@@ -59,7 +74,7 @@ AniAddList::AniAddList()
 
 	//==================================mulligan=================================================================
 	//==================================mulligan=================================================================
-	IMAGE->addFrameImage("mulliganhead", "images/enemy/mulliganhead.bmp", 240*2, 70*2, 6, 2, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("mulliganhead", "images/enemy/mulliganhead.bmp", 240*1.5, 70*1.5, 6, 2, true, RGB(255, 0, 255));
 
 	ANIMATION->addAnimation("righthead", "mulliganhead", 0, 5, 10, false, true);
 	ANIMATION->addAnimation("rightbody", "mulliganbody", 10, 19, 10, false, true);

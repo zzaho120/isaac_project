@@ -7,9 +7,6 @@ class CCharacter : public CObject
 protected:
 	int				hp;
 
-	int foward;
-	vector2 prevPt;
-
 	CFSM* m_pAI;
 	vector<CFSM*> vAI;
 public:
@@ -31,5 +28,5 @@ public:
 	int gethp() { return hp; }
 	void sethp(int _hp) { hp = _hp; }
 
-	int GetFoward() { return foward; }
+
 };
