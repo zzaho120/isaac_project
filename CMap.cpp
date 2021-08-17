@@ -68,7 +68,10 @@ void CMap::release()
 
 void CMap::update()
 {
-
+    for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
+    {
+        (*viObstacle)->update();
+    }
 }
 
 void CMap::render()
@@ -87,19 +90,16 @@ void CMap::render()
     }
     for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
     {
-        (*viObstacle)->render();
-    }
+        if ((*viObstacle)->getObjType() == OBJECT::OBJ_TOPDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 52, (*viObstacle)->getRC().top - 50, 0, 0);
+        if ((*viObstacle)->getObjType() == OBJECT::OBJ_BOTTOMDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 52, (*viObstacle)->getRC().top - 25, 1, 0);
+        if ((*viObstacle)->getObjType() == OBJECT::OBJ_LEFTDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 70, (*viObstacle)->getRC().top - 40, 2, 0);
+        if ((*viObstacle)->getObjType() == OBJECT::OBJ_RIGHTDOOR)
+            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 27, (*viObstacle)->getRC().top - 40, 3, 0);
 
-    for (int i = 0; i < TILEX * TILEY; i++)
-    {
-        if (room.tile[i].obj == OBJECT::OBJ_TOPDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 52, room.tile[i].rcTile.top - 50, 0, 0);
-        if (room.tile[i].obj == OBJECT::OBJ_BOTTOMDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 52, room.tile[i].rcTile.top - 25, 1, 0);
-        if (room.tile[i].obj == OBJECT::OBJ_LEFTDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 70, room.tile[i].rcTile.top - 40, 2, 0);
-        if (room.tile[i].obj == OBJECT::OBJ_RIGHTDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), room.tile[i].rcTile.left - 27, room.tile[i].rcTile.top - 40, 3, 0);
+        (*viObstacle)->render();
     }
 }
 
@@ -152,25 +152,19 @@ void CMap::doorSetting(DOOR_DIRECTION direction)
     case DOOR_DIRECTION::TOP:
         room.tile[7].obj = OBJECT::OBJ_TOPDOOR;
         vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
-        vObstacle[7]->setUnmovalbe(false);
         break;
     case DOOR_DIRECTION::LEFT:
         room.tile[60].obj = OBJECT::OBJ_LEFTDOOR;
         vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
-        vObstacle[60]->setUnmovalbe(false);
         break;
     case DOOR_DIRECTION::RIGHT:
         room.tile[74].obj = OBJECT::OBJ_RIGHTDOOR;
         vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
-        vObstacle[74]->setUnmovalbe(false);
         break;
     case DOOR_DIRECTION::BOTTOM:
         room.tile[127].obj = OBJECT::OBJ_BOTTOMDOOR;
         vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
-        vObstacle[127]->setUnmovalbe(false);
         break;
-    default:
-        return;
     }
 }
 

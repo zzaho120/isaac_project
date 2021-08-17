@@ -32,6 +32,7 @@ void CObstacle::release()
 
 void CObstacle::update()
 {
+	setObjectValue();
 }
 
 void CObstacle::render()

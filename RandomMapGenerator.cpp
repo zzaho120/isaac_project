@@ -4,7 +4,7 @@
 RandomMapGenerator::RandomMapGenerator() :
 	started(false), placedSpecial(false), isMapCompleted(false),
 	floorplanCount(0),
-	maxRooms(9), minRooms(6), bossRoomNum(-1), rewardRoomNum(-1),
+	maxRooms(7), minRooms(2), bossRoomNum(-1), rewardRoomNum(-1),
 	shopRoomNum(-1)
 {
 	ZeroMemory(room, sizeof(room));
@@ -170,30 +170,6 @@ void RandomMapGenerator::roomSetting()
 		{
 			room[roomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONEROOM);
 			room[roomNum]->setRoomType(ROOM::ROOM_NONE);
-		}
-	}
-
-	for (int roomNum = 0; roomNum < 100; roomNum++)
-	{
-		if (roomNum - 10 >= 0)
-		{
-			if (room[roomNum - 10]->getRoomType() != ROOM::ROOM_NONE)
-				room[roomNum]->doorSetting(DOOR_DIRECTION::TOP);
-		}
-		if (roomNum + 10 < 100)
-		{
-			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
-				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
-		}
-		if (roomNum % 10 > 0)
-		{
-			if (room[roomNum - 1]->getRoomType() != ROOM::ROOM_NONE)
-				room[roomNum]->doorSetting(DOOR_DIRECTION::LEFT);
-		}
-		if (roomNum % 10 < 9)
-		{
-			if (room[roomNum + 1]->getRoomType() != ROOM::ROOM_NONE)
-				room[roomNum]->doorSetting(DOOR_DIRECTION::RIGHT);
 		}
 	}
 }
