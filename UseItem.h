@@ -1,9 +1,12 @@
 #pragma once
 #include "CItem.h"
+class CPlayer;
 class CUseItem : public CItem
 {
 protected:
 	USE_ITEM usetype;
+	CPlayer* player;
+	bool isUse;
 private:
 public:
 	CUseItem();
@@ -14,6 +17,9 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+
+	bool getisUse() { return isUse; }
+	void setPlayer(CPlayer* _player) { player = _player; }
 };
 class CUseBomb : public CUseItem
 {
@@ -28,4 +34,7 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render();
+
+	void fireBomb();
+
 };

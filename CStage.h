@@ -3,7 +3,7 @@
 //#include "CPlayerUI.h"
 
 class CMap;
-//class CMinimap;
+
 class CPlayer;
 class RandomMapGenerator;
 class CStage : public gameNode
@@ -44,5 +44,6 @@ public:
 	CMap* getCurRoom() { return curRoom; }
 
 	void playerGetItem();
+
 
 };

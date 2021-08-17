@@ -3,7 +3,7 @@
 #include "CPlayer.h"
 #include "CStage.h"
 #include "CObstacle.h"
-#include "CItem.h"
+#include "UseItem.h"
 #include "RandomMapGenerator.h"
 
 void CStage::update()
@@ -26,6 +26,7 @@ void CStage::update()
 		player->setInnerEye(true);
 	}
 	playerGetItem();
+
 	COLLISION->stageCollision(player);
 	COLLISION->isMonsterDie();
 }
@@ -51,7 +52,7 @@ void CStage::enter()
 	player->init();
 	ALLUI->setPlayer(player);
 	ALLUI->setrandomMap(rnd);
-
+	ITEM->setPlayer(player);
 
 	ENEMY->SetPlayer(player);
 	player->setRoomLink(curRoom);

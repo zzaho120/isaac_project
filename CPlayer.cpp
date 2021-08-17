@@ -374,8 +374,13 @@ void CPlayer::UseBomb()
 {
 	if (InputManager->isOnceKeyDown('E'))
 	{
-		ITEM->playerSummonItem(USE_ITEM::BOMB, pt);
+		if (bomb > 0)
+		{
+			bomb--;
+			ITEM->respawnUseItem(USE_ITEM::BOMB, pt);
+		}
 	}
+	ITEM->bombFire();
 }
 
 void CPlayer::setAnimation()

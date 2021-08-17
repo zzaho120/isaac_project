@@ -2,6 +2,7 @@
 #include "itemManager.h"
 #include "CItem.h"
 #include "UseItem.h"
+#include "CPlayer.h"
 itemManager::itemManager()
 {
 }
@@ -26,6 +27,11 @@ void itemManager::update()
     {
         (*iItem)->update();
     }
+    viuseItem = useItem.begin();
+    for (viuseItem; viuseItem < useItem.end(); ++viuseItem)
+    {
+        (*viuseItem)->update();
+    }
 }
 
 void itemManager::render()
@@ -34,6 +40,11 @@ void itemManager::render()
     for (iItem; iItem < item.end(); ++iItem)
     {
         (*iItem)->render();
+    }
+    viuseItem = useItem.begin();
+    for (viuseItem; viuseItem < useItem.end(); ++viuseItem)
+    {
+        (*viuseItem)->render();
     }
 }
 
@@ -75,18 +86,19 @@ void itemManager::respawnItem(ITEM_TYPE type, vector2 pos)
     item.push_back(_item);
 }
 
-void itemManager::playerSummonItem(USE_ITEM type, vector2 pos)
+void itemManager::respawnUseItem(USE_ITEM type, vector2 pos)
 {
-    CItem* _item;
+    CUseItem* _useitem;
     switch (type)
     {
     case USE_ITEM::BOMB:
-        _item = new CUseBomb(pos);
+        _useitem = new CUseBomb(pos);
+        _useitem->setPlayer(player);
         break;
     default:
         break;
     }
-    item.push_back(_item);
+    useItem.push_back(_useitem);
 }
 
 viItem itemManager::getviItem(int number)
@@ -95,9 +107,19 @@ viItem itemManager::getviItem(int number)
     return iItem;
 }
 
+viUseItem itemManager::getviUseItem(int number)
+{
+    return viUseItem();
+}
+
 void itemManager::itemRemove(int number)
 {
     item.erase(item.begin() + number);
+}
+
+void itemManager::useItemRemove(int number)
+{
+    useItem.erase(useItem.begin() + number);
 }
 
 void itemManager::respawnRandomBasicItem(vector2 pos)
@@ -122,4 +144,18 @@ void itemManager::respawnRandomBasicItem(vector2 pos)
         break;
     }
     item.push_back(_item);
+}
+
+void itemManager::bombFire()
+{
+    viuseItem = useItem.begin();
+    for (viuseItem; viuseItem < useItem.end(); ++viuseItem)
+    {
+        if ((*viuseItem)->getisUse())
+        {
+            useItem.erase(viuseItem);
+            break;
+        }
+        break;
+    }
 }
