@@ -3,6 +3,7 @@
 #include "BulletManager.h"
 #include "enemyManager.h"
 #include "CPlayer.h"
+#include "CStage.h"
 //=============================================대기상태=========================================================
 Hopper_Idle::Hopper_Idle()
 {
@@ -15,6 +16,8 @@ Hopper_Idle::~Hopper_Idle()
 
 void Hopper_Idle::Enter()
 {
+	objective = new CCollider;
+	CCharacter* pMon = m_pFSM->GetMon();
 	count = 0;
 	movetime = 32;
 
@@ -26,11 +29,32 @@ void Hopper_Idle::Enter()
 	idle = 0;
 
 	parabola = 0;
+	shadow = pMon->getRC();
+	
 	foward = RND->getFromIntTo(0, 7);
 	distance = RND->getFromIntTo(50, 100);
+	
+	//RECT objectiveRc = RectMakeCenter(
+	//	RectX(shadow) + cosf(PI - foward * PI_4) * distance,
+	//	RectY(shadow) - sinf(PI - foward * PI_4) * distance,
+	//	RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
+	//vector2 objectPrevPt;
+	//vector2 objectivePt;
+	//objectivePt.x = RectX(objectiveRc);
+	//objectivePt.y = RectY(objectiveRc);
+	//objective->setPos(objectivePt);
+	//objective->setSize({ 30,30 });
 
-	CObject* pMon = m_pFSM->GetMon();
-	shadow = pMon->getRC();
+	//bool wall = COLLISION->wallCollision(objectivePt, { MAPCOLLISIONSTARTX ,MAPCOLLISIONSTARTY }, MAPCOLLISIONX, MAPCOLLISIONX);
+	//bool unable = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), objectivePt, objectPrevPt, 1, 0);
+	//int hereIndex = (objectiveRc.left / TILEWIDTH - 1) + (objectiveRc.top / TILEHEIGHT - 1) * TILEX;
+
+	//if (wall) { foward, distance = 0; }//continue;
+	//if (hereIndex < 130 && hereIndex > 0)
+	//{
+	//	if (unable) { foward, distance = 0; }
+	//}
+
 }
 
 void Hopper_Idle::update()
@@ -53,6 +77,7 @@ void Hopper_Idle::update()
 
 void Hopper_Idle::Exit()
 {
+	SAFE_DELETE(objective);
 }
 void Hopper_Idle::Jump()
 {
@@ -62,15 +87,30 @@ void Hopper_Idle::Jump()
 	{
 		count = 0;
 		parabola = 0.0f;
-		bool isok=true;
-		while (isok)
-		{
-			foward = RND->getFromIntTo(0, 7);
-			distance = RND->getFromIntTo(50, 100);
-			break;
-		}
-		/*foward = RND->getFromIntTo(0, 7);
-		distance = RND->getFromIntTo(50, 100);*/
+		shadow = pMon->getRC();
+		foward = RND->getFromIntTo(0, 7);
+		distance = RND->getFromIntTo(50, 100);
+		
+		//RECT objectiveRc = RectMakeCenter(
+		//	RectX(shadow) + cosf(PI - foward * PI_4) * distance,
+		//	RectY(shadow) - sinf(PI - foward * PI_4) * distance,
+		//	RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
+		//vector2 objectPrevPt;
+		//vector2 objectivePt;
+		//objectivePt.x = RectX(objectiveRc);
+		//objectivePt.y = RectY(objectiveRc);
+		//objective->setPos(objectivePt);
+		//objective->setSize({ 30,30 });
+
+		//bool wall = COLLISION->wallCollision(objectivePt, { MAPCOLLISIONSTARTX ,MAPCOLLISIONSTARTY }, MAPCOLLISIONX, MAPCOLLISIONX);
+		//bool unable = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), objectivePt, objectPrevPt, 1, 0);
+		//int hereIndex = (objectiveRc.left / TILEWIDTH - 1) + (objectiveRc.top / TILEHEIGHT - 1) * TILEX;
+
+		//if (wall) { foward, distance = 0; }//continue;
+		//if (hereIndex < 130 && hereIndex > 0)
+		//{
+		//	if (unable) { foward, distance = 0; }
+		//}
 		jumpstart = 1;
 		downstart = 1;
 		idlestart = 1;
@@ -85,23 +125,11 @@ void Hopper_Idle::Jump()
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		rec = RectMakeCenter(
 			RectX(shadow),
-			RectY(shadow) - sinf(parabola) * 50 + 5,
+			RectY(shadow) - sinf(parabola) * 50 + 10,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		parabola += PI_16;
 	}
-	/*if (count <= movetime && count % 2 == 0)
-	{
-
-		shadow = RectMakeCenter(
-			RectX(shadow) + cosf(PI - foward * PI_4) * distance,
-			RectY(shadow) - sinf(PI - foward * PI_4) * distance,
-			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
-		rec = RectMakeCenter(
-			RectX(shadow),
-			RectY(shadow) - sinf(parabola) * 50 + 5,
-			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
-		parabola += PI_16;
-	}*/
+	
 	if (count <= movetime / 2)
 	{
 		pMon->setAni(ANIMATION->findAnimation("jumphopper"));
@@ -170,6 +198,7 @@ bool Hopper_Idle::Inrange(int range, vector2 pt)
 Hopper_Trace::Hopper_Trace()
 {
 	m_eState = STATE_TYPE::TRACE;
+	
 }
 
 Hopper_Trace::~Hopper_Trace()
@@ -190,7 +219,7 @@ void Hopper_Trace::Enter()
 	parabola = 0;
 	angle = 0.0f;
 	distance = 0.0f;
-
+	objective = new CCollider;
 	CObject* pMon = m_pFSM->GetMon();
 	shadow = pMon->getRC();
 }
@@ -204,6 +233,21 @@ void Hopper_Trace::update()
 		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 		distance = UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 	}
+	/*RECT objectiveRc = RectMakeCenter(
+		RectX(shadow) + cosf(angle) * distance,
+		RectY(shadow) - sinf(angle) * distance,
+		RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
+	vector2 objectPrevPt;
+	vector2 objectivePt;
+	objectivePt.x = RectX(objectiveRc);
+	objectivePt.y = RectY(objectiveRc);
+	objective->setPos(objectivePt);
+	objective->setSize({ 30,30 });
+	if ( COLLISION->wallCollision(objectivePt, { MAPCOLLISIONSTARTX ,MAPCOLLISIONSTARTY }, MAPCOLLISIONX, MAPCOLLISIONX))
+	{
+		m_pFSM->ChangeState(STATE_TYPE::IDLE);
+	}*/
+
 	Jump();
 
 	
@@ -221,6 +265,7 @@ void Hopper_Trace::update()
 
 void Hopper_Trace::Exit()
 {
+	SAFE_DELETE(objective);
 }
 void Hopper_Trace::Jump()
 {
@@ -243,7 +288,7 @@ void Hopper_Trace::Jump()
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		rec = RectMakeCenter(
 			RectX(shadow),
-			RectY(shadow) - sinf(parabola) * 50 + 5,
+			RectY(shadow) - sinf(parabola) * 50 + 10,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		parabola += PI_16;
 	}

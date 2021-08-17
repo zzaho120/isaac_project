@@ -110,7 +110,7 @@ AniAddList::AniAddList()
 
 	//==========================================================host============================================
 	//==========================================================host============================================
-	IMAGE->addFrameImage("host", "images/enemy/host.bmp", 105*2, 44*2, 3, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("host", "images/enemy/host.bmp", 105*1.5, 44*1.5, 3, 1, true, RGB(255, 0, 255));
 	int idle[] = { 0 };
 	ANIMATION->addAnimation("hostidle", "host", idle, 1, 10, false);
 	int trace[] = { 1 };
@@ -120,7 +120,7 @@ AniAddList::AniAddList()
 
 	//==============================================hopper===========================================
 	//==============================================hopper===========================================
-	IMAGE->addFrameImage("hopper", "images/enemy/hopper.bmp", 180, 30 , 6, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("hopper", "images/enemy/hopper.bmp", 180*1.5, 30*1.5 , 6, 1, true, RGB(255, 0, 255));
 	int hopperidle[] = { 0 };
 	ANIMATION->addAnimation("idlehopper", "hopper", hopperidle, 1, 10, true);
 	ANIMATION->addAnimation("jumphopper", "hopper", 0, 3, 10, false, false);

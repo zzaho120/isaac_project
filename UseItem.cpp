@@ -96,10 +96,6 @@ void CUseBomb::update()
 				(*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->setObjType(OBJECT::OBJ_NONE);
 			}
 		}
-		(*STAGE->getCurStage()->getCurRoom()->getviObstacle(40))->setObjType(OBJECT::OBJ_NONE);
-		/*if ((float)RND->getInt(10) / 10.0 < 0.5 && roomNumber != 45)
-			return false;*/
-
 	}
 	if (count == 150)
 	{

@@ -36,7 +36,7 @@ void CFly::release()
 void CFly::update()
 {
 	AI_update();
-	pt = COLLISION->wallCollision(pt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
+	COLLISION->wallCollision(pt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
 	rc = RectMakeCenter(pt, IMAGE->findImage("fly")->getFrameWidth(), IMAGE->findImage("fly")->getFrameHeight());
 	collider->setPos({ RectX(rc), RectY(rc) });
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });

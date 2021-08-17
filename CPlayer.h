@@ -66,12 +66,14 @@ public:
 	void setRoomLink(CMap* _room) { room = _room; }
 
 	int GetFoward() { return playerfoward; }
-	int getMaxHp() { return maxHp; }
+	
 
+	void playerGetItem();
+	int getMaxHp() { return maxHp; }
 	int getCoin() { return coin; }
 	int getBomb() { return bomb; }
 	int getKey() { return key; }
-	int getBulletSize() { return bulletsize; }
+	/*int getBulletSize() { return bulletsize; }
 	float getBulletDistance() { return bulletdistance; }
 	float getBulletDamage() { return bulletDamage; }
 	float getBulletSpeed() { return bulletSpeed; }
@@ -87,7 +89,7 @@ public:
 	void setBulletDamage(float _bulletDamage) { bulletDamage = _bulletDamage; }
 	void setBulletSpeed(float _bulletSpeed) { bulletSpeed = _bulletSpeed; }
 	void setSpeed(float _speed) { playerMaxSpeed = _speed; }
-	void setTearDelay(int _tearDelay) { tearDelay = _tearDelay; }
+	void setTearDelay(int _tearDelay) { tearDelay = _tearDelay; }*/
 
 	void cantCoinOver() { if (coin >= 99)  coin = 99; }
 	void cantBombOver() { if (bomb >= 99)  bomb = 99; }

@@ -190,6 +190,7 @@ bool Host_Atk::crossrange(int range, vector2 pt)
 //=============================================Á×À½=========================================================
 Host_Die::Host_Die() //Á×À½
 {
+	m_eState = STATE_TYPE::DEAD;
 }
 
 Host_Die::~Host_Die()
