@@ -37,9 +37,10 @@ void Csmallfly::release()
 void Csmallfly::update()
 {
 	AI_update();
-	collider->setPos({ RectX(rc), RectY(rc)});
+	COLLISION->wallCollision(pt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
+	rc = RectMakeCenter(pt, IMAGE->findImage("smallfly")->getFrameWidth(), IMAGE->findImage("smallfly")->getFrameHeight());
+	collider->setPos({ RectX(rc), RectY(rc) });
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	foward = COLLISION->whereAreYouGoing(prevPt, colliderShadow->getPos());
 }
 
 void Csmallfly::render()

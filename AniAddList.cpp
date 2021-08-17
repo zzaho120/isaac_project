@@ -33,7 +33,8 @@ AniAddList::AniAddList()
 	IMAGE->addFrameImage("hpUI", "images/UI/HpUI.bmp", 48 * 2, 16*2, 3, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("basicitemUI", "images/UI/haveitemUI.bmp", 60*2, 20*2, 3, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("number", "images/UI/number.bmp", 200, 20, 10, 1, true, RGB(255, 0, 255));
-
+	IMAGE->addImage("bossFront", "images/UI/bosshealthbar_front.bmp", 110 * 2, 8 * 2, true, RGB(255, 0, 255));
+	IMAGE->addImage("bossBack", "images/UI/bosshealthbar_back.bmp", 134 * 2, 21 * 2, true, RGB(255, 0, 255));
 	//=================== bullet ====================================================================================
 	//=================== bullet ====================================================================================
 	IMAGE->addFrameImage("bullet", "images/bullets.bmp", 256, 128, 9, 4, true, RGB(255, 0, 255));

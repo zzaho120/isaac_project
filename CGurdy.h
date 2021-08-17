@@ -5,6 +5,7 @@ class CGurdy : public CMonster
 private:
 	animation* anibody;
 	RECT body;
+	int maxHp;
 public:
 	CGurdy();
 	~CGurdy();
@@ -13,5 +14,7 @@ public:
 	void release();
 	void update();
 	void render();
+
+	int getMaxHp() { return maxHp; }
 };
 

@@ -27,6 +27,7 @@ HRESULT CGurdy::init(float x, float y)
 	IMAGE->addImage("shadowGurdy", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::GURDY);
+	maxHp = hp;
 	AI_init(this, monsterType);
 	return S_OK;
 }
@@ -38,8 +39,11 @@ void CGurdy::release()
 void CGurdy::update()
 {
 	AI_update();
-	collider->setPos({ RectX(rc), RectY(rc) });
+	collider->setPos({ RectX(body), RectY(body) });
+	collider->setSize({ IMAGE->findImage("gurdybody")->getFrameWidth(), IMAGE->findImage("gurdybody")->getFrameHeight() });
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	ALLUI->setboss(this);
+	ALLUI->setRespawn(true);
 }
 
 void CGurdy::render()
