@@ -11,10 +11,10 @@ private:
 	bool isDestroyByBomb;
 	bool isDestroyByBullet;
 
-	int test;
 public:
 	CObstacle();
 	CObstacle(Vec2 _pos, RECT _rc, OBJECT _type);
+	CObstacle(CObstacle* copy);
 	~CObstacle();
 
 	virtual HRESULT init();
@@ -30,7 +30,6 @@ public:
 	bool getDestroyBullet() { return isDestroyByBullet; }
 
 	Vec2 getFrame() { return frame; }
-	int gettest() { return test; }
 	OBJECT getObjType() { return objType; }
 
 	void setObjType(OBJECT obj) { objType = obj; }

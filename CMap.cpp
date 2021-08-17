@@ -22,7 +22,8 @@ CMap::CMap(CMap& map)
 
     for (int i = 0; i < map.vObstacle.size(); i++)
     {
-        vObstacle.push_back(map.vObstacle[i]);
+        CObstacle* tempObstacle = new CObstacle(map.vObstacle[i]);
+        vObstacle.push_back(tempObstacle);
     }
 
     roomAttr = map.roomAttr;
@@ -38,7 +39,8 @@ CMap::CMap(CMap* map)
 
     for (int i = 0; i < map->vObstacle.size(); i++)
     {
-        vObstacle.push_back(map->vObstacle[i]);
+        CObstacle* tempObstacle = new CObstacle(map->vObstacle[i]);
+        vObstacle.push_back(tempObstacle);
     }
 
     roomAttr = map->roomAttr;

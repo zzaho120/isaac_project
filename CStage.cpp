@@ -90,7 +90,6 @@ void CStage::randomMapSetting()
 			if (room[roomNum - 10]->getRoomType() != ROOM::ROOM_NONE)
 			{
 				room[roomNum]->doorSetting(DOOR_DIRECTION::TOP);
-				doorCnt++;
 			}
 		}
 		if (roomNum + 10 < 100)
@@ -98,8 +97,6 @@ void CStage::randomMapSetting()
 			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
 			{
 				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
-				doorCnt++;
-			
 			}
 
 		}
@@ -109,8 +106,6 @@ void CStage::randomMapSetting()
 			if (room[roomNum - 1]->getRoomType() != ROOM::ROOM_NONE)
 			{
 				room[roomNum]->doorSetting(DOOR_DIRECTION::LEFT);
-				doorCnt++;
-
 			}
 		}
 		if (roomNum % 10 < 9)
@@ -118,8 +113,6 @@ void CStage::randomMapSetting()
 			if (room[roomNum + 1]->getRoomType() != ROOM::ROOM_NONE)
 			{
 				room[roomNum]->doorSetting(DOOR_DIRECTION::RIGHT);
-				doorCnt++;
-
 			}
 		}
 	}

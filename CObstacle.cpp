@@ -17,6 +17,22 @@ CObstacle::CObstacle(Vec2 _pos, RECT _rc, OBJECT _type) :
 	setObjectValue();
 }
 
+CObstacle::CObstacle(CObstacle* copy)
+{
+	objType = copy->getObjType();
+	strength = copy->getStrength();
+	frame = copy->getFrame();
+
+	isUnmovable = copy->getUnmovalbe();
+	isDestroyByBomb = copy->getDestroyBomb();
+	isDestroyByBullet = copy->getDestroyBullet();
+
+	pt = copy->getPt();
+	rc = copy->getRC();
+	collider = copy->getcollider();
+	colliderShadow = copy->GetcolliderShadow();
+}
+
 CObstacle::~CObstacle()
 {
 }
