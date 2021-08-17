@@ -9,6 +9,7 @@
 void CStage::update()
 {
 	player->update();
+	curRoom->update();
 	if (InputManager->isOnceKeyDown('N'))
 	{
 		player->setBulletSize(player->getBulletSize() + 1);
@@ -26,7 +27,6 @@ void CStage::update()
 		player->setInnerEye(true);
 	}
 	playerGetItem();
-
 	COLLISION->stageCollision(player);
 	COLLISION->isMonsterDie();
 }
@@ -56,21 +56,23 @@ void CStage::enter()
 
 	ENEMY->SetPlayer(player);
 	player->setRoomLink(curRoom);
+	(*curRoom->getviObstacle(40))->setObjType(OBJECT::OBJ_POOP);
+	(*curRoom->getviObstacle(42))->setObjType(OBJECT::OBJ_ROCK);
 	//ENEMY->setPlayerLink(player);
-	ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
-	ENEMY->respawnMinion(MONSTER_TYPE::FLY, { 500,500 });
-	ENEMY->respawnMinion(MONSTER_TYPE::WORM, { 400,500 });
-	ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 600,500 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_BOMB, { 700,500 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_KEY, { 300,500 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 200,500 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { 250,350 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_MOMSLIPSTICK, { 350,350 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_PENTAGRAM, { 450,350 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { 550,350 });
-	ITEM->respawnRandomBasicItem({ 300,400 });
+	//ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 500,500 });
+	//ENEMY->respawnMinion(MONSTER_TYPE::FLY, { 500,500 });
+	//ENEMY->respawnMinion(MONSTER_TYPE::WORM, { 400,500 });
+	//ENEMY->respawnMinion(MONSTER_TYPE::MULLIGAN, { 600,500 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_HEART, { 500,300 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 600,300 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_BOMB, { 700,500 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_KEY, { 300,500 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 200,500 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { 250,350 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_MOMSLIPSTICK, { 350,350 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_PENTAGRAM, { 450,350 });
+	//ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { 550,350 });
+	//ITEM->respawnRandomBasicItem({ 300,400 });
 }
 
 void CStage::exit()

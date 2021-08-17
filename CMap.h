@@ -1,13 +1,14 @@
 #pragma once
 #include"gameNode.h"
-
 class CObstacle;
+typedef vector<CObstacle*> TDvObstacle;
+typedef vector<CObstacle*>::iterator TDviObstacle;
 class CMap : public gameNode
 {
 private:
 	tagRoom room;
-	vector<CObstacle*> vObstacle;
-	vector<CObstacle*>::iterator viObstacle;
+	TDvObstacle vObstacle;
+	TDviObstacle viObstacle;
 
 	ROOM_TYPE_ATTR roomAttr;
 	ROOM_MARK_ATTR markAttr;
@@ -37,8 +38,8 @@ public:
 	ROOM_MARK_ATTR getMarkAttr() { return markAttr; }
 	void setMarkAttr(ROOM_MARK_ATTR attr) { markAttr = attr; }
 
-	vector<CObstacle*> getvObstacle() { return vObstacle; }
-	vector<CObstacle*>::iterator getviObstacle(int number);
+	TDvObstacle getvObstacle() { return vObstacle; }
+	TDviObstacle getviObstacle(int number);
 
 	tagTile* getTile() { return room.tile; }
 	ROOM getRoomType() { return room.roomType; }

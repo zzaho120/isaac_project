@@ -84,12 +84,22 @@ void CUseBomb::update()
 				(*ENEMY->getvimonster(i))->sethp((*ENEMY->getvimonster(i))->gethp() - 10);
 			}
 		}
-		RECT cheakTile = RectMakeCenter(STAGE->getCurStage()->getCurRoom()->getvObstacle()[3]->getcollider()->getPos(),
-			STAGE->getCurStage()->getCurRoom()->getvObstacle()[3]->getcollider()->getSize().x,
-			STAGE->getCurStage()->getCurRoom()->getvObstacle()[3]->getcollider()->getSize().y);
-		bool isbroke = STAGE->getCurStage()->getCurRoom()->getvObstacle()[3]->getUnmovalbe();
+		for (int i = 0; i < 135; i++)
+		{
+			RECT cheakTile = RectMakeCenter((*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getcollider()->getPos(),
+				(*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getcollider()->getSize().x,
+				(*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getcollider()->getSize().y);
+			bool isbroke = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getDestroyBomb();
 
-		//if (COLLISION->isCollision(bombRange, ))
+			if (COLLISION->isCollision(bombRange, cheakTile) && isbroke)
+			{
+				(*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->setObjType(OBJECT::OBJ_NONE);
+			}
+		}
+		(*STAGE->getCurStage()->getCurRoom()->getviObstacle(40))->setObjType(OBJECT::OBJ_NONE);
+		/*if ((float)RND->getInt(10) / 10.0 < 0.5 && roomNumber != 45)
+			return false;*/
+
 	}
 	if (count == 150)
 	{

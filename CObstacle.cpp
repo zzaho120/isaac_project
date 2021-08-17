@@ -9,7 +9,7 @@ CObstacle::CObstacle() :
 
 CObstacle::CObstacle(Vec2 _pos, RECT _rc, OBJECT _type) :
 	CObject(_pos, _rc), objType(_type), 
-	strength(0), isUnmovable(false), isDestroyByBomb(false),
+	strength(3), isUnmovable(false), isDestroyByBomb(false),
 	isDestroyByBullet(false)
 {
 	Vec2 colliderSize = { TILEWIDTH, TILEHEIGHT /*+ 5*/};
@@ -32,6 +32,7 @@ void CObstacle::release()
 
 void CObstacle::update()
 {
+	setObjectValue();
 }
 
 void CObstacle::render()
@@ -62,7 +63,6 @@ void CObstacle::setObjectValue()
 		isDestroyByBomb = false;
 		break;
 	case OBJECT::OBJ_POOP:
-		strength = 3;
 		frame = { 1, 0 };
 
 		isUnmovable = true;
@@ -174,6 +174,11 @@ void CObstacle::setObjectValue()
 		isDestroyByBomb = false;
 		break;
 	case OBJECT::OBJ_NONE:
+		frame = { 0,0 };
+		isUnmovable = false;
+		isDestroyByBullet = false;
+		isDestroyByBomb = false;
+
 		break;
 	default:
 		break;

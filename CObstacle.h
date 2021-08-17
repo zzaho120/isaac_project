@@ -32,5 +32,7 @@ public:
 	int gettest() { return test; }
 
 	void setObjType(OBJECT obj) { objType = obj; }
+	int getStrength() { return strength; }
+	void setStrength(int number) { strength = number; }
 };
 
