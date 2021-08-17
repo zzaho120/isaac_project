@@ -307,7 +307,8 @@ enum class DOOR_DIRECTION
 	TOP,
 	LEFT,
 	RIGHT,
-	BOTTOM
+	BOTTOM,
+	END
 };
 
 enum class FILE_TYPE

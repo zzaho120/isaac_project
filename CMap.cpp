@@ -152,18 +152,22 @@ void CMap::doorSetting(DOOR_DIRECTION direction)
     case DOOR_DIRECTION::TOP:
         room.tile[7].obj = OBJECT::OBJ_TOPDOOR;
         vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
+        vObstacle[7]->setUnmovalbe(false);
         break;
     case DOOR_DIRECTION::LEFT:
         room.tile[60].obj = OBJECT::OBJ_LEFTDOOR;
         vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
+        vObstacle[60]->setUnmovalbe(false);
         break;
     case DOOR_DIRECTION::RIGHT:
         room.tile[74].obj = OBJECT::OBJ_RIGHTDOOR;
         vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
+        vObstacle[74]->setUnmovalbe(false);
         break;
     case DOOR_DIRECTION::BOTTOM:
         room.tile[127].obj = OBJECT::OBJ_BOTTOMDOOR;
         vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
+        vObstacle[127]->setUnmovalbe(false);
         break;
     default:
         return;

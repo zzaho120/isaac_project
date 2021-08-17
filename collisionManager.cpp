@@ -180,8 +180,6 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 {
 	float width = 30;
 	float height = 30;
-	/*float width = TILEWIDTH / 10 * 8;
-	float height = TILEHEIGHT / 10 * 8;*/
 	
 	RECT rc = RectMakeCenter(_pt, width, height);
 	RECT prevRc = RectMakeCenter(_prevPt, width, height);
@@ -227,7 +225,7 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 		//testIndex[3] = hereIndex + TILEX - 1;
 		break;
 	case FOWARD::RIGHTTOP:
-		testIndex[0] = hereIndex +TILEX +1;
+		testIndex[0] = hereIndex + TILEX +1;
 		testIndex[1] = hereIndex + 1;
 		testIndex[2] = hereIndex;
 		//testIndex[3] = hereIndex - TILEX - 1;
@@ -235,145 +233,143 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 	default:
 		break;
 	}
-	RECT temprc;
+
 	bool isBump = 0;
 	bool cant = 0;
 
-	if (hereIndex <= 118 && hereIndex >= 16)
+	for (int i = 0; i < 3; i++)
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			isBump = isCollision(rc, _map->getTile()[testIndex[i]].rcTile);
-			//isBump = IntersectRect(&temprc, &_map->getTile()[testIndex[i]].rcTile, &rc);
-			cant = (_map->getvObstacle()[testIndex[i]]->getUnmovalbe());
+		if (testIndex[i] < 0) continue;
+		isBump = isCollision(rc, _map->getTile()[testIndex[i]].rcTile);
+		cant = (_map->getvObstacle()[testIndex[i]]->getUnmovalbe());
 
-			if (isBump && cant)
+		if (isBump && cant)
+		{
+			switch (_foward)
 			{
-				switch (_foward)
+			case FOWARD::DOWN:
+				rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+				rc.top = rc.bottom - height;
+				break;
+			case FOWARD::LEFT:
+				rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+				rc.right = rc.left + width;
+				break;
+			case FOWARD::RIGHT:
+				rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+				rc.left = rc.right - width;
+				break;
+			case FOWARD::UP:
+				rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+				rc.bottom = rc.top + height;
+				break;
+			case FOWARD::LEFTDOWN:
+				switch (i)
 				{
-				case FOWARD::DOWN:
-					rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-					rc.top = rc.bottom - height;
-					break;
-				case FOWARD::LEFT:
+				case 0:
 					rc.left = _map->getTile()[testIndex[i]].rcTile.right;
 					rc.right = rc.left + width;
 					break;
-				case FOWARD::RIGHT:
-					rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-					rc.left = rc.right - width;
+				case 1:
+					if (prevRc.left >= _map->getTile()[testIndex[i]].rcTile.right)
+					{
+						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+						rc.right = rc.left + width;
+					}
+					else
+					{
+						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+						rc.top = rc.bottom - height;
+					}
 					break;
-				case FOWARD::UP:
+				case 2:
+					rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+					rc.top = rc.bottom - height;
+					break;
+				}
+				break;
+			case FOWARD::LEFTTOP:
+				switch (i)
+				{
+				case 0:
+					rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+					rc.right = rc.left + width;
+					break;
+				case 1:
+					if (prevRc.top >= _map->getTile()[testIndex[i]].rcTile.bottom)
+					{
+
+						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+						rc.bottom = rc.top + height;
+					}
+					else
+					{
+						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
+						rc.right = rc.left + width;
+					}
+					break;
+				case 2:
 					rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
 					rc.bottom = rc.top + height;
 					break;
-				case FOWARD::LEFTDOWN:
-					switch (i)
-					{
-					case 0:
-						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-						rc.right = rc.left + width;
-						break;
-					case 1:
-						if (prevRc.left >= _map->getTile()[testIndex[i]].rcTile.right)
-						{
-							rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-							rc.right = rc.left + width;
-						}
-						else
-						{
-							rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-							rc.top = rc.bottom - height;
-						}
-						break;
-					case 2:
-						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-						rc.top = rc.bottom - height;
-						break;
-					}
+				}
+				break;
+			case FOWARD::RIGHTDOWN:
+				switch (i)
+				{
+				case 0:
+					rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+					rc.left = rc.right - width;
 					break;
-				case FOWARD::LEFTTOP:
-					switch (i)
+				case 1:
+					if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
 					{
-					case 0:
-						rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-						rc.right = rc.left + width;
-						break;
-					case 1:
-						if (prevRc.top >= _map->getTile()[testIndex[i]].rcTile.bottom)
-						{
-
-							rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-							rc.bottom = rc.top + height;
-						}
-						else
-						{
-							rc.left = _map->getTile()[testIndex[i]].rcTile.right;
-							rc.right = rc.left + width;
-						}
-						break;
-					case 2:
-						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-						rc.bottom = rc.top + height;
-						break;
-					}
-					break;
-				case FOWARD::RIGHTDOWN:
-					switch (i)
-					{
-					case 0:
 						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
 						rc.left = rc.right - width;
-						break;
-					case 1:
-						if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
-						{
-							rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-							rc.left = rc.right - width;
-						}
-						else
-						{
-							rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
-							rc.top = rc.bottom - height;
-						}
-						break;
-					case 2:
+					}
+					else
+					{
 						rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
 						rc.top = rc.bottom - height;
-						break;
 					}
 					break;
-				case FOWARD::RIGHTTOP:
-					switch (i)
-					{
-					case 0:
-						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-						rc.left = rc.right - width;
-						break;
-					case 1:
-						if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
-						{
-							rc.right = _map->getTile()[testIndex[i]].rcTile.left;
-							rc.left = rc.right - width;
-						}
-						else
-						{
-							rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-							rc.bottom = rc.top + height;
-						}
-						break;
-					case 2:
-						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
-						rc.bottom = rc.top + height;
-						break;
-					}
-					break;
-				default:
+				case 2:
+					rc.bottom = _map->getTile()[testIndex[i]].rcTile.top;
+					rc.top = rc.bottom - height;
 					break;
 				}
+				break;
+			case FOWARD::RIGHTTOP:
+				switch (i)
+				{
+				case 0:
+					rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+					rc.left = rc.right - width;
+					break;
+				case 1:
+					if (prevRc.right <= _map->getTile()[testIndex[i]].rcTile.left)
+					{
+						rc.right = _map->getTile()[testIndex[i]].rcTile.left;
+						rc.left = rc.right - width;
+					}
+					else
+					{
+						rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+						rc.bottom = rc.top + height;
+					}
+					break;
+				case 2:
+					rc.top = _map->getTile()[testIndex[i]].rcTile.bottom;
+					rc.bottom = rc.top + height;
+					break;
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
+	
 
 	if (_type == 1)
 	{
@@ -563,6 +559,23 @@ vector2 collisionManager::wallCollision(vector2 _objectPt, vector2 _startPt, flo
 	}
 	vector2 Pt = { RectX(rc), RectY(rc) };
 	return Pt;
+}
+
+DOOR_DIRECTION collisionManager::doorCollision(CMap* _map, CPlayer* _player)
+{
+	if (isCollision(_map->getvObstacle()[7]->getcollider(), _player->GetcolliderShadow()))
+		return DOOR_DIRECTION::TOP;
+
+	if (isCollision(_map->getvObstacle()[60]->getcollider(), _player->GetcolliderShadow()))
+		return DOOR_DIRECTION::LEFT;
+
+	if (isCollision(_map->getvObstacle()[74]->getcollider(), _player->GetcolliderShadow()))
+		return DOOR_DIRECTION::RIGHT;
+
+	if (isCollision(_map->getvObstacle()[127]->getcollider(), _player->GetcolliderShadow()))
+		return DOOR_DIRECTION::BOTTOM;
+
+	return DOOR_DIRECTION::END;
 }
 
 void collisionManager::stageCollision(CPlayer* _player)

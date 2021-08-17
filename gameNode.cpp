@@ -39,7 +39,7 @@ HRESULT gameNode::init(bool managerInit)
 		IMAGE->init();
 		TIME->init();
 		SOUND->init();
-		SUBWIN->init();
+		//SUBWIN->init();
 		ENEMY->init();
 		ITEM->init();
 		MAP->init();
@@ -105,7 +105,7 @@ void gameNode::update()
 	if (InputManager->isOnceKeyDown(VK_F3))
 		SCENE->changeScene("test");
 
-	SUBWIN->update();
+	//SUBWIN->update();
 	//SCENE->update();
 	STAGE->update();
 	BULLET->update();
@@ -123,7 +123,7 @@ void gameNode::render(HDC hdc)
 
 void gameNode::render()
 {
-	SUBWIN->render();
+	//SUBWIN->render();
 	//SCENE->render();
 	STAGE->render();
 	BULLET->render();

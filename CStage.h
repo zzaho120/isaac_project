@@ -42,5 +42,5 @@ public:
 	CMap* getCurRoom() { return curRoom; }
 
 	void playerGetItem();
-
+	void playerEnterDoor();
 };

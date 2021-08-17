@@ -122,7 +122,6 @@ void CMapSetting::setMap()
         }
     }
 
-    // must modified
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         if (room.tile[i].monster == MONSTER_TYPE::GURDY)
@@ -137,15 +136,6 @@ void CMapSetting::setMap()
 
             room.tile[i].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
             room.tile[i].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
-
-            /*tile[i + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            tile[i + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
-
-            tile[i + TILEX].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            tile[i + TILEX].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };
-
-            tile[i + TILEX + 1].monster = monsterSelect(SUBWIN->GetMonsterFrame().x, SUBWIN->GetMonsterFrame().y);
-            tile[i + TILEX + 1].monsterFrame = { static_cast<float>(SUBWIN->GetMonsterFrame().x), static_cast<float>(SUBWIN->GetMonsterFrame().y) };*/
 
             break;
         }

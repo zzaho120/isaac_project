@@ -36,7 +36,8 @@ void CObstacle::update()
 
 void CObstacle::render()
 {
-	IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
+	if(objType != OBJECT::OBJ_NONE)
+		IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
 
 void CObstacle::setObjectValue()

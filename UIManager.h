@@ -28,5 +28,6 @@ public:
 
 	void setPlayer(CPlayer* _player) { player = _player; }
 	void setrandomMap(RandomMapGenerator* _randomMap) { randomMap = _randomMap; }
+	CMinimap* getMinimap() { return minimap; }
 };
 

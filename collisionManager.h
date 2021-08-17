@@ -22,6 +22,7 @@ public:
 	void monsterCollision(RECT& _rc, RECT& _prevRc, int _foward);
 	vector2 sliding(int _foward, vector2 _pt);
 	vector2 wallCollision(vector2 _objectPt, vector2 _startPt, float _sizeX, float _sizeY);
+	DOOR_DIRECTION doorCollision(CMap* _map, CPlayer* player);
 	void stageCollision(CPlayer* _player);
 	void isMonsterDie();
 };

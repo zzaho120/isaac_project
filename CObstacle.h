@@ -25,6 +25,7 @@ public:
 	void setObjectValue();
 
 	bool getUnmovalbe() { return isUnmovable; }
+	void setUnmovalbe(bool move) { isUnmovable = move; }
 	bool getDestroyBomb() { return isDestroyByBomb; }
 	bool getDestroyBullet() { return isDestroyByBullet; }
 
