@@ -173,7 +173,7 @@ void CMap::setMonster(MONSTER_TYPE type, vector2 pt)
     ENEMY->respawnMinion(type, pt);
 }
 
-vector<CObstacle*>::iterator CMap::getviObstacle(int number)
+TDviObstacle CMap::getviObstacle(int number)
 {
     viObstacle = vObstacle.begin() + number;
     return viObstacle;
