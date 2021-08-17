@@ -6,6 +6,7 @@
 #include "CStage.h"
 #include "CMap.h"
 #include "CBullet.h"
+#include "CItem.h"
 CPlayer::CPlayer() :
 	CCharacter(), isMove(false), totalTears(0)
 {
@@ -40,7 +41,7 @@ HRESULT CPlayer::init()
 	ANIMATION->start("playeridlehead");
 	isMove = false;
 	totalTears = 0;
-	tearDelay = 100;
+	tearDelay = 0;
 	//player item and hp
 	maxHp = 10;
 	hp = 9;
@@ -55,6 +56,9 @@ HRESULT CPlayer::init()
 	bulletDamage = 2;
 	height = 30;
 	bulletSpeed = 5;
+	
+	IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
+	IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize / 3, true, RGB(255, 0, 255));
 
 	//player information
 	coin = 10;
@@ -78,7 +82,7 @@ void CPlayer::update()
 		UseBomb();
 	}
 	
-	pt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), pt, prevPt, playerfoward, 0);
+	COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), pt, prevPt, playerfoward, 0);
 	//pt = COLLISION->wallCollision(pt, { MAPSTARTX+ TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX- TILEWIDTH*2, TILESIZEY - TILEHEIGHT*2);
 	prevPt = pt;
 
@@ -86,6 +90,7 @@ void CPlayer::update()
 	collider->setPos({ pt.x, pt.y -shadowdistance });
 	rc = RectMakeCenter(collider->getPos(), PLAYERWIDTH, PLAYERHEIGHT);
 
+	playerGetItem();
 	AI_update();
 }
 
@@ -289,65 +294,59 @@ void CPlayer::fire()
 	static int fireCnt = 0;
 	static vector2 firePt = { 0, 0 };
 	float fireAngle = PI;
-	totalTears = 0;
-	for (int i = 0; i < BULLET->getvBullet().size(); i++)
-	{
-		bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
-		if (ismB)
-		{
-			totalTears++;
-		}
-	}
-	int tdelay = 0;
-	if (totalTears == 0)
-	{
-		tdelay = 5;
-	}
-	else
-	{
-		tdelay = tearDelay;
-	}
-
 	
+	int tdelay = 0;
+	if (tearDelay >= 0)
+	{
+		tdelay = floor(16 - 6 * sqrtf(tearDelay * 1.3 + 1));
+	}
+	else if (tearDelay <0 && tearDelay > -0.77)
+	{
+		tdelay = floor(16 - 6 * sqrtf(tearDelay * 1.3 + 1) - 6 * tearDelay);
+	}
+	else tdelay = floor (16 - 6 * tearDelay);
+	if (tdelay < 5) tdelay = 5;
+	
+	fireCnt++;
+	if (fireCnt >= floor (100 / (30/tdelay))) fireCnt = floor (100 / (30 / tdelay));
+	bool isFire = false;
+
 	if (InputManager->isStayKeyDown(VK_UP))
 	{
 		headfoward = FOWARD::UP;
 		fireAngle = PI_2;
 		firePt = { pt.x, static_cast<float>(rc.top - 50) };
-		fireCnt++;
+		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_DOWN))
 	{
 		headfoward = FOWARD::DOWN;
 		fireAngle = PI + PI_2;
 		firePt = { pt.x, static_cast<float>(rc.bottom - 20) }; 
-		fireCnt++;
+		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_LEFT))
 	{
 		headfoward = FOWARD::LEFT;
 		fireAngle = PI;
 		firePt = { static_cast<float>(rc.left), static_cast<float>(rc.top) };
-		fireCnt++;
+		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_RIGHT))
 	{
 		headfoward = FOWARD::RIGHT;
 		fireAngle = PI2;
 		firePt = { static_cast<float>(rc.right), static_cast<float>(rc.top) };
-		fireCnt++;
+		isFire = true;
 	}
 	else
 	{
-		fireCnt = 0;
+		isFire = false;
 	}
-	if (fireCnt > tdelay)
+	if (isFire && fireCnt == floor(100 / (30 / tdelay)))
 	{
 		fireCnt = 0;
-		IMAGE->deleteImage("playerBullet");
-		IMAGE->deleteImage("playerBulletShadow");
-		IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
-		IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize/3, true, RGB(255, 0, 255));
+		
 		if (theInnerEye)
 		{
 			if (headfoward <= 1)
@@ -481,6 +480,88 @@ void CPlayer::setAnimationbody()
 		
 	}
 	moveani++;
+}
+
+void CPlayer::playerGetItem()
+{
+	for (int i = 0; i < ITEM->getItem().size(); i++)
+	{
+		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), collider);
+		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(),colliderShadow);
+		if (isIbcp && isIbsp)
+		{
+			switch ((*ITEM->getviItem(i))->getItemType())
+			{
+			case ITEM_TYPE::ITEM_HEART:
+				if (isFullHp()) { break; }
+				else
+				{
+					hp += 2;
+					cantHpOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_COIN:
+				if (coin >= 99) { break; }
+				else
+				{
+					coin += 1;
+					cantCoinOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_BOMB:
+				if (bomb >= 99) { break; }
+				else
+				{
+					bomb += 1;
+					cantBombOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_KEY:
+				if (key >= 99) { break; }
+				else
+				{
+					key += 1;
+					cantKeyOver();
+					ITEM->itemRemove(i);
+					break;
+				}
+			case ITEM_TYPE::ITEM_THEINNEREYE:
+				setInnerEye(true);
+				tearDelay -= 0.2;
+				ITEM->itemRemove(i);
+				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
+				break;
+			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
+				bulletdistance += 100;
+				ITEM->itemRemove(i);
+				break;
+			case ITEM_TYPE::ITEM_PENTAGRAM:
+				bulletDamage += 1;
+				ITEM->itemRemove(i);
+				break;
+			case ITEM_TYPE::ITEM_BLOODBAG:
+				maxHp += 2;
+				hp += 10;
+				cantHpOver();
+				playerMaxSpeed += 0.3;
+				cantSpeedOver();
+				ITEM->itemRemove(i);
+				break;
+			case ITEM_TYPE::ITEM_SPEEDBALL:
+				playerMaxSpeed += 0.3;
+				cantSpeedOver();
+				bulletSpeed += 0.2;
+				cantBulletSpeedOver();
+				ITEM->itemRemove(i);
+			default:
+				break;
+			}
+			break;
+		}
+	}
 }
 
 bool CPlayer::isFullHp()

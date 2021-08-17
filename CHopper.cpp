@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "CHopper.h"
-
+#include "CStage.h"
 CHopper::CHopper()
 {
 }
@@ -34,17 +34,59 @@ void CHopper::release()
 void CHopper::update()
 {
 	AI_update();
+	/*vector2 sPt = { pt.x, pt.y + shadowdistance };
+	if (COLLISION->wallCollision(sPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2))
+	{
+		colliderShadow->setPos(sPt);
+	}
+	else colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+	if (COLLISION->wallCollision(pt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2))
+	{
+		shadowdistance = 10;
+	}
+	
+
+	rc = RectMakeCenter(pt, IMAGE->findImage("hopper")->getFrameWidth(), IMAGE->findImage("hopper")->getFrameHeight());
+
+	collider->setPos({ RectX(rc), RectY(rc) });*/
+
+	//vector2 rcPt;
+	//rcPt.x = RectX(rc);
+	//rcPt.y = RectY(rc) + shadowdistance;
+	//foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
+	//if (COLLISION->wallCollision(rcPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2))
+	//{
+	//	shadowdistance = 10;
+	//}
+	//else if (shadowdistance < 30)
+	//{
+	//	if (COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), rcPt, prevPt, foward, 0))
+	//	{
+	//		shadowdistance = 10;
+	//	}
+	//}
+	//collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
+	//colliderShadow->setPos(rcPt);
+	//rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("hopper")->getFrameWidth(), IMAGE->findImage("hopper")->getFrameHeight());
+
+	//AI_update();
+
+	//AI_update();
+
 	collider->setPos({ RectX(rc), RectY(rc) });
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
-	foward = COLLISION->whereAreYouGoing(prevPt, colliderShadow->getPos());
+	//foward = COLLISION->whereAreYouGoing(prevPt, colliderShadow->getPos());
 }
 
 void CHopper::render()
 {
-	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-		collider->getPos().y - collider->getSize().y / 2,
-		collider->getPos().x + collider->getSize().x / 2,
-		collider->getPos().y + collider->getSize().y / 2);
+	if (InputManager->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+			collider->getPos().y - collider->getSize().y / 2,
+			collider->getPos().x + collider->getSize().x / 2,
+			collider->getPos().y + collider->getSize().y / 2);
+	}
 
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowHopper", getMemDC(), rec.left, rec.top);

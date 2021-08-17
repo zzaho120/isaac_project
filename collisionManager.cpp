@@ -176,7 +176,7 @@ int collisionManager::whereAreYouGoing(vector2& _prevPt, vector2 _Pt)
 }
 
 
-vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevPt, int _foward ,int _type)
+bool collisionManager::tileCollision(CMap* _map, vector2& _pt, vector2& _prevPt, int _foward ,int _type)
 {
 	float width = 30;
 	float height = 30;
@@ -377,7 +377,9 @@ vector2 collisionManager::tileCollision(CMap* _map, vector2 _pt, vector2& _prevP
 	}
 	vector2 Pt = { RectX(rc), RectY(rc) };
 	_prevPt = Pt;
-	return Pt;
+	_pt = Pt;
+
+	return (isBump && cant);
 }
 
 void collisionManager::monsterCollision(RECT& _rc, RECT& _prevRc, int _foward)
@@ -529,11 +531,11 @@ vector2 collisionManager::sliding(int _foward, vector2 _pt)
 	return vector2();
 }
 
-vector2 collisionManager::wallCollision(vector2 _objectPt, vector2 _startPt, float _sizeX, float _sizeY)
+bool collisionManager::wallCollision(vector2& _objectPt, vector2 _startPt, float _sizeX, float _sizeY)
 {
 	float width = 30;
 	float height = 30;
-
+	bool isBump = false;
 	RECT rc = RectMakeCenter(_objectPt, width, height);
 	RECT map = RectMake(_startPt, _sizeX, _sizeY);
 
@@ -541,24 +543,29 @@ vector2 collisionManager::wallCollision(vector2 _objectPt, vector2 _startPt, flo
 	{
 		rc.right = map.right;
 		rc.left = rc.right - width;
+		isBump = true;
 	}
 	if (rc.left < map.left)
 	{
 		rc.left = map.left;
 		rc.right = rc.left + width;
+		isBump = true;
 	}
 	if (rc.top < map.top)
 	{
 		rc.top = map.top;
 		rc.bottom = rc.top + height;
+		isBump = true;
 	}
 	if (rc.bottom > map.bottom)
 	{
 		rc.bottom = map.bottom;
 		rc.top = rc.bottom - height;
+		isBump = true;
 	}
-	vector2 Pt = { RectX(rc), RectY(rc) };
-	return Pt;
+	_objectPt = { RectX(rc), RectY(rc) };
+
+	return isBump;
 }
 
 DOOR_DIRECTION collisionManager::doorCollision(CMap* _map, CPlayer* _player)
@@ -643,6 +650,20 @@ void collisionManager::stageCollision(CPlayer* _player)
 				{
 					(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
 				}
+				BULLET->eraserBullet(i);
+				break;
+			}
+		}
+	}
+	for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and poop collision
+	{
+		for (int j = 0; j < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); j++)
+		{
+			bool colliderBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
+			bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
+			bool isDestroyBullet = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() != OBJECT::OBJ_NONE;
+			if (colliderBump && shadowBump && isDestroyBullet)
+			{
 				BULLET->eraserBullet(i);
 				break;
 			}

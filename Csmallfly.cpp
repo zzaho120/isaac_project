@@ -44,11 +44,13 @@ void Csmallfly::update()
 
 void Csmallfly::render()
 {
-	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-		collider->getPos().y - collider->getSize().y / 2,
-		collider->getPos().x + collider->getSize().x / 2,
-		collider->getPos().y + collider->getSize().y / 2);
-
+	if (InputManager->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+			collider->getPos().y - collider->getSize().y / 2,
+			collider->getPos().x + collider->getSize().x / 2,
+			collider->getPos().y + collider->getSize().y / 2);
+	}
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowSmallfly", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("smallfly")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());

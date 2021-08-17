@@ -31,6 +31,6 @@ public:
 	int getCurRoomIdx() { return curRoomIdx; }
 	CMap* getCurRoom() { return curRoom; }
 
-	void playerGetItem();
+	//void playerGetItem();
 	void playerEnterDoor();
 };

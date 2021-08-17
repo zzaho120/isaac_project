@@ -6,6 +6,8 @@ class CPlayer;
 class Hopper_Idle : public CState
 {
 private:
+	CCollider* objective;
+
 	int count;
 	int movetime;
 	int delay;
@@ -36,6 +38,8 @@ public:
 class Hopper_Trace : public CState
 {
 private:
+	CCollider* objective;
+
 	int count;
 	int movetime;
 	int delay;

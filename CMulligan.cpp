@@ -44,8 +44,8 @@ void CMulligan::update()
 	rcPt.x = RectX(rc);
 	rcPt.y = RectY(rc)+shadowdistance;
 	foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
-	rcPt = COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), rcPt, prevPt, foward , 0);
-	rcPt = COLLISION->wallCollision(rcPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
+	COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), rcPt, prevPt, foward , 0);
+	COLLISION->wallCollision(rcPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
 	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
 	colliderShadow->setPos(rcPt);
 	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());
@@ -59,11 +59,13 @@ void CMulligan::update()
 
 void CMulligan::render()
 {
-	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-		collider->getPos().y - collider->getSize().y / 2,
-		collider->getPos().x + collider->getSize().x / 2,
-		collider->getPos().y + collider->getSize().y / 2);
-
+	if (InputManager->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+			collider->getPos().y - collider->getSize().y / 2,
+			collider->getPos().x + collider->getSize().x / 2,
+			collider->getPos().y + collider->getSize().y / 2);
+	}
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowMulligan", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("mulliganbody")->aniRender(getMemDC(), RectX(getRC()) - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2, RectY(getRC()), getAni());

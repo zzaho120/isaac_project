@@ -12,7 +12,7 @@ void CStage::update()
 	curRoom->update();
 	player->update();
 	curRoom->update();
-	if (InputManager->isOnceKeyDown('N'))
+	/*if (InputManager->isOnceKeyDown('N'))
 	{
 		player->setBulletSize(player->getBulletSize() + 1);
 	}
@@ -27,10 +27,13 @@ void CStage::update()
 	if (InputManager->isOnceKeyDown('V'))
 	{
 		player->setInnerEye(true);
-	}
-	playerGetItem();
+	}*/
+	//playerGetItem();
 	playerEnterDoor();
-
+	if (InputManager->isOnceKeyDown('O'))
+	{
+		BULLET->eraserAll();
+	}
 	COLLISION->stageCollision(player);
 	COLLISION->isMonsterDie();
 }
@@ -65,8 +68,13 @@ void CStage::enter()
 	ENEMY->SetPlayer(player);
 	player->setRoomLink(curRoom);
 
-	(*curRoom->getviObstacle(40))->setObjType(OBJECT::OBJ_POOP);
-	(*curRoom->getviObstacle(42))->setObjType(OBJECT::OBJ_ROCK);
+	ITEM->respawnItem(ITEM_TYPE::ITEM_MOMSLIPSTICK, { 400,400 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_PENTAGRAM, { 400,400 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { 400,400 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 400,400 });
+	ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { 400,400 });
+	ENEMY->respawnMinion(MONSTER_TYPE::HOPPER, { 400,400 });
+
 }
 
 void CStage::exit()
@@ -133,86 +141,86 @@ void CStage::changeRoom(int roomNum)
 
 }
 
-void CStage::playerGetItem()
-{
-	for (int i = 0; i < ITEM->getItem().size(); i++)
-	{
-		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
-		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
-		if (isIbcp && isIbsp)
-		{
-			switch ((*ITEM->getviItem(i))->getItemType())
-			{
-			case ITEM_TYPE::ITEM_HEART:
-				if (player->isFullHp()) { break; }
-				else
-				{
-					player->sethp(player->gethp() + 2);
-					player->cantHpOver();
-					ITEM->itemRemove(i);
-					break;
-				}
-			case ITEM_TYPE::ITEM_COIN:
-				if (player->getCoin() >= 99) { break; }
-				else
-				{
-					player->setCoin(player->getCoin() + 1);
-					player->cantCoinOver();
-					ITEM->itemRemove(i);
-					break;
-				}
-			case ITEM_TYPE::ITEM_BOMB:
-				if (player->getBomb() >= 99) { break; }
-				else
-				{
-					player->setBomb(player->getBomb() + 1);
-					player->cantBombOver();
-					ITEM->itemRemove(i);
-					break;
-				}
-			case ITEM_TYPE::ITEM_KEY:
-				if (player->getKey() >= 99) { break; }
-				else
-				{
-					player->setKey(player->getKey() + 1);
-					player->cantKeyOver();
-					ITEM->itemRemove(i);
-					break;
-				}
-			case ITEM_TYPE::ITEM_THEINNEREYE:
-				player->setInnerEye(true);
-				ITEM->itemRemove(i);
-				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
-				break;
-			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
-				player->setBulletDistance(player->getBulletDistance() + 100);
-				ITEM->itemRemove(i);
-				break;
-			case ITEM_TYPE::ITEM_PENTAGRAM:
-				player->setBulletDamage(player->getBulletDamage() + 1);
-				ITEM->itemRemove(i);
-				break;
-			case ITEM_TYPE::ITEM_BLOODBAG:
-				player->setMaxHp(player->getMaxHp() + 2);
-				player->sethp(player->gethp() + 10);
-				player->cantHpOver();
-				player->setSpeed(player->getSpeed() + 0.3);
-				player->cantSpeedOver();
-				ITEM->itemRemove(i);
-				break;
-			case ITEM_TYPE::ITEM_SPEEDBALL:
-				player->setSpeed(player->getSpeed() + 0.3);
-				player->cantSpeedOver();
-				player->setBulletSpeed(player->getBulletSpeed() + 0.2);
-				player->cantBulletSpeedOver();
-				ITEM->itemRemove(i);
-			default:
-				break;
-			}
-			break;
-		}
-	}
-}
+//void CStage::playerGetItem()
+//{
+//	for (int i = 0; i < ITEM->getItem().size(); i++)
+//	{
+//		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), player->getcollider());
+//		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(), player->GetcolliderShadow());
+//		if (isIbcp && isIbsp)
+//		{
+//			switch ((*ITEM->getviItem(i))->getItemType())
+//			{
+//			case ITEM_TYPE::ITEM_HEART:
+//				if (player->isFullHp()) { break; }
+//				else
+//				{
+//					player->sethp(player->gethp() + 2);
+//					player->cantHpOver();
+//					ITEM->itemRemove(i);
+//					break;
+//				}
+//			case ITEM_TYPE::ITEM_COIN:
+//				if (player->getCoin() >= 99) { break; }
+//				else
+//				{
+//					player->setCoin(player->getCoin() + 1);
+//					player->cantCoinOver();
+//					ITEM->itemRemove(i);
+//					break;
+//				}
+//			case ITEM_TYPE::ITEM_BOMB:
+//				if (player->getBomb() >= 99) { break; }
+//				else
+//				{
+//					player->setBomb(player->getBomb() + 1);
+//					player->cantBombOver();
+//					ITEM->itemRemove(i);
+//					break;
+//				}
+//			case ITEM_TYPE::ITEM_KEY:
+//				if (player->getKey() >= 99) { break; }
+//				else
+//				{
+//					player->setKey(player->getKey() + 1);
+//					player->cantKeyOver();
+//					ITEM->itemRemove(i);
+//					break;
+//				}
+//			case ITEM_TYPE::ITEM_THEINNEREYE:
+//				player->setInnerEye(true);
+//				ITEM->itemRemove(i);
+//				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
+//				break;
+//			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
+//				player->setBulletDistance(player->getBulletDistance() + 100);
+//				ITEM->itemRemove(i);
+//				break;
+//			case ITEM_TYPE::ITEM_PENTAGRAM:
+//				player->setBulletDamage(player->getBulletDamage() + 1);
+//				ITEM->itemRemove(i);
+//				break;
+//			case ITEM_TYPE::ITEM_BLOODBAG:
+//				player->setMaxHp(player->getMaxHp() + 2);
+//				player->sethp(player->gethp() + 10);
+//				player->cantHpOver();
+//				player->setSpeed(player->getSpeed() + 0.3);
+//				player->cantSpeedOver();
+//				ITEM->itemRemove(i);
+//				break;
+//			case ITEM_TYPE::ITEM_SPEEDBALL:
+//				player->setSpeed(player->getSpeed() + 0.3);
+//				player->cantSpeedOver();
+//				player->setBulletSpeed(player->getBulletSpeed() + 0.2);
+//				player->cantBulletSpeedOver();
+//				ITEM->itemRemove(i);
+//			default:
+//				break;
+//			}
+//			break;
+//		}
+//	}
+//}
 
 void CStage::playerEnterDoor()
 {

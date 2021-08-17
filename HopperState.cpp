@@ -3,6 +3,9 @@
 #include "BulletManager.h"
 #include "enemyManager.h"
 #include "CPlayer.h"
+#include "CStage.h"
+#include "CMap.h"
+#include "CObstacle.h"
 //=============================================대기상태=========================================================
 Hopper_Idle::Hopper_Idle()
 {
@@ -15,6 +18,12 @@ Hopper_Idle::~Hopper_Idle()
 
 void Hopper_Idle::Enter()
 {
+	objective = new CCollider;
+	CCharacter* pMon = m_pFSM->GetMon();
+	//objective = pMon->GetcolliderShadow();
+	vector2 objectivePt = { pMon->getPt().x, pMon->getPt().y + 10 };
+	objective->setPos(objectivePt);
+
 	count = 0;
 	movetime = 32;
 
@@ -26,11 +35,25 @@ void Hopper_Idle::Enter()
 	idle = 0;
 
 	parabola = 0;
-	foward = RND->getFromIntTo(0, 7);
-	distance = RND->getFromIntTo(50, 100);
-
-	CObject* pMon = m_pFSM->GetMon();
 	shadow = pMon->getRC();
+	while (true)
+	{
+		RECT objectiveRc = RectMakeCenter(objective->getPos(), 30, 30);
+		foward = RND->getFromIntTo(0, 7);
+		distance = RND->getFromIntTo(50, 100);
+		objectiveRc = RectMakeCenter(
+			RectX(objectiveRc) + cosf(PI - foward * PI_4) * distance,
+			RectY(objectiveRc) - sinf(PI - foward * PI_4) * distance,
+			30, 30);
+		int hereIndex = (objectiveRc.left / TILEWIDTH - 1) + (objectiveRc.top / TILEHEIGHT - 1) * TILEX;
+		if (hereIndex > 105) hereIndex = 6;
+		bool ismoveable = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getUnmovalbe();
+		if (ismoveable)
+		{
+			continue;
+		}
+		else break;
+	}
 }
 
 void Hopper_Idle::update()
@@ -53,6 +76,7 @@ void Hopper_Idle::update()
 
 void Hopper_Idle::Exit()
 {
+	SAFE_DELETE(objective);
 }
 void Hopper_Idle::Jump()
 {
@@ -62,46 +86,48 @@ void Hopper_Idle::Jump()
 	{
 		count = 0;
 		parabola = 0.0f;
-		bool isok=true;
-		while (isok)
-		{
-			foward = RND->getFromIntTo(0, 7);
-			distance = RND->getFromIntTo(50, 100);
-			break;
-		}
-		/*foward = RND->getFromIntTo(0, 7);
-		distance = RND->getFromIntTo(50, 100);*/
+		shadow = pMon->getRC();
+		
 		jumpstart = 1;
 		downstart = 1;
 		idlestart = 1;
-		
+
+		vector2 objectivePt = { pMon->getPt().x, pMon->getPt().y + 10 };
+		objective->setPos(objectivePt);
+
+		while (true)
+		{
+			RECT objectiveRc = RectMakeCenter(objective->getPos(), 30, 30);
+			foward = RND->getFromIntTo(0, 7);
+			distance = RND->getFromIntTo(50, 100);
+			objectiveRc = RectMakeCenter(
+				RectX(objectiveRc) + cosf(PI - foward * PI_4) * distance,
+				RectY(objectiveRc) - sinf(PI - foward * PI_4) * distance,
+				30, 30);
+			int hereIndex = (objectiveRc.left / TILEWIDTH - 1) + (objectiveRc.top / TILEHEIGHT - 1) * TILEX;
+			if (hereIndex > 105) hereIndex = 6;
+			bool ismoveable = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getUnmovalbe();
+			if (ismoveable)
+			{
+				continue;
+			}
+			else break;
+		}
 	}
 	RECT rec = pMon->getRC();
 	if (count <= movetime && count % 2 == 0)
 	{
 		shadow = RectMakeCenter(
-			RectX(shadow) + cosf(PI - foward * PI_4) * distance / 16,
-			RectY(shadow) - sinf(PI - foward * PI_4) * distance / 16,
+			RectX(shadow) + cosf(PI - foward * PI_4) * distance / 16 - cosf(PI - foward * PI_4),
+			RectY(shadow) - sinf(PI - foward * PI_4) * distance / 16 + sinf(PI - foward * PI_4),
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		rec = RectMakeCenter(
 			RectX(shadow),
-			RectY(shadow) - sinf(parabola) * 50 + 5,
+			RectY(shadow) - sinf(parabola) * 50 + 10,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		parabola += PI_16;
 	}
-	/*if (count <= movetime && count % 2 == 0)
-	{
-
-		shadow = RectMakeCenter(
-			RectX(shadow) + cosf(PI - foward * PI_4) * distance,
-			RectY(shadow) - sinf(PI - foward * PI_4) * distance,
-			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
-		rec = RectMakeCenter(
-			RectX(shadow),
-			RectY(shadow) - sinf(parabola) * 50 + 5,
-			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
-		parabola += PI_16;
-	}*/
+	
 	if (count <= movetime / 2)
 	{
 		pMon->setAni(ANIMATION->findAnimation("jumphopper"));
@@ -170,6 +196,7 @@ bool Hopper_Idle::Inrange(int range, vector2 pt)
 Hopper_Trace::Hopper_Trace()
 {
 	m_eState = STATE_TYPE::TRACE;
+	
 }
 
 Hopper_Trace::~Hopper_Trace()
@@ -178,6 +205,7 @@ Hopper_Trace::~Hopper_Trace()
 
 void Hopper_Trace::Enter()
 {
+	CCharacter* pMon = m_pFSM->GetMon();
 	count = 0;
 	movetime = 32;
 	delay = 50;
@@ -191,8 +219,12 @@ void Hopper_Trace::Enter()
 	angle = 0.0f;
 	distance = 0.0f;
 
-	CObject* pMon = m_pFSM->GetMon();
 	shadow = pMon->getRC();
+
+
+	objective = new CCollider;
+	vector2 objectivePt = { pMon->getPt().x, pMon->getPt().y + 10 };
+	objective->setPos(objectivePt);
 }
 
 void Hopper_Trace::update()
@@ -204,6 +236,7 @@ void Hopper_Trace::update()
 		angle = UTIL::getAngle(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 		distance = UTIL::getDistance(pMon->getPt().x, pMon->getPt().y, ENEMY->GetPlayer()->getPt().x, ENEMY->GetPlayer()->getPt().y);
 	}
+	
 	Jump();
 
 	
@@ -221,6 +254,7 @@ void Hopper_Trace::update()
 
 void Hopper_Trace::Exit()
 {
+	SAFE_DELETE(objective);
 }
 void Hopper_Trace::Jump()
 {
@@ -238,12 +272,12 @@ void Hopper_Trace::Jump()
 	if (count <= movetime && count % 2 == 0)
 	{
 		shadow = RectMakeCenter(
-			RectX(shadow) + cosf(angle) * distance / 16,
-			RectY(shadow) - sinf(angle) * distance / 16,
+			RectX(shadow) + cosf(angle) * distance / 16 - cosf(angle),
+			RectY(shadow) - sinf(angle) * distance / 16 + sinf(angle),
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		rec = RectMakeCenter(
 			RectX(shadow),
-			RectY(shadow) - sinf(parabola) * 50 + 5,
+			RectY(shadow) - sinf(parabola) * 50 + 10,
 			RectWidth(pMon->getRC()), RectHeight(pMon->getRC()));
 		parabola += PI_16;
 	}
