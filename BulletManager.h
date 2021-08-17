@@ -22,6 +22,7 @@ public:
 	void move();
 	void removeBullet(viBullet iter);
 	void eraserBullet(int number) { _vBullet.erase(_vBullet.begin() + number); }
+	void eraserAll();
 
 	vBullet getvBullet() { return _vBullet; }
 	viBullet getviBullet(int number);

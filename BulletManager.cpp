@@ -62,6 +62,11 @@ void BulletManager::removeBullet(viBullet iter)
 	_vBullet.erase(iter);
 }
 
+void BulletManager::eraserAll()
+{
+	_vBullet.clear();
+}
+
 viBullet BulletManager::getviBullet(int number)
 {
 	_viBullet = _vBullet.begin() + number;

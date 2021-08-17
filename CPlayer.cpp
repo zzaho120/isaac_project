@@ -41,7 +41,7 @@ HRESULT CPlayer::init()
 	ANIMATION->start("playeridlehead");
 	isMove = false;
 	totalTears = 0;
-	tearDelay = 100;
+	tearDelay = 0;
 	//player item and hp
 	maxHp = 10;
 	hp = 9;
@@ -56,6 +56,9 @@ HRESULT CPlayer::init()
 	bulletDamage = 2;
 	height = 30;
 	bulletSpeed = 5;
+	
+	IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
+	IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize / 3, true, RGB(255, 0, 255));
 
 	//player information
 	coin = 10;
@@ -291,65 +294,59 @@ void CPlayer::fire()
 	static int fireCnt = 0;
 	static vector2 firePt = { 0, 0 };
 	float fireAngle = PI;
-	totalTears = 0;
-	for (int i = 0; i < BULLET->getvBullet().size(); i++)
-	{
-		bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
-		if (ismB)
-		{
-			totalTears++;
-		}
-	}
-	int tdelay = 0;
-	if (totalTears == 0)
-	{
-		tdelay = 5;
-	}
-	else
-	{
-		tdelay = tearDelay;
-	}
-
 	
+	int tdelay = 0;
+	if (tearDelay >= 0)
+	{
+		tdelay = floor(16 - 6 * sqrtf(tearDelay * 1.3 + 1));
+	}
+	else if (tearDelay <0 && tearDelay > -0.77)
+	{
+		tdelay = floor(16 - 6 * sqrtf(tearDelay * 1.3 + 1) - 6 * tearDelay);
+	}
+	else tdelay = floor (16 - 6 * tearDelay);
+	if (tdelay < 5) tdelay = 5;
+	
+	fireCnt++;
+	if (fireCnt >= floor (100 / (30/tdelay))) fireCnt = floor (100 / (30 / tdelay));
+	bool isFire = false;
+
 	if (InputManager->isStayKeyDown(VK_UP))
 	{
 		headfoward = FOWARD::UP;
 		fireAngle = PI_2;
 		firePt = { pt.x, static_cast<float>(rc.top - 50) };
-		fireCnt++;
+		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_DOWN))
 	{
 		headfoward = FOWARD::DOWN;
 		fireAngle = PI + PI_2;
 		firePt = { pt.x, static_cast<float>(rc.bottom - 20) }; 
-		fireCnt++;
+		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_LEFT))
 	{
 		headfoward = FOWARD::LEFT;
 		fireAngle = PI;
 		firePt = { static_cast<float>(rc.left), static_cast<float>(rc.top) };
-		fireCnt++;
+		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_RIGHT))
 	{
 		headfoward = FOWARD::RIGHT;
 		fireAngle = PI2;
 		firePt = { static_cast<float>(rc.right), static_cast<float>(rc.top) };
-		fireCnt++;
+		isFire = true;
 	}
 	else
 	{
-		fireCnt = 0;
+		isFire = false;
 	}
-	if (fireCnt > tdelay)
+	if (isFire && fireCnt == floor(100 / (30 / tdelay)))
 	{
 		fireCnt = 0;
-		IMAGE->deleteImage("playerBullet");
-		IMAGE->deleteImage("playerBulletShadow");
-		IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
-		IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize/3, true, RGB(255, 0, 255));
+		
 		if (theInnerEye)
 		{
 			if (headfoward <= 1)
@@ -533,6 +530,7 @@ void CPlayer::playerGetItem()
 				}
 			case ITEM_TYPE::ITEM_THEINNEREYE:
 				setInnerEye(true);
+				tearDelay -= 0.2;
 				ITEM->itemRemove(i);
 				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
 				break;

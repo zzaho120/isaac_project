@@ -18,7 +18,7 @@ HRESULT CHost::init(float x, float y)
 	CCharacter::init({ x,y }, // make pos
 		RectMakeCenter(x, y, IMAGE->findImage("host")->getFrameWidth(), IMAGE->findImage("host")->getFrameHeight()), //rc
 		{ x, y }, { 50,50 }, //collider
-		38,	//collider -> shadow distance
+		27,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("host")->getFrameWidth(),IMAGE->findImage("host")->getFrameWidth() / 3 }, // collider.shadow
 		10);//hp
 	IMAGE->addImage("shadowHost", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
@@ -43,11 +43,13 @@ void CHost::update()
 
 void CHost::render()
 {
-	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-		collider->getPos().y - collider->getSize().y / 2,
-		collider->getPos().x + collider->getSize().x / 2,
-		collider->getPos().y + collider->getSize().y / 2);
-
+	if (InputManager->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+			collider->getPos().y - collider->getSize().y / 2,
+			collider->getPos().x + collider->getSize().x / 2,
+			collider->getPos().y + collider->getSize().y / 2);
+	}
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowHost", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("host")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());

@@ -655,6 +655,20 @@ void collisionManager::stageCollision(CPlayer* _player)
 			}
 		}
 	}
+	for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and poop collision
+	{
+		for (int j = 0; j < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); j++)
+		{
+			bool colliderBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
+			bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
+			bool isDestroyBullet = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() != OBJECT::OBJ_NONE;
+			if (colliderBump && shadowBump && isDestroyBullet)
+			{
+				BULLET->eraserBullet(i);
+				break;
+			}
+		}
+	}
 	for (int i = 0; i < BULLET->getvBullet().size(); i++)	 //monsterBullet and player collision
 	{
 		bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());

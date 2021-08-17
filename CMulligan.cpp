@@ -59,11 +59,13 @@ void CMulligan::update()
 
 void CMulligan::render()
 {
-	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-		collider->getPos().y - collider->getSize().y / 2,
-		collider->getPos().x + collider->getSize().x / 2,
-		collider->getPos().y + collider->getSize().y / 2);
-
+	if (InputManager->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+			collider->getPos().y - collider->getSize().y / 2,
+			collider->getPos().x + collider->getSize().x / 2,
+			collider->getPos().y + collider->getSize().y / 2);
+	}
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowMulligan", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("mulliganbody")->aniRender(getMemDC(), RectX(getRC()) - IMAGE->findImage("mulliganbody")->getFrameWidth() / 2, RectY(getRC()), getAni());

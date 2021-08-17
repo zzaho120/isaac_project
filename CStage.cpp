@@ -30,7 +30,10 @@ void CStage::update()
 	}*/
 	//playerGetItem();
 	playerEnterDoor();
-
+	if (InputManager->isOnceKeyDown('O'))
+	{
+		BULLET->eraserAll();
+	}
 	COLLISION->stageCollision(player);
 	COLLISION->isMonsterDie();
 }

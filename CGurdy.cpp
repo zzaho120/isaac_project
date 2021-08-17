@@ -44,10 +44,13 @@ void CGurdy::update()
 
 void CGurdy::render()
 {
-	Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
-		collider->getPos().y - collider->getSize().y / 2,
-		collider->getPos().x + collider->getSize().x / 2,
-		collider->getPos().y + collider->getSize().y / 2);
+	if (InputManager->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
+			collider->getPos().y - collider->getSize().y / 2,
+			collider->getPos().x + collider->getSize().x / 2,
+			collider->getPos().y + collider->getSize().y / 2);
+	}
 	RECT rec = RectMakeCenter(RectX(body), RectY(body)+ IMAGE->findImage("gurdybody")->getFrameHeight()/2 + 30, IMAGE->findImage("gurdybody")->getFrameWidth(), IMAGE->findImage("gurdybody")->getFrameHeight());
 	IMAGE->render("shadowGurdy", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("gurdybody")->aniRender(getMemDC(), body.left, body.top, anibody);
