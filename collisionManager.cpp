@@ -11,6 +11,8 @@
 #include "CBullet.h"
 collisionManager::collisionManager()
 {
+	bossDie = false;
+	count = 0;
 }
 
 collisionManager::~collisionManager()
@@ -744,9 +746,36 @@ void collisionManager::isMonsterDie()
 	{
 		if ((*ENEMY->getvimonster(i))->getstate() == STATE_TYPE::DEAD)
 		{
-			EFFECT->play("enemydie", (*ENEMY->getvimonster(i))->getcollider()->getPos().x, (*ENEMY->getvimonster(i))->getcollider()->getPos().y);
+			if ((*ENEMY->getvimonster(i))->getMonster_Type() == MONSTER_TYPE::GURDY)
+			{
+				bossDie = true;
+				bossDiePt = (*ENEMY->getvimonster(i))->getPt();
+			}
 			ENEMY->eraserEnemy(i);
 			break;
+		}
+	}
+}
+
+void collisionManager::isBossDie()
+{
+	if (bossDie)
+	{
+		count++;
+		
+		if (count % 20 == 0)
+		{
+			EFFECT->play("gurdydie", bossDiePt.x, bossDiePt.y);
+			EFFECT->play("bossdiebase", bossDiePt.x, bossDiePt.y - 100);
+			int x = RND->getFromIntTo(bossDiePt.x - 100, bossDiePt.x + 100);
+			int y = RND->getFromIntTo(bossDiePt.y, bossDiePt.y + 100);
+			EFFECT->play("bossdiebase", x, y);
+		}
+		else if (count >= 300)
+		{
+			bossDie = false;
+			count = 0;
+			(*STAGE->getCurStage()->getCurRoom()->getviObstacle(50))->setObjType(OBJECT::OBJ_POOP);
 		}
 	}
 }

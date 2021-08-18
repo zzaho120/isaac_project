@@ -321,10 +321,14 @@ Gurdy_Die::~Gurdy_Die()
 
 void Gurdy_Die::Enter()
 {
+	EFFECT->play("gurdydie", m_pFSM->GetMon()->getPt().x, m_pFSM->GetMon()->getPt().y);
+	EFFECT->play("bossdiebase", m_pFSM->GetMon()->getPt().x, m_pFSM->GetMon()->getPt().y);
+	count = 0;
 }
 
 void Gurdy_Die::update()
 {
+
 }
 
 void Gurdy_Die::Exit()

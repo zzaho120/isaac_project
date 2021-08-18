@@ -5,6 +5,8 @@ class CBossUI : public CUI
 private:
 	CGurdy* boss;
 	int minusHp;
+	bool isDie;
+	int count;
 public:
 	CBossUI();
 	~CBossUI();

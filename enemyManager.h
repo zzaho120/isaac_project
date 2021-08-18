@@ -39,6 +39,8 @@ private:
 	vector<summon>::iterator visummon;
 
 	CPlayer* player;
+
+	int count;
 private:
 	//vminion _vminion;
 	//viminion _viminion;
@@ -65,5 +67,7 @@ public:
 
 	void SetPlayer(CPlayer* _player) { player = _player; }
 	CPlayer* GetPlayer() { return player; }
+
+	//void bossDie();
 };
 
