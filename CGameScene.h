@@ -4,6 +4,8 @@ class CGameScene : public gameNode
 {
 private:
 	bool isPause;
+	bool isKeyDown;
+	int selectMenu;
 public:
 	CGameScene();
 	~CGameScene();

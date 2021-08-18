@@ -227,6 +227,8 @@ AniAddList::AniAddList()
 	IMAGE->addImage("mainMenu", "images/UI/mainmenu.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 	IMAGE->addImage("menu_arrow", "images/UI/menuArrow.bmp", 50, 50, true, RGB(255, 0, 255));
 	IMAGE->addImage("title_screen", "images/UI/titleScreen.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
+	IMAGE->addImage("pause_menu", "images/UI/pauseMenu.bmp", 222 * 3, 194 * 3, true, RGB(255, 0, 255));
+	IMAGE->addImage("black", "images/UI/bgblack.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 }
 AniAddList::~AniAddList()
 {

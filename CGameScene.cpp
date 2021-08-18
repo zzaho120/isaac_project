@@ -2,7 +2,8 @@
 #include "CGameScene.h"
 
 CGameScene::CGameScene() :
-	isPause(false)
+	isPause(false), selectMenu(0),
+	isKeyDown(0)
 {
 }
 
@@ -19,6 +20,8 @@ HRESULT CGameScene::init()
 	ALLUI->init();
 
 	isPause = false;
+	selectMenu = 0;
+	isKeyDown = 0;
     return S_OK;
 }
 
@@ -38,7 +41,39 @@ void CGameScene::update()
 	}
 
 	if (InputManager->isOnceKeyDown('P'))
-		isPause = !isPause;
+	{
+		isPause = true;
+	}
+
+	if (isPause)
+	{
+		if (InputManager->isOnceKeyDown(VK_UP))
+		{
+			if (selectMenu > 0)
+				selectMenu--;
+		}
+		if (InputManager->isOnceKeyDown(VK_DOWN))
+		{
+			if (selectMenu < 1)
+				selectMenu++;
+		}
+		if (InputManager->isOnceKeyDown(VK_SPACE))
+			isKeyDown = true;
+	}
+
+	if (isKeyDown)
+	{
+		switch (selectMenu)
+		{
+		case 0:
+			isPause = false;
+			isKeyDown = false;
+			break;
+		case 1:
+			SCENE->changeScene("mainMenu");
+			break;
+		}
+	}
 }
 
 void CGameScene::render()
@@ -49,4 +84,11 @@ void CGameScene::render()
 	ITEM->render();
 	MAP->render();
 	ALLUI->render();
+
+	if (isPause)
+	{
+		IMAGE->alphaRender("black", getMemDC(), 220);
+		IMAGE->render("pause_menu", getMemDC(), 180, 100);
+		IMAGE->render("menu_arrow", getMemDC(), 325, 510 + selectMenu * 60);
+	}
 }
