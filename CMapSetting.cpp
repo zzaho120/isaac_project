@@ -24,7 +24,11 @@ void CMapSetting::release()
 
 void CMapSetting::update()
 {
-    if (!SUBWIN->GetIsActive() && InputManager->isStayKeyDown(VK_LBUTTON)) setMap();
+    if (!SUBWIN->GetIsActive() && InputManager->isOnceKeyDown(VK_LBUTTON))
+    {
+        SOUND->play("setobjectsound");
+        setMap();
+    }
     if (!SUBWIN->GetIsActive() && InputManager->isOnceKeyDown(VK_F5)) isDebug = !isDebug;
     
 }

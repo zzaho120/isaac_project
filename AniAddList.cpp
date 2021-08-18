@@ -12,6 +12,9 @@ AniAddList::AniAddList()
 	SOUND->addSound("hoppersound", "sound/hopperjump.wav", false, false);
 	SOUND->addSound("mulligansound", "sound/mulligan.wav", false, false);
 	SOUND->addSound("tearfiresound", "sound/tearfire.wav", false, false);
+	SOUND->addSound("setobjectsound", "sound/setobject.wav", false, false);
+	SOUND->addSound("selectmenu", "sound/selectmenu.wav", false, false);
+	SOUND->addSound("titlebgm", "sound/titlescreen.ogg", true, true);
 	
 
 

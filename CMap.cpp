@@ -82,6 +82,7 @@ void CMap::update()
     createReward();
     for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
     {
+
         (*viObstacle)->update();
     }
 }

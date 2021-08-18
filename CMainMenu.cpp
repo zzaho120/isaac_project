@@ -18,11 +18,13 @@ HRESULT CMainMenu::init()
     isPassNextScene = false;
     selectMenu = 0;
     ANIMATION->findAnimation("title_isaacAni")->start();
+    SOUND->play("titlebgm");
     return S_OK;
 }
 
 void CMainMenu::release()
 {
+    SOUND->stop("titlebgm");
 }
 
 void CMainMenu::update()
@@ -32,6 +34,7 @@ void CMainMenu::update()
     {
         if (InputManager->isOnceKeyDown(VK_UP))
         {
+
             selectMenu--;
             if (selectMenu < 0)
                 selectMenu = 0;
@@ -43,7 +46,10 @@ void CMainMenu::update()
                 selectMenu = 2;
         }
         else if (InputManager->isOnceKeyDown(VK_SPACE))
+        {
+            SOUND->play("selectmenu");
             isPassNextScene = true;
+        }
 
         if (isPassNextScene)
         {
