@@ -43,7 +43,7 @@ void CWORM::update()
 	COLLISION->wallCollision(rcPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
 	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });
 	colliderShadow->setPos(rcPt);
-	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("mulliganhead")->getFrameWidth(), IMAGE->findImage("mulliganhead")->getFrameHeight());
+	rc = RectMakeCenter(collider->getPos(), IMAGE->findImage("worm")->getFrameWidth(), IMAGE->findImage("worm")->getFrameHeight());
 }
 
 void CWORM::render()
@@ -57,5 +57,5 @@ void CWORM::render()
 	}
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	IMAGE->render("shadowWorm", getMemDC(), rec.left, rec.top);
-	IMAGE->findImage("worm")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
+	IMAGE->findImage("worm")->aniRender(getMemDC(), getRC().left , getRC().top, getAni());
 }

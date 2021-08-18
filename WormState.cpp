@@ -209,7 +209,7 @@ void Worm_trace::Move()
 	{
 
 	case 1:
-		if (count % 5 == 0)
+		if (count % 3 == 0)
 		{
 			 movetoLeft(rec, 8);
 		}
@@ -221,7 +221,7 @@ void Worm_trace::Move()
 		}
 		break;
 	case 2:
-		if (count % 5 == 0)
+		if (count % 3 == 0)
 		{
 			movetoRight(rec, 8);
 		}
@@ -233,7 +233,7 @@ void Worm_trace::Move()
 		}
 		break;
 	case 3:
-		if (count % 5 == 0)
+		if (count % 3 == 0)
 		{
 		movetoDown(rec, 8);
 		}
@@ -245,7 +245,7 @@ void Worm_trace::Move()
 		}
 		break;
 	case 4:
-		if (count % 5 == 0)
+		if (count % 3 == 0)
 		{
 	
 			movetoUp(rec, 8);

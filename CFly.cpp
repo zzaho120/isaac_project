@@ -58,10 +58,9 @@ void CFly::render()
 
 	int hereIndex = (rec.left / TILEWIDTH - 1) + (rec.top / TILEHEIGHT - 1) * TILEX;
 	if (hereIndex > 105) hereIndex = 6;
-	bool ismoveable = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getUnmovalbe();
-	if (!ismoveable)
-	{
-		IMAGE->render("shadowFly", getMemDC(), rec.left, rec.top);
-	}
+	bool isnotNone = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getObjType() != OBJECT::OBJ_NONE;
+	bool ispass = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getPassBullet();
+	if (isnotNone && ispass){}
+	else IMAGE->render("shadowFly", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("fly")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 }

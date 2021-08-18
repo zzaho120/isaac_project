@@ -790,14 +790,15 @@ void collisionManager::stageCollision(CPlayer* _player)
 			bool colliderBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
 			bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
 			bool isObstacle = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() != OBJECT::OBJ_NONE ;
+			bool isPass = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getPassBullet();
 			bool ispB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
-
+			bool isok = (*BULLET->getviBullet(i))->getshadowdistance() <= 30;
 			
 			bool isDestroyBullet = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getDestroyBullet();
 	
 			if (ispB)
 			{
-				if (colliderBump)
+				if (isok)
 				{
 					if (shadowBump)
 					{
@@ -815,24 +816,30 @@ void collisionManager::stageCollision(CPlayer* _player)
 						}
 						else if (isObstacle)
 						{
-							EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-							BULLET->eraserBullet(i);
-							break;
+							if (!isPass)
+							{
+								EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
+								BULLET->eraserBullet(i);
+								break;
+							}
 						}
 					}
 				}
 			}
 			else
 			{
-				if (colliderBump)
+				if (isok)
 				{
 					if (shadowBump)
 					{
 						if (isObstacle)
 						{
-							EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-							BULLET->eraserBullet(i);
-							break;
+							if (!isPass)
+							{
+								EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
+								BULLET->eraserBullet(i);
+								break;
+							}
 						}
 					}
 				}

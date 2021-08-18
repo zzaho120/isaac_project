@@ -9,7 +9,7 @@ CObstacle::CObstacle() :
 
 CObstacle::CObstacle(Vec2 _pos, RECT _rc, OBJECT _type) :
 	CObject(_pos, _rc), objType(_type), 
-	strength(3), isUnmovable(false), isDestroyByBomb(false),
+	strength(4), isUnmovable(false), isDestroyByBomb(false),
 	isDestroyByBullet(false)
 {
 	Vec2 colliderSize = { TILEWIDTH, TILEHEIGHT /*+ 5*/};
@@ -62,8 +62,9 @@ void CObstacle::render()
 		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 70, rc.top - 40, frame.x, frame.y);
 	else if (objType == OBJECT::OBJ_RIGHTDOOR || objType == OBJECT::OBJ_CLOSERIGHTDOOR)
 		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 27, rc.top - 40, frame.x, frame.y);
-	else
-		IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
+	if (objType == OBJECT::OBJ_POOP)
+		IMAGE->frameRender("poop", getMemDC(), rc.left, rc.top, 4 - strength, 0);
+	else IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
 
 void CObstacle::setObjectValue()

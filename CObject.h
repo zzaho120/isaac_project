@@ -44,6 +44,7 @@ public:
 
 	CCollider* getcollider() { return collider; }
 	CCollider* GetcolliderShadow() { return colliderShadow; }
+	float getshadowdistance() { return shadowdistance; }
 	void setshadowdistance(float distance) { shadowdistance = distance; }
 	int GetFoward() { return foward; }
 
