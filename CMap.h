@@ -13,6 +13,7 @@ private:
 	ROOM_TYPE_ATTR roomAttr;
 	ROOM_MARK_ATTR markAttr;
 	bool isMonCreate;
+	bool isClear;
 public:
 	CMap();
 	CMap(const char* fileName);
@@ -29,7 +30,7 @@ public:
 	void load(const char* fileName);
 	void tileSet();
 	void doorSetting(DOOR_DIRECTION direction);
-
+	void doorOpenClose();
 	void setMonster(MONSTER_TYPE type, vector2 pt);
 	
 	ROOM_TYPE_ATTR getRoomAttr() { return roomAttr; }

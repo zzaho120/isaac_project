@@ -2,14 +2,14 @@
 #include "CObstacle.h"
 #include "CMap.h"
 
-CMap::CMap() : 
-    isMonCreate(false)
+CMap::CMap() :
+    isMonCreate(false), isClear(false)
 {
     tileSet();
 }
 
 CMap::CMap(const char* fileName) :
-    isMonCreate(false)
+    isMonCreate(false), isClear(false)
 {
     load(fileName);
     tileSet();
@@ -31,6 +31,7 @@ CMap::CMap(CMap& map)
     roomAttr = map.roomAttr;
     markAttr = map.markAttr;
     isMonCreate = map.isMonCreate;
+    isClear = map.isClear;
 }
 
 CMap::CMap(CMap* map)
@@ -49,6 +50,7 @@ CMap::CMap(CMap* map)
     roomAttr = map->roomAttr;
     markAttr = map->markAttr;
     isMonCreate = map->isMonCreate;
+    isClear = map->isClear;
 }
 
 CMap::~CMap()
@@ -74,6 +76,7 @@ void CMap::release()
 
 void CMap::update()
 {
+    doorOpenClose();
     for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
     {
         (*viObstacle)->update();
@@ -100,15 +103,6 @@ void CMap::render()
     }
     for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
     {
-        if ((*viObstacle)->getObjType() == OBJECT::OBJ_TOPDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 52, (*viObstacle)->getRC().top - 50, 0, 0);
-        if ((*viObstacle)->getObjType() == OBJECT::OBJ_BOTTOMDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 52, (*viObstacle)->getRC().top - 25, 1, 0);
-        if ((*viObstacle)->getObjType() == OBJECT::OBJ_LEFTDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 70, (*viObstacle)->getRC().top - 40, 2, 0);
-        if ((*viObstacle)->getObjType() == OBJECT::OBJ_RIGHTDOOR)
-            IMAGE->frameRender("normalDoor", getMemDC(), (*viObstacle)->getRC().left - 27, (*viObstacle)->getRC().top - 40, 3, 0);
-
         (*viObstacle)->render();
     }
 }
@@ -160,21 +154,40 @@ void CMap::doorSetting(DOOR_DIRECTION direction)
     switch (direction)
     {
     case DOOR_DIRECTION::TOP:
-        room.tile[7].obj = OBJECT::OBJ_TOPDOOR;
-        vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
+        room.tile[7].obj = OBJECT::OBJ_CLOSETOPDOOR;
+        vObstacle[7]->setObjType(OBJECT::OBJ_CLOSETOPDOOR);
         break;
     case DOOR_DIRECTION::LEFT:
-        room.tile[60].obj = OBJECT::OBJ_LEFTDOOR;
-        vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
+        room.tile[60].obj = OBJECT::OBJ_CLOSELEFTDOOR;
+        vObstacle[60]->setObjType(OBJECT::OBJ_CLOSELEFTDOOR);
         break;
     case DOOR_DIRECTION::RIGHT:
-        room.tile[74].obj = OBJECT::OBJ_RIGHTDOOR;
-        vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
+        room.tile[74].obj = OBJECT::OBJ_CLOSERIGHTDOOR;
+        vObstacle[74]->setObjType(OBJECT::OBJ_CLOSERIGHTDOOR);
         break;
     case DOOR_DIRECTION::BOTTOM:
-        room.tile[127].obj = OBJECT::OBJ_BOTTOMDOOR;
-        vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
+        room.tile[127].obj = OBJECT::OBJ_CLOSEBOTTOMDOOR;
+        vObstacle[127]->setObjType(OBJECT::OBJ_CLOSEBOTTOMDOOR);
         break;
+    }
+}
+
+void CMap::doorOpenClose()
+{
+    if (!isClear && ENEMY->getvmonster().size() == 0)
+    {
+        isClear = true;
+        if (vObstacle[7]->getObjType() == OBJECT::OBJ_CLOSETOPDOOR)
+            vObstacle[7]->setObjType(OBJECT::OBJ_TOPDOOR);
+
+        if (vObstacle[60]->getObjType() == OBJECT::OBJ_CLOSELEFTDOOR)
+            vObstacle[60]->setObjType(OBJECT::OBJ_LEFTDOOR);
+
+        if (vObstacle[74]->getObjType() == OBJECT::OBJ_CLOSERIGHTDOOR)
+            vObstacle[74]->setObjType(OBJECT::OBJ_RIGHTDOOR);
+
+        if (vObstacle[127]->getObjType() == OBJECT::OBJ_CLOSEBOTTOMDOOR)
+            vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
     }
 }
 

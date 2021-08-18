@@ -570,18 +570,29 @@ bool collisionManager::wallCollision(vector2& _objectPt, vector2 _startPt, float
 
 DOOR_DIRECTION collisionManager::doorCollision(CMap* _map, CPlayer* _player)
 {
-	if (isCollision(_map->getvObstacle()[7]->getcollider(), _player->GetcolliderShadow()))
-		return DOOR_DIRECTION::TOP;
+	if (_map->getvObstacle()[7]->getObjType() == OBJECT::OBJ_TOPDOOR)
+	{
+		if (isCollision(_map->getvObstacle()[7]->getcollider(), _player->GetcolliderShadow()))
+			return DOOR_DIRECTION::TOP;
+	}
+	
+	if (_map->getvObstacle()[60]->getObjType() == OBJECT::OBJ_LEFTDOOR)
+	{
+		if (isCollision(_map->getvObstacle()[60]->getcollider(), _player->GetcolliderShadow()))
+			return DOOR_DIRECTION::LEFT;
+	}
 
-	if (isCollision(_map->getvObstacle()[60]->getcollider(), _player->GetcolliderShadow()))
-		return DOOR_DIRECTION::LEFT;
+	if (_map->getvObstacle()[74]->getObjType() == OBJECT::OBJ_RIGHTDOOR)
+	{
+		if (isCollision(_map->getvObstacle()[74]->getcollider(), _player->GetcolliderShadow()))
+			return DOOR_DIRECTION::RIGHT;
+	}
 
-	if (isCollision(_map->getvObstacle()[74]->getcollider(), _player->GetcolliderShadow()))
-		return DOOR_DIRECTION::RIGHT;
-
-	if (isCollision(_map->getvObstacle()[127]->getcollider(), _player->GetcolliderShadow()))
-		return DOOR_DIRECTION::BOTTOM;
-
+	if (_map->getvObstacle()[127]->getObjType() == OBJECT::OBJ_BOTTOMDOOR)
+	{
+		if (isCollision(_map->getvObstacle()[127]->getcollider(), _player->GetcolliderShadow()))
+			return DOOR_DIRECTION::BOTTOM;
+	}
 	return DOOR_DIRECTION::END;
 }
 

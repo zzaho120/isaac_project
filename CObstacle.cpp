@@ -53,7 +53,16 @@ void CObstacle::update()
 
 void CObstacle::render()
 {
-	if(objType != OBJECT::OBJ_NONE)
+	if (objType == OBJECT::OBJ_NONE) return;
+	if (objType == OBJECT::OBJ_TOPDOOR || objType == OBJECT::OBJ_CLOSETOPDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 52, rc.top - 50, frame.x, frame.y);
+	else if (objType == OBJECT::OBJ_BOTTOMDOOR || objType == OBJECT::OBJ_CLOSEBOTTOMDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 52, rc.top - 25, frame.x, frame.y);
+	else if (objType == OBJECT::OBJ_LEFTDOOR || objType == OBJECT::OBJ_CLOSELEFTDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 70, rc.top - 40, frame.x, frame.y);
+	else if (objType == OBJECT::OBJ_RIGHTDOOR || objType == OBJECT::OBJ_CLOSERIGHTDOOR)
+		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 27, rc.top - 40, frame.x, frame.y);
+	else
 		IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
 
@@ -125,16 +134,36 @@ void CObstacle::setObjectValue()
 		setValue(true, false, false, false);
 		break;
 	case OBJECT::OBJ_TOPDOOR:
+		frame = { 0, 0 };
 		setValue(false, false, false, false);
 		break;
 	case OBJECT::OBJ_LEFTDOOR:
+		frame = { 2, 0 };
 		setValue(false, false, false, false);
 		break;
 	case OBJECT::OBJ_RIGHTDOOR:
+		frame = { 3, 0 };
 		setValue(false, false, false, false);
 		break;
 	case OBJECT::OBJ_BOTTOMDOOR:
+		frame = { 1, 0 };
 		setValue(false, false, false, false);
+		break;
+	case OBJECT::OBJ_CLOSETOPDOOR:
+		frame = { 0, 1 };
+		setValue(true, false, false, false);
+		break;
+	case OBJECT::OBJ_CLOSELEFTDOOR:
+		frame = { 2, 1 };
+		setValue(true, false, false, false);
+		break;
+	case OBJECT::OBJ_CLOSERIGHTDOOR:
+		frame = { 3, 1 };
+		setValue(true, false, false, false);
+		break;
+	case OBJECT::OBJ_CLOSEBOTTOMDOOR:
+		frame = { 1, 1 };
+		setValue(true, false, false, false);
 		break;
 	case OBJECT::OBJ_NONE:
 		frame = { 0,0 };
