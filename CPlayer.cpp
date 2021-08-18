@@ -318,7 +318,7 @@ void CPlayer::fire()
 	{
 		headfoward = FOWARD::UP;
 		fireAngle = PI_2;
-		firePt = { pt.x, static_cast<float>(rc.top - 50) };
+		firePt = { pt.x, static_cast<float>(rc.top - 20) };
 		isFire = true;
 	}
 	else if (InputManager->isStayKeyDown(VK_DOWN))

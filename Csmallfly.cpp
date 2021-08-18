@@ -57,7 +57,7 @@ void Csmallfly::render()
 	//RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 	//IMAGE->render("shadowSmallfly", getMemDC(), rec.left, rec.top);
 
-	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+	/*RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
 
 	int hereIndex = (rec.left / TILEWIDTH - 1) + (rec.top / TILEHEIGHT - 1) * TILEX;
 	if (hereIndex > 105) hereIndex = 6;
@@ -65,6 +65,14 @@ void Csmallfly::render()
 	if (!ismoveable)
 	{
 		IMAGE->render("shadowSmallfly", getMemDC(), rec.left, rec.top);
-	}
+	}*/
+	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+
+	int hereIndex = (rec.left / TILEWIDTH - 1) + (rec.top / TILEHEIGHT - 1) * TILEX;
+	if (hereIndex > 105) hereIndex = 6;
+	bool isnotNone = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getObjType() != OBJECT::OBJ_NONE;
+	bool ispass = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getPassBullet();
+	if (isnotNone && ispass) {}
+	else IMAGE->render("shadowSmallfly", getMemDC(), rec.left, rec.top);
 	IMAGE->findImage("smallfly")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 }

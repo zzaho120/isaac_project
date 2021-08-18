@@ -9,7 +9,7 @@ CObstacle::CObstacle() :
 
 CObstacle::CObstacle(Vec2 _pos, RECT _rc, OBJECT _type) :
 	CObject(_pos, _rc), objType(_type), 
-	strength(3), isUnmovable(false), isDestroyByBomb(false),
+	strength(4), isUnmovable(false), isDestroyByBomb(false),
 	isDestroyByBullet(false)
 {
 	Vec2 colliderSize = { TILEWIDTH, TILEHEIGHT /*+ 5*/};
@@ -53,8 +53,14 @@ void CObstacle::update()
 
 void CObstacle::render()
 {
-	if(objType != OBJECT::OBJ_NONE)
-		IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
+	if (objType != OBJECT::OBJ_NONE)
+	{
+		if (objType == OBJECT::OBJ_POOP)
+		{
+			IMAGE->frameRender("poop", getMemDC(), rc.left, rc.top, 4 - strength, 0);
+		}
+		else IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
+	}
 }
 
 void CObstacle::setObjectValue()
