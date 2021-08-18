@@ -87,7 +87,7 @@ void CGameScene::render()
 
 	if (isPause)
 	{
-		IMAGE->alphaRender("black", getMemDC(), 220);
+		IMAGE->alphaRender("black", getMemDC(), 0);
 		IMAGE->render("pause_menu", getMemDC(), 180, 100);
 		IMAGE->render("menu_arrow", getMemDC(), 325, 510 + selectMenu * 60);
 	}
