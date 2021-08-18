@@ -11,6 +11,7 @@ UIManager::UIManager()
 	playerUI = new CPlayerUI;
 	minimap = new CMinimap;
 	bossUI = new CBossUI;
+	isRespawnBoss = 0;
 }
 
 UIManager::~UIManager()

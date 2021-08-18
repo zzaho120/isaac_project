@@ -227,6 +227,7 @@ void Gurdy_Atk::bossatk()
 	case 1:
 		if (animationcount == 50)
 		{
+			SOUND->play("gurdyflysound");
 			pMon->setAni(ANIMATION->findAnimation("gurdysummonpooter"));
 			ANIMATION->start("gurdysummonpooter");
 			ENEMY->respawn(MONSTER_TYPE::FLY, pMon->getPt());
@@ -245,6 +246,7 @@ void Gurdy_Atk::bossatk()
 		}
 		if (animationcount == 60)
 		{
+			SOUND->play("gurdylittleflysound");
 			pMon->setAni(ANIMATION->findAnimation("gurdysummonfly"));
 			ANIMATION->start("gurdysummonfly");
 			ENEMY->respawn(MONSTER_TYPE::SMALLFLY, pMon->getPt() + 50);
@@ -270,6 +272,7 @@ void Gurdy_Atk::FireBullet()
 {
 	CCharacter* pMon = m_pFSM->GetMon();
 	RECT rec = pMon->getRC();
+	SOUND->play("gurdyfiresound");
 	switch (foward)
 	{
 	case 0:
@@ -323,6 +326,8 @@ void Gurdy_Die::Enter()
 {
 	EFFECT->play("gurdydie", m_pFSM->GetMon()->getPt().x, m_pFSM->GetMon()->getPt().y);
 	EFFECT->play("bossdiebase", m_pFSM->GetMon()->getPt().x, m_pFSM->GetMon()->getPt().y);
+	SOUND->stop("bossfight");
+	SOUND->play("bgm");
 	count = 0;
 }
 

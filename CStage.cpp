@@ -46,6 +46,8 @@ void CStage::enter()
 	player->setRoomLink(curRoom);
 
 	ITEM->setPlayer(player);
+
+	SOUND->play("bgm", 1.0f);
 }
 
 void CStage::exit()

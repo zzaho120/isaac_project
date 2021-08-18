@@ -67,12 +67,15 @@ void CUseBomb::update()
 	count++;
 	if (count == 50)
 	{
+		SOUND->play("bombsound");
 		RECT playerCollider = RectMakeCenter(player->getcollider()->getPos(), player->getcollider()->getSize().x, player->getcollider()->getSize().y);
 		RECT bombRange = RectMakeCenter(pt, 100, 100);
 		if (COLLISION->isCollision(bombRange, playerCollider))
 		{
+			SOUND->play("playerhurt2");
 			player->sethp(player->gethp() - 2);
 			player->getAI()->ChangeState(STATE_TYPE::ATTACK);
+
 		}
 		
 		for (int i = 0; i < ENEMY->getvmonster().size(); i++)
@@ -94,6 +97,7 @@ void CUseBomb::update()
 			if (COLLISION->isCollision(bombRange, cheakTile) && isbroke)
 			{
 				(*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->setObjType(OBJECT::OBJ_NONE);
+				SOUND->play("rockbrokensound");
 			}
 		}
 		EFFECT->play("explosion", RectX(bombRange), RectY(bombRange));
@@ -121,8 +125,4 @@ void CUseBomb::render()
 	IMAGE->frameRender("bomb", getMemDC(), rec.left, rec.top, 0, 0);
 
 
-}
-
-void CUseBomb::fireBomb()
-{
 }
