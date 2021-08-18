@@ -127,6 +127,9 @@
     <Filter Include="Class\Object\UI\Boss">
       <UniqueIdentifier>{0a033754-9f4d-423f-b42a-0e460e32b738}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{797dce04-c70b-4f96-8f90-b693172104d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

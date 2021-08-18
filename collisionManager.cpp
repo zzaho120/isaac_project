@@ -775,7 +775,7 @@ void collisionManager::isBossDie()
 		{
 			bossDie = false;
 			count = 0;
-			(*STAGE->getCurStage()->getCurRoom()->getviObstacle(50))->setObjType(OBJECT::OBJ_POOP);
+			(*STAGE->getCurStage()->getCurRoom()->getviObstacle(52))->setObjType(OBJECT::OBJ_GOAL);
 		}
 	}
 }

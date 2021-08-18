@@ -4,7 +4,7 @@
 RandomMapGenerator::RandomMapGenerator() :
 	started(false), placedSpecial(false), isMapCompleted(false),
 	floorplanCount(0),
-	maxRooms(17), minRooms(2), bossRoomNum(-1), rewardRoomNum(-1),
+	maxRooms(10), minRooms(2), bossRoomNum(-1), rewardRoomNum(-1),
 	shopRoomNum(-1)
 {
 	ZeroMemory(room, sizeof(room));

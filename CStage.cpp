@@ -79,7 +79,6 @@ void CStage::changeRoom(int roomNum)
 			curRoom->setMonster(curRoom->getTile()[i].monster, curRoom->getTile()[i].pt);
 	}
 
-	//curRoom->getvObstacle()[47]->setObjType(OBJECT::OBJ_GOAL);
 }
 
 void CStage::playerEnterDoor()
