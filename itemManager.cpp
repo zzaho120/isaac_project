@@ -160,3 +160,8 @@ void itemManager::bombFire()
         break;
     }
 }
+
+void itemManager::eraseAllItem()
+{
+    item.clear();
+}

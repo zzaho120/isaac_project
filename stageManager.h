@@ -20,6 +20,7 @@ public:
 
 	void changeStage(int stageNum);
 
+	vector<CStage*> getvStage() { return vStage; }
 	CStage* getCurStage() { return curStage; }
 	int getCurStageIdx() { return curStageIdx; }
 };

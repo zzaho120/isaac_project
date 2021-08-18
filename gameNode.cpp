@@ -94,12 +94,6 @@ void gameNode::release()
 
 void gameNode::update()
 {
-	//더블버퍼 이후 사용하지 않는다 true->false
-	if (InputManager->isOnceKeyDown(VK_F2))
-		SCENE->changeScene("main");
-	if (InputManager->isOnceKeyDown(VK_F3))
-		SCENE->changeScene("test");
-
 	SCENE->update();
 	ANIMATION->update();
 	EFFECT->update();
@@ -114,10 +108,8 @@ void gameNode::render(HDC hdc)
 void gameNode::render()
 {
 	SCENE->render();
-	TIME->render(getMemDC());
-	
 	EFFECT->render();
-	//SOUND->render();
+	TIME->render(getMemDC());
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)

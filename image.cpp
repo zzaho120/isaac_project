@@ -710,3 +710,8 @@ void image::aniRender(HDC hdc, const int destX, const int destY, animation* ani)
 {
 	render(hdc, destX, destY, ani->getFramePos().x, ani->getFramePos().y, ani->getFrameWidth(), ani->getFrameHeight());
 }
+
+void image::alphaAniRender(HDC hdc, const int destX, const int destY, animation* ani, BYTE alpha)
+{
+	_blendFunc.SourceConstantAlpha = alpha;
+}

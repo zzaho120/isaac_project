@@ -5,6 +5,9 @@ class CGameScene : public gameNode
 private:
 	bool isPause;
 	bool isKeyDown;
+	bool isPlayerDead;
+
+	int frameCnt;
 	int selectMenu;
 public:
 	CGameScene();

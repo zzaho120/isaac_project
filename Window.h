@@ -23,8 +23,6 @@ private:
 	HWND btnExit;
 	HWND editStr;
 
-	HWND btnSetRoom;
-
 	HWND listFile;
 	HWND btnRemoveFile;
 

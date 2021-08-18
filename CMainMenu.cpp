@@ -4,7 +4,8 @@
 CMainMenu::CMainMenu() :
     isBreakoutTitle(false),
     isPassNextScene(false),
-    selectMenu(0)
+    selectMenu(0),
+    alphaValue(0)
 {
 }
 
@@ -17,7 +18,10 @@ HRESULT CMainMenu::init()
     isBreakoutTitle = false;
     isPassNextScene = false;
     selectMenu = 0;
+    alphaValue = 0;
     ANIMATION->findAnimation("title_isaacAni")->start();
+
+    ANIMATION->findAnimation("loadingAni")->start();
     SOUND->play("mainmenubgm");
     return S_OK;
 }
@@ -50,12 +54,16 @@ void CMainMenu::update()
             isPassNextScene = true;
         }
 
+        static int frameCnt = 0;
         if (isPassNextScene)
         {
-            if(alphaValue < 254)
+            if (alphaValue < 254)
                 alphaValue += 2;
+            else if (frameCnt < 60)
+                frameCnt++;
             else
             {
+                frameCnt = 0;
                 switch (selectMenu)
                 {
                 case 0:
@@ -83,6 +91,8 @@ void CMainMenu::render()
     }
     else
     {
+        IMAGE->render("black", getMemDC());
+        IMAGE->findImage("loading")->aniRender(getMemDC(), 250, 200, ANIMATION->findAnimation("loadingAni"));
         IMAGE->alphaRender("mainMenu", getMemDC(), 255 - alphaValue);
         if(!isPassNextScene)
             IMAGE->render("menu_arrow", getMemDC(), 380, 180 + selectMenu * 150);

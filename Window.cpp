@@ -59,10 +59,6 @@ void Window::init()
 		startX + 200, startY, 180, 200, hWnd, HMENU(6), m_hInstance, NULL);
 	FileListSet();
 
-	btnSetRoom = CreateWindow("button", "방 세팅",
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		startX, startY + 60, btnWidth, btnHeight, hWnd, HMENU(7), m_hInstance, NULL);
-
 	btnRemoveFile = CreateWindow("button", "파일 삭제",
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		startX + 200, startY + 200, btnWidth * 2, btnHeight, hWnd, HMENU(8), m_hInstance, NULL);
@@ -121,6 +117,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	int idx = -1;
 	char removeStr[64] = "선택된 항목이 없습니다.";
 	char folderPath[64] = "save/";
+	char gameFolderPath[64] = "save/normal/";
 	switch (uMsg)
 	{
 	case WM_MOUSEMOVE:
@@ -147,6 +144,8 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				strcat(folderPath, saveFileName);
 				if (SUBWIN->getMap()->save(folderPath))
 				{
+					strcat(gameFolderPath, saveFileName);
+					SUBWIN->getMap()->save(gameFolderPath);
 					MessageBox(hWnd, "저장 성공", "알림", MB_OK);
 					SUBWIN->FileListSet();
 				}
@@ -186,7 +185,9 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					{
 						SendMessage(SUBWIN->getListHandle(), LB_DELETESTRING, idx, 0);
 						strcat(folderPath, removeStr);
+						strcat(gameFolderPath, removeStr);
 						DeleteFile(folderPath);
+						DeleteFile(gameFolderPath);
 					}
 				}
 				break;
@@ -201,7 +202,7 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case CTRL::CTRL_EXIT:
-				SCENE->changeScene("test");
+				SCENE->changeScene("mainMenu");
 				DestroyWindow(hWnd);
 				break;
 			}

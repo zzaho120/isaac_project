@@ -1,9 +1,14 @@
 #include "framework.h"
+#include "CStage.h"
+#include "CPlayer.h"
 #include "CGameScene.h"
 
 CGameScene::CGameScene() :
-	isPause(false), selectMenu(0),
-	isKeyDown(0)
+	isPause(false),
+	isPlayerDead(false),
+	selectMenu(0),
+	isKeyDown(0), 
+	frameCnt(0)
 {
 }
 
@@ -20,25 +25,46 @@ HRESULT CGameScene::init()
 	ALLUI->init();
 
 	isPause = false;
+	isPlayerDead = false;
 	selectMenu = 0;
 	isKeyDown = 0;
+	frameCnt = 0;
     return S_OK;
 }
 
 void CGameScene::release()
 {
+	SOUND->stop("bgm");
+	STAGE->release();
+	BULLET->release();
+	ENEMY->release();
+	ALLUI->release();
 }
 
 void CGameScene::update()
 {
 	if (!isPause)
 	{
+		ALLUI->update();
 		STAGE->update();
 		BULLET->update();
 		ENEMY->update();
 		ITEM->update();
-		ALLUI->update();
 	}
+
+	if (STAGE->getCurStage()->getPlayer()->getstate() == STATE_TYPE::DEAD && !isPlayerDead)
+		isPlayerDead = true;
+
+	if (isPlayerDead && frameCnt < 30) 
+		frameCnt++;
+	else if (isPlayerDead && frameCnt >= 30)
+	{
+		if (InputManager->isOnceKeyDown(VK_SPACE))
+		{
+			init();
+		}
+	}
+
 
 	if (InputManager->isOnceKeyDown('P'))
 	{
@@ -90,5 +116,11 @@ void CGameScene::render()
 		IMAGE->alphaRender("black", getMemDC(), 220);
 		IMAGE->render("pause_menu", getMemDC(), 180, 100);
 		IMAGE->render("menu_arrow", getMemDC(), 325, 510 + selectMenu * 60);
+	}
+
+	if (frameCnt >= 30)
+	{
+		IMAGE->alphaRender("black", getMemDC(), 220);
+		IMAGE->render("deathMenu", getMemDC(), 180, 100);
 	}
 }

@@ -70,6 +70,7 @@ void CStage::changeRoom(int roomNum)
 {
 	ENEMY->eraserAllEnemy();
 	BULLET->eraserAll();
+	ITEM->eraseAllItem();
 
 	room[curRoomIdx] = curRoom;
 	curRoomIdx = roomNum;
@@ -123,5 +124,18 @@ void CStage::playerEnterDoor()
 void CStage::nextStage()
 {
 	if (COLLISION->goalCollision(curRoom, player))
-		STAGE->changeStage(STAGE->getCurStageIdx() + 1);
+	{
+		if(STAGE->getCurStageIdx() < STAGE->getvStage().size() - 1)
+			STAGE->changeStage(STAGE->getCurStageIdx() + 1);
+		else if (IDOK == MessageBox(m_hWnd, "확인 : 메인메뉴 / 취소 : 게임 종료", "게임 클리어!",
+			MB_ICONQUESTION | MB_OKCANCEL))
+		{
+			SCENE->changeScene("mainMenu");
+		}
+		else
+		{
+			PostQuitMessage(0);
+			return;
+		}
+	}
 }

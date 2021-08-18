@@ -52,15 +52,9 @@ void CMapSetting::render()
     for (int i = 0; i < TILEX * TILEY; i++)
     {
         if (isDebug)
-        {
-            if(room.tile[i].obj == OBJECT::OBJ_WALL)
-                Rectangle(getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].rcTile.right, room.tile[i].rcTile.bottom);
-        }
+            Rectangle(getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].rcTile.right, room.tile[i].rcTile.bottom);
         IMAGE->frameRender("objectTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].objFrame.x, room.tile[i].objFrame.y);
         IMAGE->frameRender("monsterTile", getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, room.tile[i].monsterFrame.x, room.tile[i].monsterFrame.y);
-
-        wsprintf(str, "%d %d", (UINT)room.tile[i].obj, (UINT)room.tile[i].monster);
-        TextOut(getMemDC(), room.tile[i].rcTile.left, room.tile[i].rcTile.top, str, strlen(str));
     }
 }
 

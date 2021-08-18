@@ -39,6 +39,8 @@ public :
 	void respawnRandomBasicItem(vector2 pos);
 	void bombFire();
 
+	void eraseAllItem();
+
 	void setPlayer(CPlayer* _player) { player = _player; }
 };
 

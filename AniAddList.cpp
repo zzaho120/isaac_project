@@ -233,6 +233,9 @@ AniAddList::AniAddList()
 	IMAGE->addImage("title_screen", "images/UI/titleScreen.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 	IMAGE->addImage("pause_menu", "images/UI/pauseMenu.bmp", 222 * 3, 194 * 3, true, RGB(255, 0, 255));
 	IMAGE->addImage("black", "images/UI/bgblack.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
+	IMAGE->addImage("deathMenu", "images/UI/deathMenu.bmp", 222 * 3, 194 * 3, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("loading", "images/UI/loadingImage.bmp", 318 * 3, 118 * 3, 2, 1, true, RGB(255, 0, 255));
+	ANIMATION->addAnimation("loadingAni", "loading", 0, 1, 10, false, true);
 }
 AniAddList::~AniAddList()
 {
