@@ -14,6 +14,10 @@ AniAddList::AniAddList()
 	SOUND->addSound("tearfiresound", "sound/tearfire.wav", false, false);
 	SOUND->addSound("getitem", "sound/getitem.wav", false, false);
 	SOUND->addSound("getbasicitem", "sound/itempickup.wav", false, false);
+	SOUND->addSound("mainmenubgm", "sound/title screen.ogg", true, true);
+	SOUND->addSound("selectobj", "sound/setobject.wav", false, false);
+	SOUND->addSound("selectmenu", "sound/selectmenu.wav", false, false);
+
 
 
 	SOUND->addSound("poopsound", "sound/poop.wav", false, false);
