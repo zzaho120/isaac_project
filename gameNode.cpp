@@ -40,12 +40,6 @@ HRESULT gameNode::init(bool managerInit)
 		InputManager->init();
 		IMAGE->init();
 		TIME->init();
-		//SUBWIN->init();
-		ENEMY->init();
-		ITEM->init();
-		MAP->init();
-		STAGE->init();
-		ALLUI->init();
 	}
 	
 
@@ -106,15 +100,9 @@ void gameNode::update()
 	if (InputManager->isOnceKeyDown(VK_F3))
 		SCENE->changeScene("test");
 
-	//SUBWIN->update();
-	//SCENE->update();
-	STAGE->update();
-	BULLET->update();
+	SCENE->update();
 	ANIMATION->update();
-	ENEMY->update();
-	ITEM->update();
 	EFFECT->update();
-	ALLUI->update();
 	SOUND->update();
 	InvalidateRect(m_hWnd, NULL, false);
 }
@@ -125,16 +113,9 @@ void gameNode::render(HDC hdc)
 
 void gameNode::render()
 {
-	//SUBWIN->render();
-	//SCENE->render();
-	STAGE->render();
-	BULLET->render();
+	SCENE->render();
 	TIME->render(getMemDC());
-	ENEMY->render();
-	ITEM->render();
 	
-	MAP->render();
-	ALLUI->render();
 	EFFECT->render();
 	//SOUND->render();
 }

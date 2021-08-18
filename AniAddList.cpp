@@ -220,10 +220,11 @@ AniAddList::AniAddList()
 
 	//===================================MainMenu================================================================
 	//===================================MainMenu================================================================
-	IMAGE->addImage("title", "images/UI/title.bmp", 262, 78, true, RGB(255, 0, 255));
-	IMAGE->addFrameImage("title_isaac", "images/UI/titleIsaac.bmp", 270, 130, 2, 1, true, RGB(255, 0, 255));
+	IMAGE->addImage("title", "images/UI/title.bmp", 262 * 2, 78 * 2, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("title_isaac", "images/UI/titleIsaac.bmp", 270 * 2, 130 * 2, 2, 1, true, RGB(255, 0, 255));
+	ANIMATION->addAnimation("title_isaacAni", "title_isaac", 0, 1, 10, false, true);
 	IMAGE->addImage("mainMenu", "images/UI/mainmenu.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
-	IMAGE->addImage("menu_arrow", "images/UI/menuArrow.bmp", 100, 100, true, RGB(255, 0, 255));
+	IMAGE->addImage("menu_arrow", "images/UI/menuArrow.bmp", 50, 50, true, RGB(255, 0, 255));
 	IMAGE->addImage("title_screen", "images/UI/titleScreen.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 }
 AniAddList::~AniAddList()

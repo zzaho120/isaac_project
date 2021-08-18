@@ -217,6 +217,12 @@ void imageManager::loopAlphaRender(string strKey, HDC hdc, const LPRECT drawArea
 	if (img) img->loopAlphaRender(hdc, drawArea, offSetX, offSetY, alpha);
 }
 
+void imageManager::alphaRender(string strKey, HDC hdc, BYTE alpha)
+{
+	image* img = findImage(strKey);
+	if (img) img->alphaRender(hdc, alpha);
+}
+
 void imageManager::alphaFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
 {
 	image* img = findImage(strKey);

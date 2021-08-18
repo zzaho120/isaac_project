@@ -1,5 +1,9 @@
 #include"framework.h"
+#include "CMainMenu.h"
+#include "CGameScene.h"
+#include "CMapTool.h"
 #include "mainGame.h"
+
 mainGame::mainGame()
 {
 }
@@ -9,16 +13,10 @@ mainGame::~mainGame()
 HRESULT mainGame::init()
 {
 	gameNode::init(true);
-	/*CMapSetting* mapSet = new CMapSetting;
-	TestMonsterScene* test = new TestMonsterScene;
-	SCENE->addScene("main", mapSet);
-
-	SCENE->addScene("test", test);
-	SCENE->changeScene("main");
-
-	SUBWIN->SetScene(new CMapSettingSub);
-	SUBWIN->SetMapLink(mapSet);
-	SUBWIN->SetTestLink(test);*/
+	SCENE->addScene("mainMenu", new CMainMenu);
+	SCENE->addScene("game", new CGameScene);
+	SCENE->addScene("mapTool", new CMapTool);
+	SCENE->changeScene("mainMenu");
 	return S_OK;
 }
 

@@ -1,8 +1,5 @@
 #pragma once
 #include"gameNode.h"
-#include "CMapSetting.h"
-#include "CMapSettingSub.h"
-#include "CMap.h"
 #include "TestMonsterScene.h"
 
 #define SUBWINOPEN 1
