@@ -57,6 +57,7 @@ public:
 class Gurdy_Die : public CState
 {
 private:
+	int count;
 public:
 	Gurdy_Die();
 	~Gurdy_Die();

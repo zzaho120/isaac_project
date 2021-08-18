@@ -6,7 +6,10 @@ class CPlayer;
 class CFSM;
 class collisionManager : public Singleton<collisionManager>
 {
-private:
+protected:
+	bool bossDie;
+	vector2 bossDiePt;
+	int count;
 public:
 	collisionManager();
 	~collisionManager();
@@ -25,4 +28,6 @@ public:
 	DOOR_DIRECTION doorCollision(CMap* _map, CPlayer* player);
 	void stageCollision(CPlayer* _player);
 	void isMonsterDie();
+	void isBossDie();
+	void bossdie(bool isdie) { bossDie = isdie; }
 };

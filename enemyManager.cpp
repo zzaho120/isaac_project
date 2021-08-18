@@ -112,3 +112,27 @@ viminion enemyManager::getvimonster(int number)
 	_viminion = _vminion.begin() + number;
 	return _viminion;
 }
+//
+//void enemyManager::bossDie()
+//{
+//	_viminion = _vminion.begin();
+//	for (_viminion; _viminion != _vminion.end(); ++_viminion)
+//	{
+//		if ((*_viminion)->getMonster_Type() == MONSTER_TYPE::GURDY)
+//		{
+//
+//		}
+//	}
+//	if (count <= 300)
+//	{
+//		count++;
+//		EFFECT->play("gurdydie", m_pFSM->GetMon()->getPt().x, m_pFSM->GetMon()->getPt().y);
+//		EFFECT->play("bossdiebase", m_pFSM->GetMon()->getPt().x, m_pFSM->GetMon()->getPt().y - 100);
+//		if (count % 20 == 0)
+//		{
+//			int x = RND->getFromIntTo(m_pFSM->GetMon()->getPt().x - 100, m_pFSM->GetMon()->getPt().x + 100);
+//			int y = RND->getFromIntTo(m_pFSM->GetMon()->getPt().y, m_pFSM->GetMon()->getPt().y + 100);
+//			EFFECT->play("bossdiebase", x, y);
+//		}
+//	}
+//}

@@ -382,7 +382,6 @@ void CPlayer::UseBomb()
 			ITEM->respawnUseItem(USE_ITEM::BOMB, pt);
 		}
 	}
-	ITEM->bombFire();
 }
 
 void CPlayer::setAnimation()

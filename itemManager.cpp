@@ -32,6 +32,7 @@ void itemManager::update()
     {
         (*viuseItem)->update();
     }
+    bombFire();
 }
 
 void itemManager::render()

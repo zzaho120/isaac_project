@@ -16,6 +16,7 @@ void CStage::update()
 
 	COLLISION->stageCollision(player);
 	COLLISION->isMonsterDie();
+	COLLISION->isBossDie();
 }
 
 void CStage::render()

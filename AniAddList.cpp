@@ -38,6 +38,10 @@ AniAddList::AniAddList()
 	EFFECT->addEffect("enemybulleteffect", "images/effect/enemy_tears_effect.bmp", 256 * 1.5, 256 * 1.5, 64 * 1.5, 64 * 1.5, 1, 0.4f, 100);
 	EFFECT->addEffect("poofeffect", "images/effect/poof.bmp", 128 * 1.5, 128 * 1.5, 32 * 1.5, 32 * 1.5, 1, 0.4f, 100);
 	EFFECT->addEffect("enemydie", "images/effect/enemy_destroy_effect.bmp", 256 * 1.5, 256 * 1.5, 64 * 1.5, 64 * 1.5, 1, 0.4f, 100);
+	EFFECT->addEffect("gurdydie", "images/effect/gurdyDieLong.bmp", 1350*2, 150*2, 150*2, 150 * 2, 1, 0.4f, 100);
+	EFFECT->addEffect("bossdie", "images/effect/bossdie.bmp", 1000*2, 200*2, 200*2, 200 * 2, 1, 0.3f, 100);
+	EFFECT->addEffect("bossdiebase", "images/effect/bossdiebase.bmp", 2400*2, 200*2, 200*2, 200 * 2, 1, 0.3f, 100);
+
 	IMAGE->addFrameImage("smallblood", "images/effect/smallblood.bmp", 180, 30, 6, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("blood", "images/effect/blood.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("bigblood", "images/effect/bigblood.bmp", 600, 100, 6, 1, true, RGB(255, 0, 255));

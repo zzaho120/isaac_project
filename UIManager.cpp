@@ -39,7 +39,7 @@ void UIManager::update()
 {
 	playerUI->update();
 	minimap->update();
-	bossUI->update();
+	if (isRespawnBoss) { bossUI->update(); }
 }
 
 void UIManager::render()
