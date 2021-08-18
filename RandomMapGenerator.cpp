@@ -155,16 +155,28 @@ void RandomMapGenerator::roomSetting()
 		}
 		else if (roomNum == rewardRoomNum)
 		{
+			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::REWARD));
+			room[rewardRoomNum] = new CMap(MAP->getShopRoom()[rndNum]);
+
 			room[rewardRoomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
 			room[rewardRoomNum]->setMarkAttr(ROOM_MARK_ATTR::REWARD);
+			room[roomNum]->setRoomType(ROOM::ROOM_REWARD);
 		}
 		else if (floorplan[roomNum])
 		{
-			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL));
-			room[roomNum] = new CMap(MAP->getNormalRoom()[rndNum]);
-
+			if (roomNum == 45)
+			{
+				room[roomNum] = new CMap(MAP->getNormalRoom()[0]);
+				room[roomNum]->setRoomType(ROOM::ROOM_FIRST);
+			}
+			else
+			{
+				rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL));
+				room[roomNum] = new CMap(MAP->getNormalRoom()[rndNum]);
+				room[roomNum]->setRoomType(ROOM::ROOM_NORMAL);
+			}
+			
 			room[roomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONCHECK);
-			room[roomNum]->setRoomType(ROOM::ROOM_NORMAL);
 		}
 		else if (!floorplan[roomNum])
 		{

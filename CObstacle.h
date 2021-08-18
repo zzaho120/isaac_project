@@ -10,7 +10,7 @@ private:
 	bool isUnmovable;
 	bool isDestroyByBomb;
 	bool isDestroyByBullet;
-
+	bool isPassBullet;
 public:
 	CObstacle();
 	CObstacle(Vec2 _pos, RECT _rc, OBJECT _type);
@@ -26,8 +26,11 @@ public:
 
 	bool getUnmovalbe() { return isUnmovable; }
 	void setUnmovalbe(bool move) { isUnmovable = move; }
+
 	bool getDestroyBomb() { return isDestroyByBomb; }
 	bool getDestroyBullet() { return isDestroyByBullet; }
+
+	bool getPassBullet() { return isPassBullet; }
 
 	Vec2 getFrame() { return frame; }
 	OBJECT getObjType() { return objType; }
@@ -37,5 +40,7 @@ public:
 
 	int getStrength() { return strength; }
 	void setStrength(int number) { strength = number; }
+
+	void setValue(bool move, bool bomb, bool bullet, bool pass);
 };
 

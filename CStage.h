@@ -3,7 +3,6 @@
 //#include "CPlayerUI.h"
 
 class CMap;
-
 class CPlayer;
 class RandomMapGenerator;
 class CStage : public gameNode
@@ -24,13 +23,12 @@ public:
 	void exit();
 
 	void randomMapSetting();
+	void playerEnterDoor();
+
 	void setPlayerLink(CPlayer* _player) { player = _player; }
 	
 	void changeRoom(int roomNum);
 	CPlayer* getPlayer() { return player; }
 	int getCurRoomIdx() { return curRoomIdx; }
 	CMap* getCurRoom() { return curRoom; }
-
-	//void playerGetItem();
-	void playerEnterDoor();
 };

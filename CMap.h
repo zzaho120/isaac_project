@@ -12,6 +12,7 @@ private:
 
 	ROOM_TYPE_ATTR roomAttr;
 	ROOM_MARK_ATTR markAttr;
+	bool isMonCreate;
 public:
 	CMap();
 	CMap(const char* fileName);
@@ -43,4 +44,7 @@ public:
 	tagTile* getTile() { return room.tile; }
 	ROOM getRoomType() { return room.roomType; }
 	void setRoomType(ROOM type) { room.roomType = type; }
+
+	bool getIsMonCreate() { return isMonCreate; }
+	void setIsMonCreate(bool isCreate) { isMonCreate = isCreate; }
 };

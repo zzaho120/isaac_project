@@ -79,10 +79,6 @@ void Window::init()
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		startX + 100 * 2, startY + 230, btnWidth, btnHeight, hWnd, HMENU(11), m_hInstance, NULL);
 
-	btnItemTile = CreateWindow("button", "æ∆¿Ã≈€",
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		startX + 100 * 3, startY + 230, btnWidth, btnHeight, hWnd, HMENU(12), m_hInstance, NULL);
-
 	objFrame = { 0,0 };
 	monsterFrame = { 0,0 };
 	clickIndex = 0;

@@ -6,13 +6,12 @@ class mapManager : public Singleton<mapManager>
 {
 private:
 	vector<CMap*> vNormalRoom;
-	vector<CMap*>::iterator viNormalRoom;
 
 	vector<CMap*> vBossRoom;
-	vector<CMap*>::iterator viBossRoom;
 
 	vector<CMap*> vShopRoom;
-	vector<CMap*>::iterator viShopRoom;
+
+	vector<CMap*> vRewardRoom;
 
 	int maxRoomNum[(UINT)FILE_TYPE::END];
 public:

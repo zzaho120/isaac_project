@@ -2,12 +2,14 @@
 #include "CObstacle.h"
 #include "CMap.h"
 
-CMap::CMap()
+CMap::CMap() : 
+    isMonCreate(false)
 {
     tileSet();
 }
 
-CMap::CMap(const char* fileName)
+CMap::CMap(const char* fileName) :
+    isMonCreate(false)
 {
     load(fileName);
     tileSet();
@@ -28,6 +30,7 @@ CMap::CMap(CMap& map)
 
     roomAttr = map.roomAttr;
     markAttr = map.markAttr;
+    isMonCreate = map.isMonCreate;
 }
 
 CMap::CMap(CMap* map)
@@ -45,6 +48,7 @@ CMap::CMap(CMap* map)
 
     roomAttr = map->roomAttr;
     markAttr = map->markAttr;
+    isMonCreate = map->isMonCreate;
 }
 
 CMap::~CMap()
@@ -80,6 +84,10 @@ void CMap::render()
 {
     switch(room.roomType)
     {
+    case ROOM::ROOM_FIRST:
+        IMAGE->render("basement_first", getMemDC(), 0, 0);
+        break;
+    case ROOM::ROOM_REWARD:
     case ROOM::ROOM_NORMAL:
         IMAGE->render("basement_normal", getMemDC(), 0, 0);
         break;

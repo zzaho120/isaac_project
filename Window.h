@@ -31,7 +31,6 @@ private:
 	HWND btnMonsterTile;
 	HWND btnObjectTile;
 	HWND btnRoomTile;
-	HWND btnItemTile;
 
 	static CTRL currentCTRL;
 	POINT objFrame;

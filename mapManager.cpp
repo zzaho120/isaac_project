@@ -57,6 +57,19 @@ HRESULT mapManager::init()
 		} while (FindNextFile(hFind, &fd));
 	}
 
+	hFind = FindFirstFile("save/reward/*.map", &fd);
+	if (INVALID_HANDLE_VALUE != hFind)
+	{
+		do
+		{
+			char folderPath[64] = "save/reward/";
+			strcat(folderPath, fd.cFileName);
+			CMap* tempRoom = new CMap(folderPath);
+			vShopRoom.push_back(tempRoom);
+			maxRoomNum[(UINT)FILE_TYPE::REWARD]++;
+		} while (FindNextFile(hFind, &fd));
+	}
+
 	FindClose(hFind);
 	return S_OK;
 }

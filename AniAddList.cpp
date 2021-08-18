@@ -5,6 +5,7 @@ AniAddList::AniAddList()
 {
 	//=================== map ====================================================================================
 	//=================== map ====================================================================================
+	IMAGE->addImage("basement_first", "images/map/basement_first.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 	IMAGE->addImage("basement_normal", "images/map/basement_normal.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 	IMAGE->addImage("basement_boss", "images/map/basement_boss.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
 	IMAGE->addImage("shop", "images/map/shop.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));

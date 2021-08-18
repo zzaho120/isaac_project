@@ -234,6 +234,7 @@ enum class OBJECT
 
 enum class ROOM
 {
+	ROOM_FIRST,
 	ROOM_NORMAL,
 	ROOM_BOSS,
 	ROOM_SHOP,
@@ -320,6 +321,7 @@ enum class FILE_TYPE
 	NORMAL,
 	BOSS,
 	SHOP,
+	REWARD,
 	END
 };
 
