@@ -70,12 +70,10 @@ void CObstacle::setObjectValue()
 		break;
 	case OBJECT::OBJ_SPIKE:
 		frame = { 2, 0 };
-
 		setValue(false, false, true, true);
 		break;
 	case OBJECT::OBJ_POOP:
 		frame = { 1, 0 };
-
 		setValue(true, true, true, false);
 		break;
 	case OBJECT::OBJ_ROCK:
@@ -88,52 +86,42 @@ void CObstacle::setObjectValue()
 		break;
 	case OBJECT::OBJ_LT_PIT:
 		frame = { 0, 1 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_MT_PIT:
 		frame = { 1, 1 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_RT_PIT:
 		frame = { 2, 1 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_L_PIT:
 		frame = { 3, 1 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_M_PIT:
 		frame = { 4, 1 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_R_PIT:
 		frame = { 5, 1 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_LB_PIT:
 		frame = { 0, 2 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_MB_PIT:
 		frame = { 1, 2 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_RB_PIT:
 		frame = { 2, 2 };
-
 		setValue(true, false, false, true);
 		break;
 	case OBJECT::OBJ_WALL:
 		strength = -1;
-
 		setValue(true, false, false, false);
 		break;
 	case OBJECT::OBJ_TOPDOOR:
@@ -151,7 +139,6 @@ void CObstacle::setObjectValue()
 	case OBJECT::OBJ_NONE:
 		frame = { 0,0 };
 		setValue(false, false, false, true);
-
 		break;
 	default:
 		break;
