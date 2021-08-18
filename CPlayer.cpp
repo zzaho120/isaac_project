@@ -43,7 +43,7 @@ HRESULT CPlayer::init()
 	
 	//player item and hp
 	maxHp = 10;
-	hp = 9;
+	hp = 10;
 
 	//player speed
 	playerMaxSpeed = 4;
@@ -349,7 +349,7 @@ void CPlayer::fire()
 	if (isFire && fireCnt == floor(100 / (30 / tdelay)))
 	{
 		fireCnt = 0;
-		
+		SOUND->play("tearfiresound");
 		if (theInnerEye)
 		{
 			if (headfoward <= 1)

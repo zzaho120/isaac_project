@@ -51,6 +51,8 @@ void CStage::enter()
 	ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { 400,400 });
 	ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 400,400 });
 	ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { 400,400 });
+
+	SOUND->play("bgm", 1.0f);
 }
 
 void CStage::exit()

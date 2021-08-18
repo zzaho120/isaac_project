@@ -103,6 +103,9 @@ void Player_Die::Enter()
 	CCharacter* character = m_pFSM->GetMon();
 	character->setAni(ANIMATION->findAnimation("playerisDie"));
 	ANIMATION->start("playerisDie");
+	SOUND->play("playerdiesound");
+	SOUND->stop("bgm");
+	SOUND->play("playerdiebgm");
 }
 
 void Player_Die::update()

@@ -679,6 +679,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 						(*ENEMY->getvimonster(i))->sethp((*ENEMY->getvimonster(i))->gethp() - (*BULLET->getviBullet(j))->getDamage());
 						EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(j))->getcollider()->getPos().x, (*BULLET->getviBullet(j))->getcollider()->getPos().y);
 						BULLET->eraserBullet(j);
+						SOUND->play("tearblocksound");
 						break;
 					}
 				}
@@ -692,10 +693,11 @@ void collisionManager::stageCollision(CPlayer* _player)
 			{
 				if (ispsm)
 				{
+					//SOUND->addSound("playerhurt", "sound/Ã¼¸®.mp3", true, false);
 					//ENEMY->eraserEnemy(i);
 					_player->sethp(_player->gethp() - 1);
 					_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-					//SOUND->play("playerhurt");
+					SOUND->play("playerhurt",1.0f);
 					break;
 				}
 			}
@@ -809,9 +811,11 @@ void collisionManager::stageCollision(CPlayer* _player)
 							(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setStrength((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() - 1);
 							if ((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() <= 0)
 							{
+								SOUND->play("poopsound");
 								(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
 								EFFECT->play("poofeffect", (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().x, (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().y);
 							}
+							SOUND->play("tearblocksound");
 							EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
 							BULLET->eraserBullet(i);
 							break;
@@ -820,6 +824,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 						{
 							if (!isPass)
 							{
+								SOUND->play("tearblocksound");
 								EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
 								BULLET->eraserBullet(i);
 								break;
@@ -838,6 +843,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 						{
 							if (!isPass)
 							{
+								SOUND->play("tearblocksound");
 								EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
 								BULLET->eraserBullet(i);
 								break;
@@ -847,7 +853,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 				}
 			}
 		}
-		if (ismbcp && ismbsp && ismB && playerIdle)
+		if (playerIdle)
 		{
 			if (ismB)
 			{
@@ -855,6 +861,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 				{
 					if (ismbsp)
 					{
+						SOUND->play("playerhurt2");
 						EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
 						BULLET->eraserBullet(i);
 						_player->sethp(_player->gethp() - 1);
@@ -877,7 +884,10 @@ void collisionManager::isMonsterDie()
 			{
 				bossDie = true;
 				bossDiePt = (*ENEMY->getvimonster(i))->getPt();
+				SOUND->play("bossdiesound");
 			}
+			SOUND->play("miniondeathssound");
+			EFFECT->play("enemydie", (*ENEMY->getvimonster(i))->getPt().x, (*ENEMY->getvimonster(i))->getPt().y);
 			ENEMY->eraserEnemy(i);
 			break;
 		}
@@ -898,8 +908,9 @@ void collisionManager::isBossDie()
 			int y = RND->getFromIntTo(bossDiePt.y, bossDiePt.y + 100);
 			EFFECT->play("bossdiebase", x, y);
 		}
-		else if (count >= 300)
+		else if (count >= 200)
 		{
+			SOUND->stop("bossdiesound");
 			bossDie = false;
 			count = 0;
 			(*STAGE->getCurStage()->getCurRoom()->getviObstacle(50))->setObjType(OBJECT::OBJ_POOP);

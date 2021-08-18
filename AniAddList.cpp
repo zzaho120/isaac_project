@@ -4,7 +4,30 @@
 AniAddList::AniAddList()
 {
 	//sound..
+	SOUND->addSound("flysound", "sound/fly.wav", false, true);
+	SOUND->addSound("getitemsound", "sound/getitem.wav", false, false);
+	SOUND->addSound("gurdyfiresound", "sound/gurdyfire.wav", false, false);
+	SOUND->addSound("gurdyflysound", "sound/gurdyfly.wav", false, false);
+	SOUND->addSound("gurdylittleflysound", "sound/gurdylittlefly.wav", false, false);
+	SOUND->addSound("hoppersound", "sound/hopperjump.wav", false, false);
+	SOUND->addSound("mulligansound", "sound/mulligan.wav", false, false);
+	SOUND->addSound("tearfiresound", "sound/tearfire.wav", false, false);
+	
+
+
+	SOUND->addSound("poopsound", "sound/poop.wav", false, false);
+	SOUND->addSound("bombsound", "sound/bomb.wav", false, false);
+	SOUND->addSound("rockbrokensound", "sound/rockbroke.wav", false, false);
+	SOUND->addSound("playerdiebgm", "sound/youdied.ogg", true, true);
+	SOUND->addSound("playerdiesound", "sound/isaacDies.wav", false, false);
 	SOUND->addSound("playerhurt", "sound/hurtgrunt.wav", false, false);
+	SOUND->addSound("bgm", "sound/background.ogg", true, true);
+	SOUND->addSound("bossfight", "sound/bossfight.ogg", true, true);
+	SOUND->addSound("playerhurt2", "sound/hurt1.wav", false, false);
+	SOUND->addSound("miniondeathssound", "sound/miniondeaths.wav", false, false);
+	SOUND->addSound("tearblocksound", "sound/tearblock.wav", false, false);
+	SOUND->addSound("wormsound", "sound/worm.wav", false, false);
+	SOUND->addSound("bossdiesound", "sound/bossdie.wav", false, true);
 	//=================== map ====================================================================================
 	//=================== map ====================================================================================
 	IMAGE->addImage("basement_first", "images/map/basement_first.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));

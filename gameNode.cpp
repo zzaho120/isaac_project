@@ -27,18 +27,19 @@ HRESULT gameNode::init()
 
 HRESULT gameNode::init(bool managerInit)
 {
+
 	_hdc = GetDC(m_hWnd);
 	_managerInit = managerInit;
 
 	if (managerInit)
 	{
 		SetTimer(m_hWnd, 1, 10, NULL);
+		SOUND->init();
 		addAni = new AniAddList;
 		//매니저 초기화
 		InputManager->init();
 		IMAGE->init();
 		TIME->init();
-		SOUND->init();
 		//SUBWIN->init();
 		ENEMY->init();
 		ITEM->init();
@@ -135,7 +136,7 @@ void gameNode::render()
 	MAP->render();
 	ALLUI->render();
 	EFFECT->render();
-	SOUND->render();
+	//SOUND->render();
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)

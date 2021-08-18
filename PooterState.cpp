@@ -216,6 +216,7 @@ Fly_Die::~Fly_Die()
 
 void Fly_Die::Enter()
 {
+	//SOUND->pause("flysound");
 }
 
 void Fly_Die::update()

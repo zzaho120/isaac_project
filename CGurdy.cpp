@@ -29,6 +29,9 @@ HRESULT CGurdy::init(float x, float y)
 	setMonster_Type(MONSTER_TYPE::GURDY);
 	maxHp = hp;
 	AI_init(this, monsterType);
+
+	SOUND->stop("bgm");
+	SOUND->play("bossfight");
 	return S_OK;
 }
 
