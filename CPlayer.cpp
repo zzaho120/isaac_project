@@ -498,6 +498,7 @@ void CPlayer::playerGetItem()
 				if (isFullHp()) { break; }
 				else
 				{
+					SOUND->play("getbasicitem");
 					hp += 2;
 					cantHpOver();
 					ITEM->itemRemove(i);
@@ -507,6 +508,7 @@ void CPlayer::playerGetItem()
 				if (coin >= 99) { break; }
 				else
 				{
+					SOUND->play("getbasicitem");
 					coin += 1;
 					cantCoinOver();
 					ITEM->itemRemove(i);
@@ -516,6 +518,7 @@ void CPlayer::playerGetItem()
 				if (bomb >= 99) { break; }
 				else
 				{
+					SOUND->play("getbasicitem");
 					bomb += 1;
 					cantBombOver();
 					ITEM->itemRemove(i);
@@ -525,26 +528,31 @@ void CPlayer::playerGetItem()
 				if (key >= 99) { break; }
 				else
 				{
+					SOUND->play("getbasicitem");
 					key += 1;
 					cantKeyOver();
 					ITEM->itemRemove(i);
 					break;
 				}
 			case ITEM_TYPE::ITEM_THEINNEREYE:
+				SOUND->play("getitem");
 				setInnerEye(true);
 				tearDelay -= 0.2;
 				ITEM->itemRemove(i);
 				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
 				break;
 			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
+				SOUND->play("getitem");
 				bulletdistance += 100;
 				ITEM->itemRemove(i);
 				break;
 			case ITEM_TYPE::ITEM_PENTAGRAM:
+				SOUND->play("getitem");
 				bulletDamage += 1;
 				ITEM->itemRemove(i);
 				break;
 			case ITEM_TYPE::ITEM_BLOODBAG:
+				SOUND->play("getitem");
 				maxHp += 2;
 				hp += 10;
 				cantHpOver();
@@ -553,6 +561,7 @@ void CPlayer::playerGetItem()
 				ITEM->itemRemove(i);
 				break;
 			case ITEM_TYPE::ITEM_SPEEDBALL:
+				SOUND->play("getitem");
 				playerMaxSpeed += 0.3;
 				cantSpeedOver();
 				bulletSpeed += 0.2;

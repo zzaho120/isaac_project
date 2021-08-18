@@ -12,7 +12,8 @@ AniAddList::AniAddList()
 	SOUND->addSound("hoppersound", "sound/hopperjump.wav", false, false);
 	SOUND->addSound("mulligansound", "sound/mulligan.wav", false, false);
 	SOUND->addSound("tearfiresound", "sound/tearfire.wav", false, false);
-	
+	SOUND->addSound("getitem", "sound/getitem.wav", false, false);
+	SOUND->addSound("getbasicitem", "sound/itempickup.wav", false, false);
 
 
 	SOUND->addSound("poopsound", "sound/poop.wav", false, false);
