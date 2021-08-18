@@ -40,8 +40,7 @@ HRESULT CPlayer::init()
 	ANIMATION->start("playeridlebody");
 	ANIMATION->start("playeridlehead");
 	isMove = false;
-	totalTears = 0;
-	tearDelay = 0;
+	
 	//player item and hp
 	maxHp = 10;
 	hp = 9;
@@ -55,8 +54,10 @@ HRESULT CPlayer::init()
 	bulletdistance = 100;
 	bulletDamage = 2;
 	height = 30;
-	bulletSpeed = 5;
-	
+	bulletSpeed = 8;
+	totalTears = 0;
+	tearDelay = 0;
+
 	IMAGE->addImage("playerBullet", "images/playerbullet.bmp", bulletsize * 13, bulletsize, true, RGB(255, 0, 255));
 	IMAGE->addImage("playerBulletShadow", "images/shadow.bmp", bulletsize, bulletsize / 3, true, RGB(255, 0, 255));
 
@@ -202,7 +203,7 @@ void CPlayer::Move()
 		movecount = 5;
 		playerfoward = FOWARD::RIGHT;
 		playerspeed += playerMaxSpeed / 10;
-		if (playerspeed >= playerMaxSpeed) playerspeed = playerMaxSpeed;
+		if (playerspeed >= playerMaxSpeed + playerMaxSpeed / 10) playerspeed = playerMaxSpeed + playerMaxSpeed / 10;
 		//movetoLeft(rc, playerspeed);
 		pt = Vec2(pt.x + playerspeed, pt.y);
 	}

@@ -114,6 +114,7 @@ void gameNode::update()
 	ITEM->update();
 	EFFECT->update();
 	ALLUI->update();
+	SOUND->update();
 	InvalidateRect(m_hWnd, NULL, false);
 }
 
@@ -130,9 +131,11 @@ void gameNode::render()
 	TIME->render(getMemDC());
 	ENEMY->render();
 	ITEM->render();
-	EFFECT->render();
+	
 	MAP->render();
 	ALLUI->render();
+	EFFECT->render();
+	SOUND->render();
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)

@@ -96,8 +96,9 @@ void CUseBomb::update()
 				(*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->setObjType(OBJECT::OBJ_NONE);
 			}
 		}
+		EFFECT->play("explosion", RectX(bombRange), RectY(bombRange));
 	}
-	if (count == 150)
+	if (count == 55)
 	{
 		isUse = true;
 	}
@@ -107,8 +108,11 @@ void CUseBomb::render()
 {
 	if (count > 50)
 	{
-		RECT bombRange = RectMakeCenter(pt, 100, 100);
-		Rectangle(getMemDC(), bombRange.left, bombRange.top, bombRange.right, bombRange.bottom);
+		if (InputManager->isToggleKey(VK_TAB))
+		{
+			RECT bombRange = RectMakeCenter(pt, 100, 100);
+			Rectangle(getMemDC(), bombRange.left, bombRange.top, bombRange.right, bombRange.bottom);
+		}
 	}
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 45, 45);
 	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);

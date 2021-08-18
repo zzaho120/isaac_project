@@ -84,7 +84,7 @@ void CObstacle::setObjectValue()
 
 		isUnmovable = true;
 		isDestroyByBullet = true;
-		isDestroyByBomb = false;
+		isDestroyByBomb = true;
 		break;
 	case OBJECT::OBJ_ROCK:
 		frame = { 3, 0 };

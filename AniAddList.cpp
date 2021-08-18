@@ -3,6 +3,8 @@
 
 AniAddList::AniAddList()
 {
+	//sound..
+	SOUND->addSound("playerhurt", "sound/hurtgrunt.wav", false, false);
 	//=================== map ====================================================================================
 	//=================== map ====================================================================================
 	IMAGE->addImage("basement_normal", "images/map/basement_normal.bmp", MAPSIZEX, MAPSIZEY, true, RGB(255, 0, 255));
@@ -27,7 +29,16 @@ AniAddList::AniAddList()
 	IMAGE->addFrameImage("passiveitem", "images/item/passiveitem.bmp", 150, 30, 5, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("coin", "images/item/coin.bmp", 180, 30, 6, 1, true, RGB(255, 0, 255));
 	ANIMATION->addAnimation("coinani", "coin", 0, 5, 10, false, true);
-
+	//================================================effect ==============================================================
+	//================================================effect ==============================================================
+	EFFECT->addEffect("explosion", "images/effect/explosion.bmp", 384*1.5, 384 * 1.5, 96 * 1.5, 96 * 1.5, 1, 0.45f, 100);
+	EFFECT->addEffect("playerbulleteffect", "images/effect/tears_effect.bmp", 256 * 1.5, 256 * 1.5, 64 * 1.5, 64 * 1.5, 1, 0.4f, 100);
+	EFFECT->addEffect("enemybulleteffect", "images/effect/enemy_tears_effect.bmp", 256 * 1.5, 256 * 1.5, 64 * 1.5, 64 * 1.5, 1, 0.4f, 100);
+	EFFECT->addEffect("poofeffect", "images/effect/poof.bmp", 128 * 1.5, 128 * 1.5, 32 * 1.5, 32 * 1.5, 1, 0.4f, 100);
+	EFFECT->addEffect("enemydie", "images/effect/enemy_destroy_effect.bmp", 256 * 1.5, 256 * 1.5, 64 * 1.5, 64 * 1.5, 1, 0.4f, 100);
+	IMAGE->addFrameImage("smallblood", "images/effect/smallblood.bmp", 180, 30, 6, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("blood", "images/effect/blood.bmp", 300, 50, 6, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("bigblood", "images/effect/bigblood.bmp", 600, 100, 6, 1, true, RGB(255, 0, 255));
 	//=================================UI============================================================================
 	//=================================UI============================================================================
 	IMAGE->addFrameImage("hpUI", "images/UI/HpUI.bmp", 48 * 2, 16*2, 3, 1, true, RGB(255, 0, 255));

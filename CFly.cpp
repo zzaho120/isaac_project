@@ -1,5 +1,8 @@
 #include "framework.h"
 #include "CFly.h"
+#include "CStage.h"
+#include "CMap.h"
+#include "CObstacle.h"
 
 CFly::CFly()
 {
@@ -52,6 +55,13 @@ void CFly::render()
 			collider->getPos().y + collider->getSize().y / 2);
 	}
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
-	IMAGE->render("shadowFly", getMemDC(), rec.left, rec.top);
+
+	int hereIndex = (rec.left / TILEWIDTH - 1) + (rec.top / TILEHEIGHT - 1) * TILEX;
+	if (hereIndex > 105) hereIndex = 6;
+	bool ismoveable = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getUnmovalbe();
+	if (!ismoveable)
+	{
+		IMAGE->render("shadowFly", getMemDC(), rec.left, rec.top);
+	}
 	IMAGE->findImage("fly")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 }
