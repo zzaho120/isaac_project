@@ -62,7 +62,7 @@ void CObstacle::render()
 		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 70, rc.top - 40, frame.x, frame.y);
 	else if (objType == OBJECT::OBJ_RIGHTDOOR || objType == OBJECT::OBJ_CLOSERIGHTDOOR)
 		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 27, rc.top - 40, frame.x, frame.y);
-	if (objType == OBJECT::OBJ_POOP)
+	else if (objType == OBJECT::OBJ_POOP)
 		IMAGE->frameRender("poop", getMemDC(), rc.left, rc.top, 4 - strength, 0);
 	else IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
