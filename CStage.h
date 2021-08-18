@@ -14,7 +14,6 @@ private:
 	RandomMapGenerator* rnd;
 
 	int curRoomIdx;
-	int doorCnt;
 public:
 	virtual void update();
 	virtual void render();
@@ -24,6 +23,7 @@ public:
 
 	void randomMapSetting();
 	void playerEnterDoor();
+	void nextStage();
 
 	void setPlayerLink(CPlayer* _player) { player = _player; }
 	

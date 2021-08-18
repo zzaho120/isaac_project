@@ -11,11 +11,11 @@ void CStage::update()
 {
 	curRoom->update();
 	player->update();
-	curRoom->update();
 	playerEnterDoor();
-
+	
 	COLLISION->stageCollision(player);
 	COLLISION->isMonsterDie();
+	nextStage();
 }
 
 void CStage::render()
@@ -26,7 +26,6 @@ void CStage::render()
 
 void CStage::enter()
 {
-	doorCnt = 0;
 	curRoomIdx = 0;
 	player = new CPlayer;
 	rnd = new RandomMapGenerator;
@@ -34,6 +33,8 @@ void CStage::enter()
 	rnd->mapGenerate();
 	randomMapSetting();
 	player->init();
+
+	ALLUI->getMinimap()->eraseMinimap();
 	ALLUI->setPlayer(player);
 	ALLUI->setrandomMap(rnd);
 
@@ -44,12 +45,6 @@ void CStage::enter()
 	player->setRoomLink(curRoom);
 
 	ITEM->setPlayer(player);
-
-	ITEM->respawnItem(ITEM_TYPE::ITEM_MOMSLIPSTICK, { 400,400 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_PENTAGRAM, { 400,400 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { 400,400 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { 400,400 });
-	ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { 400,400 });
 }
 
 void CStage::exit()
@@ -64,41 +59,6 @@ void CStage::randomMapSetting()
 {
 	for (int i = 0; i < 100; i++)
 		room[i] = new CMap(*rnd->getRNDGenMap(i));
-
-	for (int roomNum = 0; roomNum < 100; roomNum++)
-	{
-		if (room[roomNum]->getRoomType() == ROOM::ROOM_NONE) continue;
-		if (roomNum - 10 >= 0)
-		{
-			if (room[roomNum - 10]->getRoomType() != ROOM::ROOM_NONE)
-			{
-				room[roomNum]->doorSetting(DOOR_DIRECTION::TOP);
-			}
-		}
-		if (roomNum + 10 < 100)
-		{
-			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
-			{
-				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
-			}
-
-		}
-		if (roomNum % 10 > 0)
-		{
-			
-			if (room[roomNum - 1]->getRoomType() != ROOM::ROOM_NONE)
-			{
-				room[roomNum]->doorSetting(DOOR_DIRECTION::LEFT);
-			}
-		}
-		if (roomNum % 10 < 9)
-		{
-			if (room[roomNum + 1]->getRoomType() != ROOM::ROOM_NONE)
-			{
-				room[roomNum]->doorSetting(DOOR_DIRECTION::RIGHT);
-			}
-		}
-	}
 
 	changeRoom(45);
 }
@@ -115,10 +75,10 @@ void CStage::changeRoom(int roomNum)
 	{
 		curRoom->setIsMonCreate(true);
 		for (int i = 0; i < TILEX * TILEY; i++)
-		{
 			curRoom->setMonster(curRoom->getTile()[i].monster, curRoom->getTile()[i].pt);
-		}
 	}
+
+	//curRoom->getvObstacle()[47]->setObjType(OBJECT::OBJ_GOAL);
 }
 
 void CStage::playerEnterDoor()
@@ -156,4 +116,10 @@ void CStage::playerEnterDoor()
 			player->setPt(curRoom->getTile()[61].pt);
 		}
 	}
+}
+
+void CStage::nextStage()
+{
+	if (COLLISION->goalCollision(curRoom, player))
+		STAGE->changeStage(STAGE->getCurStageIdx() + 1);
 }

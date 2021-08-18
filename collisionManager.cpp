@@ -596,71 +596,25 @@ DOOR_DIRECTION collisionManager::doorCollision(CMap* _map, CPlayer* _player)
 	return DOOR_DIRECTION::END;
 }
 
+bool collisionManager::goalCollision(CMap* _map, CPlayer* player)
+{
+	for (int i = 0; i < _map->getvObstacle().size(); i++)
+	{
+		if (_map->getvObstacle()[i]->getObjType() == OBJECT::OBJ_GOAL)
+		{
+			if (isCollision(_map->getvObstacle()[i]->getcollider(), player->GetcolliderShadow()))
+				return true;
+			break;
+		}
+	}
+	return false;
+}
+
 void collisionManager::stageCollision(CPlayer* _player)
 {
 	bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
 	ENEMY->SetPlayer(_player);
-	//for (int i = 0; i < BULLET->getvBullet().size(); i++)
-	//{
-	//	for (int j = 0; j < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); j++)
-	//	{
-	//		for (int k = 0; k < ENEMY->getvmonster().size(); k++)
-	//		{
-	//			bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-	//			bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
 
-	//			bool ispb = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
-	//			bool ismb = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
-
-	//			bool isbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-	//			bool isbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
-	//			bool isbco = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-	//			bool isbro = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-	//			bool isbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
-	//			bool isbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->GetcolliderShadow());
-	//			
-	//			bool odb = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getDestroyBullet();
-	//			bool on = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() != OBJECT::OBJ_NONE;
-
-	//			bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
-
-	//			if (playerIdle)
-	//			{
-	//				if (ispcm)
-	//				{
-	//					if (ispsm)
-	//					{
-	//						//ENEMY->eraserEnemy(i);
-	//						_player->sethp(_player->gethp() - 1);
-	//						_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-	//						break;
-	//					}
-	//				}
-	//			}
-
-
-	//			
-	//		}
-	//	}
-	//}
-	//for (int i = 0; i < ENEMY->getvmonster().size(); i++) //player and monster collision
-	//{
-	//	bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-	//	bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
-	//	if (playerIdle)
-	//	{
-	//		if (ispcm)
-	//		{
-	//			if (ispsm)
-	//			{
-	//				//ENEMY->eraserEnemy(i);
-	//				_player->sethp(_player->gethp() - 1);
-	//				_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
 	for (int i = 0; i < ENEMY->getvmonster().size(); i++)		//playerBullet and monster collision
 	{
 		for (int j = 0; j < BULLET->getvBullet().size(); j++)
@@ -693,93 +647,12 @@ void collisionManager::stageCollision(CPlayer* _player)
 					//ENEMY->eraserEnemy(i);
 					_player->sethp(_player->gethp() - 1);
 					_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-					//SOUND->play("playerhurt");
 					break;
 				}
 			}
 		}
 	}
-	
-	//for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and poop collision
-	//{
-	//	for (int j = 0; j < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); j++)
-	//	{
-	//		bool colliderBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-	//		bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-	//		bool isDestroyBullet = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getDestroyBullet();
-	//		bool ispB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
-	//		if (ispB)
-	//		{
-	//			if (isDestroyBullet)
-	//			{
-	//				if (colliderBump)
-	//				{
-	//					if (shadowBump)
-	//					{
-	//						(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setStrength((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() - 1);
-	//						if ((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() <= 0)
-	//						{
-	//							(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
-	//						}
-	//						EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-	//						BULLET->eraserBullet(i);
-	//						break;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
 
-
-	//for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and obstacle
-	//{
-	//	for (int j = 0; j < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); j++)
-	//	{
-	//		bool colliderBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-	//		bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-	//		bool isObstacle = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() != OBJECT::OBJ_NONE;
-	//		bool ispB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;
-	//		if (ispB)
-	//		{
-	//			if (colliderBump)
-	//			{
-	//				if (shadowBump)
-	//				{
-	//					if (isObstacle)
-	//					{
-	//						EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-	//						BULLET->eraserBullet(i);
-	//						break;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-	//for (int i = 0; i < BULLET->getvBullet().size(); i++)	 //monsterBullet and player collision
-	//{
-	//	bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
-	//	bool ismbsp = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), _player->GetcolliderShadow());
-	//	bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
-	//	if (ismbcp && ismbsp && ismB && playerIdle)
-	//	{
-	//		if (ismB)
-	//		{
-	//			if (ismbcp)
-	//			{
-	//				if (ismbsp)
-	//				{
-	//					EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-	//					BULLET->eraserBullet(i);
-	//					_player->sethp(_player->gethp() - 1);
-	//					_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-	//					break;
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
 	for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and obstacle
 	{
 		bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());

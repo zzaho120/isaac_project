@@ -14,6 +14,7 @@ private:
 	ROOM_MARK_ATTR markAttr;
 	bool isMonCreate;
 	bool isClear;
+	bool isCreateReward;
 public:
 	CMap();
 	CMap(const char* fileName);
@@ -31,6 +32,8 @@ public:
 	void tileSet();
 	void doorSetting(DOOR_DIRECTION direction);
 	void doorOpenClose();
+	void createReward();
+
 	void setMonster(MONSTER_TYPE type, vector2 pt);
 	
 	ROOM_TYPE_ATTR getRoomAttr() { return roomAttr; }

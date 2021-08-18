@@ -64,6 +64,8 @@ void CObstacle::render()
 		IMAGE->frameRender("normalDoor", getMemDC(), rc.left - 27, rc.top - 40, frame.x, frame.y);
 	else if (objType == OBJECT::OBJ_POOP)
 		IMAGE->frameRender("poop", getMemDC(), rc.left, rc.top, 4 - strength, 0);
+	else if (objType == OBJECT::OBJ_GOAL)
+		IMAGE->render("goal", getMemDC(), rc.left, rc.top);
 	else IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
 
@@ -72,6 +74,7 @@ void CObstacle::setObjectValue()
 	switch (objType)
 	{
 	case OBJECT::OBJ_GOAL:
+		frame = { 0, 0 };
 		setValue(false, false, false, true);
 		break;
 	case OBJECT::OBJ_FIREPLACE:

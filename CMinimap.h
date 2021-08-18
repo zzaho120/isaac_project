@@ -20,4 +20,5 @@ public:
 	void setRND(RandomMapGenerator* _rnd) { rnd = _rnd; }
 	tagMinimap* getMinimap() { return map; }
 	void mapAttrSetting();
+	void eraseMinimap();
 };

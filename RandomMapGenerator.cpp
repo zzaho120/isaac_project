@@ -41,6 +41,7 @@ void RandomMapGenerator::start()
 {
 	started = true;
 	placedSpecial = false;
+	init();
 	visit(45);
 }
 
@@ -182,6 +183,41 @@ void RandomMapGenerator::roomSetting()
 		{
 			room[roomNum]->setRoomAttr(ROOM_TYPE_ATTR::NONEROOM);
 			room[roomNum]->setRoomType(ROOM::ROOM_NONE);
+		}
+	}
+
+	for (int roomNum = 0; roomNum < 100; roomNum++)
+	{
+		if (room[roomNum]->getRoomType() == ROOM::ROOM_NONE) continue;
+		if (roomNum - 10 >= 0)
+		{
+			if (room[roomNum - 10]->getRoomType() != ROOM::ROOM_NONE)
+			{
+				room[roomNum]->doorSetting(DOOR_DIRECTION::TOP);
+			}
+		}
+		if (roomNum + 10 < 100)
+		{
+			if (room[roomNum + 10]->getRoomType() != ROOM::ROOM_NONE)
+			{
+				room[roomNum]->doorSetting(DOOR_DIRECTION::BOTTOM);
+			}
+
+		}
+		if (roomNum % 10 > 0)
+		{
+
+			if (room[roomNum - 1]->getRoomType() != ROOM::ROOM_NONE)
+			{
+				room[roomNum]->doorSetting(DOOR_DIRECTION::LEFT);
+			}
+		}
+		if (roomNum % 10 < 9)
+		{
+			if (room[roomNum + 1]->getRoomType() != ROOM::ROOM_NONE)
+			{
+				room[roomNum]->doorSetting(DOOR_DIRECTION::RIGHT);
+			}
 		}
 	}
 }

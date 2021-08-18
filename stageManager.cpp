@@ -13,7 +13,10 @@ stageManager::~stageManager()
 
 HRESULT stageManager::init()
 {
-	vStage.push_back(new CStage);
+	CStage* tempStage0 = new CStage;
+	CStage* tempStage1 = new CStage;
+	vStage.push_back(tempStage0);
+	vStage.push_back(tempStage1);
 	curStageIdx = 0;
 	curStage = vStage[curStageIdx];
 	curStage->enter();

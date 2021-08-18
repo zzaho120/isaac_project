@@ -21,4 +21,5 @@ public:
 	void changeStage(int stageNum);
 
 	CStage* getCurStage() { return curStage; }
+	int getCurStageIdx() { return curStageIdx; }
 };

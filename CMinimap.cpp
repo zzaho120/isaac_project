@@ -99,3 +99,12 @@ void CMinimap::mapAttrSetting()
 			map[i].markAttr = ROOM_MARK_ATTR::REWARD;
 	}
 }
+
+void CMinimap::eraseMinimap()
+{
+	for (int i = 0; i < 100; i++)
+	{
+		map[i].markAttr = ROOM_MARK_ATTR::NONEMARK;
+		map[i].roomAttr = ROOM_TYPE_ATTR::NONEROOM;
+	}
+}

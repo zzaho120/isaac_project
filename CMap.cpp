@@ -3,13 +3,15 @@
 #include "CMap.h"
 
 CMap::CMap() :
-    isMonCreate(false), isClear(false)
+    isMonCreate(false), isClear(false),
+    isCreateReward(false)
 {
     tileSet();
 }
 
 CMap::CMap(const char* fileName) :
-    isMonCreate(false), isClear(false)
+    isMonCreate(false), isClear(false),
+    isCreateReward(false)
 {
     load(fileName);
     tileSet();
@@ -77,6 +79,7 @@ void CMap::release()
 void CMap::update()
 {
     doorOpenClose();
+    createReward();
     for (viObstacle = vObstacle.begin(); viObstacle != vObstacle.end(); viObstacle++)
     {
         (*viObstacle)->update();
@@ -188,6 +191,15 @@ void CMap::doorOpenClose()
 
         if (vObstacle[127]->getObjType() == OBJECT::OBJ_CLOSEBOTTOMDOOR)
             vObstacle[127]->setObjType(OBJECT::OBJ_BOTTOMDOOR);
+    }
+}
+
+void CMap::createReward()
+{
+    if (room.roomType == ROOM::ROOM_REWARD && !isCreateReward)
+    {
+        isCreateReward = true;
+        ITEM->respawnItem(static_cast<ITEM_TYPE>(RND->getFromIntTo(5, 9)), room.tile[67].pt);
     }
 }
 

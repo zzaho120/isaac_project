@@ -21,6 +21,7 @@ AniAddList::AniAddList()
 	
 	IMAGE->addFrameImage("normalDoor", "images/map/door_01_normaldoor.bmp", TILEWIDTH * 4 + 420, TILEHEIGHT * 2 + 160, 4, 2, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("poop", "images/map/poop.bmp", 160 * 2, 32 * 2, 5, 1, true, RGB(255, 0, 255));
+	IMAGE->addImage("goal", "images/map/goal.bmp", TILEWIDTH, TILEHEIGHT, true, RGB(255, 0, 255));
 	//====================================item=========================================================================
 	//====================================item=========================================================================
 	IMAGE->addImage("itemshadow", "images/shadow.bmp", 30, 10, true, RGB(255, 0, 255));
