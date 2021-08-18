@@ -1,6 +1,9 @@
 #include "framework.h"
 #include "CHopper.h"
 #include "CStage.h"
+#include "CMap.h"
+#include "CObstacle.h"
+
 CHopper::CHopper()
 {
 }
@@ -88,7 +91,16 @@ void CHopper::render()
 			collider->getPos().y + collider->getSize().y / 2);
 	}
 
+	//RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+	////IMAGE->render("shadowHopper", getMemDC(), rec.left, rec.top);
 	RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
-	IMAGE->render("shadowHopper", getMemDC(), rec.left, rec.top);
+
+	int hereIndex = (rec.left / TILEWIDTH - 1) + (rec.top / TILEHEIGHT - 1) * TILEX;
+	if (hereIndex > 105) hereIndex = 6;
+	bool ismoveable = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getUnmovalbe();
+	if (!ismoveable)
+	{
+		IMAGE->render("shadowHopper", getMemDC(), rec.left, rec.top);
+	}
 	IMAGE->findImage("hopper")->aniRender(getMemDC(), getRC().left, getRC().top, getAni());
 }

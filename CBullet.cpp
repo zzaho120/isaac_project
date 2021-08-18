@@ -1,5 +1,8 @@
 #include "framework.h"
 #include "CBullet.h"
+#include "CStage.h"
+#include "CMap.h"
+#include "CObstacle.h"
 
 CBullet::CBullet() :
     CObject(), firePt({ 0, 0 }), angle(0), speed(0),
@@ -65,9 +68,18 @@ void CBullet::render()
         colliderShadow->getPos().x + colliderShadow->getSize().x / 2,
         colliderShadow->getPos().y + colliderShadow->getSize().y / 2);*/
 
-    RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+   RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
     IMAGE->render(bulletType + bulletShadow, getMemDC(), rec.left, rec.top);
 
+    //RECT rec = RectMakeCenter(colliderShadow->getPos().x, colliderShadow->getPos().y, colliderShadow->getSize().x, colliderShadow->getSize().y);
+
+    //int hereIndex = (rec.left / TILEWIDTH - 1) + (rec.top / TILEHEIGHT - 1) * TILEX;
+    //if (hereIndex > 105) hereIndex = 6;
+    //bool ismoveable = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(hereIndex))->getUnmovalbe();
+    //if (!ismoveable)
+    //{
+    //    IMAGE->render(bulletType + bulletShadow, getMemDC(), rec.left, rec.top);
+    //}
     bulletImage->aniRender(getMemDC(), collider->getPos().x - collider->getSize().x / 2,
         collider->getPos().y - collider->getSize().y / 2, bulletAnimation);
 }
