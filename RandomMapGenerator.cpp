@@ -139,10 +139,15 @@ int RandomMapGenerator::popRandomEndRoom()
 
 void RandomMapGenerator::roomSetting()
 {
+<<<<<<< Updated upstream
 	static int cnt = 1;
+=======
+	static int cnt = 0;
+	int rndNum = 0;
+>>>>>>> Stashed changes
 	for (int roomNum = 0; roomNum < 100; roomNum++)
 	{
-		int rndNum = -1;
+		//int rndNum = -1;
 		if (roomNum == bossRoomNum)
 		{
 			rndNum = RND->getInt(MAP->getMaxRoomNum((UINT)FILE_TYPE::BOSS));
@@ -180,7 +185,8 @@ void RandomMapGenerator::roomSetting()
 			}
 			else
 			{
-				rndNum = RND->getFromIntTo(1, MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL)) - 1;
+				rndNum ++ ;
+				//rndNum = RND->getFromIntTo(1, MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL)) - 1;
 				room[roomNum] = new CMap(MAP->getNormalRoom()[rndNum]);
 				room[roomNum]->setRoomType(ROOM::ROOM_NORMAL);
 			}
