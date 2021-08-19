@@ -75,31 +75,31 @@ void CObstacle::render()
 		{
 		case 0:
 			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 + 15, 0, 0);
 			IMAGE->findImage("fireTileEffect")->aniRender(getMemDC(), RectX(rc)-IMAGE->findImage("fireTileEffect")->getFrameWidth()/2, 
-				RectY(rc) - IMAGE->findImage("fireTileEffect")->getFrameHeight() / 2 -30, ANIMATION->findAnimation("fireEffect"));
+				RectY(rc) - IMAGE->findImage("fireTileEffect")->getFrameHeight() / 2 - 5, ANIMATION->findAnimation("fireEffect"));
 			break;
 		case 1:
 			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 + 15, 0, 0);
 			IMAGE->findImage("fireTileEffect2")->aniRender(getMemDC(), RectX(rc) - IMAGE->findImage("fireTileEffect2")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTileEffect2")->getFrameHeight() / 2 -27, ANIMATION->findAnimation("fireEffect2"));
+				RectY(rc) - IMAGE->findImage("fireTileEffect2")->getFrameHeight() / 2 - 2 , ANIMATION->findAnimation("fireEffect2"));
 			break;
 		case 2:
 			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 + 15, 0, 0);
 			IMAGE->findImage("fireTileEffect3")->aniRender(getMemDC(), RectX(rc) - IMAGE->findImage("fireTileEffect3")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTileEffect3")->getFrameHeight() / 2  -24, ANIMATION->findAnimation("fireEffect3"));
+				RectY(rc) - IMAGE->findImage("fireTileEffect3")->getFrameHeight() / 2  +1, ANIMATION->findAnimation("fireEffect3"));
 			break;
 		case 3:
 			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 + 15, 0, 0);
 			IMAGE->findImage("fireTileEffect4")->aniRender(getMemDC(), RectX(rc) - IMAGE->findImage("fireTileEffect4")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTileEffect4")->getFrameHeight() / 2 - 21, ANIMATION->findAnimation("fireEffect4"));
+				RectY(rc) - IMAGE->findImage("fireTileEffect4")->getFrameHeight() / 2 + 4, ANIMATION->findAnimation("fireEffect4"));
 			break;
 		default:
 			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
-				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight()/2 - 10,1,0);
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight()/2 + 14,1,0);
 			break;
 		}
 	}
