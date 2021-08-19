@@ -1,8 +1,7 @@
 #include "framework.h"
 #include "Window.h"
 #include "gameNode.h"
-#include "CMapSetting.h"
-#include "TestMonsterScene.h"
+#include "CMapSetting.h" 
 
 POINT Window::ptMouse = POINT{ 0,0 };
 CTRL Window::currentCTRL = CTRL::CTRL_DRAW;
@@ -52,7 +51,7 @@ void Window::init()
 	editStr = CreateWindow("edit", NULL, 
 		WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 
 		startX, startY + 100, 190, 25, hWnd, HMENU(5), m_hInstance, NULL);
-	SetDlgItemText(hWnd, (int)HMENU(5), "저장 파일 이름 입력");
+	SetDlgItemText(hWnd, (int)HMENU(5), "저장 파일 입력 / 확장자 .map");
 
 	listFile = CreateWindow("listbox", NULL,
 		WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY,
@@ -161,17 +160,6 @@ LRESULT Window::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					MessageBox(hWnd, "불러오기 성공", "알림", MB_OK);
 				else
 					MessageBox(hWnd, "불러오기 실패", "알림", MB_OK);
-				break;
-
-			case CTRL::CTRL_SETROOM:
-				idx = SendMessage(SUBWIN->getListHandle(), LB_GETCURSEL, 0, 0);
-				if (idx != -1)
-				{
-					SendMessage(SUBWIN->getListHandle(), LB_GETTEXT, idx, (LPARAM)saveFileName);
-					strcat(folderPath, saveFileName);
-					SUBWIN->getTest()->init(folderPath);
-				}
-				else MessageBox(hWnd, "파일을 선택한 후, 방 세팅 클릭", "알림", MB_OK);
 				break;
 
 			case CTRL::CTRL_REMOVE:

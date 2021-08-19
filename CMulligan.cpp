@@ -7,6 +7,7 @@ CMulligan::CMulligan()
 
 CMulligan::~CMulligan()
 {
+	SAFE_DELETE(anihead);
 }
 
 HRESULT CMulligan::init(float x, float y)

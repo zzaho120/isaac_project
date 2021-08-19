@@ -145,10 +145,7 @@
     <ClInclude Include="AniAddList.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="animationManager.h" />
-    <ClInclude Include="animationTest.h" />
     <ClInclude Include="API_FrameWork.h" />
-    <ClInclude Include="Astar.h" />
-    <ClInclude Include="camel.h" />
     <ClInclude Include="CBossUI.h" />
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CCharacter.h" />
@@ -180,7 +177,6 @@
     <ClInclude Include="CWORM.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
-    <ClInclude Include="effectTest.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gameNode.h" />
@@ -198,7 +194,6 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="CPlayerUI.h" />
     <ClInclude Include="PooterState.h" />
-    <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="RandomMapGenerator.h" />
     <ClInclude Include="Resource.h" />
@@ -208,10 +203,8 @@
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="stageManager.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TestMonsterScene.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
-    <ClInclude Include="txtData.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UseItem.h" />
     <ClInclude Include="utils.h" />
@@ -223,12 +216,9 @@
     <ClCompile Include="AniAddList.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="animationManager.cpp" />
-    <ClCompile Include="animationTest.cpp" />
     <ClCompile Include="API_FrameWork.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Astar.cpp" />
-    <ClCompile Include="camel.cpp" />
     <ClCompile Include="CBossUI.cpp" />
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CCharacter.cpp" />
@@ -258,7 +248,6 @@
     <ClCompile Include="CWORM.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
-    <ClCompile Include="effectTest.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="GurdyState.cpp" />
@@ -275,16 +264,13 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="CPlayerUI.cpp" />
     <ClCompile Include="PooterState.cpp" />
-    <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="RandomMapGenerator.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="SmallflyState.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="stageManager.cpp" />
-    <ClCompile Include="TestMonsterScene.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
-    <ClCompile Include="txtData.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UseItem.cpp" />
     <ClCompile Include="utils.cpp" />

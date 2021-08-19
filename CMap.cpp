@@ -57,6 +57,8 @@ CMap::CMap(CMap* map)
 
 CMap::~CMap()
 {
+    vObstacle.clear();
+    Safe_Delete_Vector(vObstacle);
 }
 
 HRESULT CMap::init()
@@ -74,6 +76,8 @@ HRESULT CMap::init(const char* fileName)
 
 void CMap::release()
 {
+    vObstacle.clear();
+    Safe_Delete_Vector(vObstacle);
 }
 
 void CMap::update()

@@ -20,12 +20,10 @@ RandomMapGenerator::RandomMapGenerator() :
 RandomMapGenerator::~RandomMapGenerator()
 {
 	for (int roomNum = 0; roomNum < 100; roomNum++)
-	{
 		SAFE_DELETE(room[roomNum]);
-	}
 }
 
-void RandomMapGenerator::init()
+HRESULT RandomMapGenerator::init()
 {
 	ZeroMemory(floorplan, sizeof(floorplan));
 
@@ -35,6 +33,15 @@ void RandomMapGenerator::init()
 	placedSpecial = false;
 	isMapCompleted = false;
 	floorplanCount = 0;
+
+	return S_OK;
+}
+
+void RandomMapGenerator::release()
+{
+	for (int roomNum = 0; roomNum < 100; roomNum++)
+		SAFE_DELETE(room[roomNum]);
+
 }
 
 void RandomMapGenerator::start()
@@ -172,7 +179,7 @@ void RandomMapGenerator::roomSetting()
 			}
 			else
 			{
-				rndNum = RND->getFromIntTo(1, MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL));
+				rndNum = RND->getFromIntTo(1, MAP->getMaxRoomNum((UINT)FILE_TYPE::NORMAL) - 1);
 				room[roomNum] = new CMap(MAP->getNormalRoom()[rndNum]);
 				room[roomNum]->setRoomType(ROOM::ROOM_NORMAL);
 			}

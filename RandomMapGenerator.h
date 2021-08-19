@@ -27,7 +27,8 @@ public:
 	RandomMapGenerator();
 	~RandomMapGenerator();
 
-	void init();
+	HRESULT init();
+	void release();
 	void start();
 	void update();
 

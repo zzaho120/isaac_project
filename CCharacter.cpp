@@ -22,6 +22,8 @@ CCharacter::CCharacter(Vec2 _pos, RECT _rc, int _hp) :
 
 CCharacter::~CCharacter()
 {
+	SAFE_DELETE(m_pAI);
+	Safe_Delete_Vector(vAI);
 }
 
 HRESULT CCharacter::init()

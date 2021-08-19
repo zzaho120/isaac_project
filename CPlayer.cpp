@@ -18,10 +18,14 @@ CPlayer::CPlayer(Vec2 _pos, RECT _rc, int _hp) :
 	CCharacter(_pos, _rc, _hp), isMove(false), totalTears(0)
 { 
 	setAni(ANIMATION->findAnimation("down_head"));
+
 }
 
 CPlayer::~CPlayer()
-{ }
+{
+	SAFE_DELETE(ani_body);
+
+}
 
 HRESULT CPlayer::init()
 {

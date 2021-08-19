@@ -784,6 +784,7 @@ void collisionManager::isBossDie()
 		}
 		else if (count >= 200)
 		{
+			ENEMY->eraserAllEnemy();
 			SOUND->stop("bossdiesound");
 			bossDie = false;
 			count = 0;

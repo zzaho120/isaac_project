@@ -7,6 +7,19 @@
 #include "UseItem.h"
 #include "RandomMapGenerator.h"
 
+CStage::CStage()
+{
+}
+
+CStage::~CStage()
+{
+	for (int i = 0; i < 100; i++)
+		SAFE_DELETE(room[i]);
+	//SAFE_DELETE(player);
+	rnd->release();
+	SAFE_DELETE(rnd);
+}
+
 void CStage::update()
 {
 	curRoom->update();
@@ -23,6 +36,15 @@ void CStage::render()
 {
 	curRoom->render();
 	player->render();
+}
+
+void CStage::release()
+{
+	for (int i = 0; i < 100; i++)
+	{
+		room[i]->release();
+		SAFE_DELETE(room[i]);
+	}
 }
 
 void CStage::enter()

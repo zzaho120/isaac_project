@@ -8,6 +8,10 @@ mapManager::mapManager()
 
 mapManager::~mapManager()
 {
+	Safe_Delete_Vector(vNormalRoom);
+	Safe_Delete_Vector(vBossRoom);
+	Safe_Delete_Vector(vShopRoom);
+	Safe_Delete_Vector(vRewardRoom);
 }
 
 HRESULT mapManager::init()
@@ -76,6 +80,10 @@ HRESULT mapManager::init()
 
 void mapManager::release()
 {
+	Safe_Delete_Vector(vNormalRoom);
+	Safe_Delete_Vector(vBossRoom);
+	Safe_Delete_Vector(vShopRoom);
+	Safe_Delete_Vector(vRewardRoom);
 }
 
 void mapManager::render()

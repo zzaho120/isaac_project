@@ -36,6 +36,7 @@ void CGameScene::release()
 {
 	SOUND->stop("bgm");
 	STAGE->release();
+	MAP->release();
 	BULLET->release();
 	ENEMY->release();
 	ALLUI->release();
@@ -43,15 +44,6 @@ void CGameScene::release()
 
 void CGameScene::update()
 {
-	if (!isPause)
-	{
-		ALLUI->update();
-		STAGE->update();
-		BULLET->update();
-		ENEMY->update();
-		ITEM->update();
-	}
-
 	if (STAGE->getCurStage()->getPlayer()->getstate() == STATE_TYPE::DEAD && !isPlayerDead)
 		isPlayerDead = true;
 
@@ -99,6 +91,15 @@ void CGameScene::update()
 			SCENE->changeScene("mainMenu");
 			break;
 		}
+	}
+
+	if (!isPause)
+	{
+		ALLUI->update();
+		STAGE->update();
+		BULLET->update();
+		ENEMY->update();
+		ITEM->update();
 	}
 }
 

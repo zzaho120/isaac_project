@@ -16,6 +16,8 @@ CObject::CObject(Vec2 _pos, RECT _rc) :
 CObject::~CObject()
 {
 	//SAFE_DELETE(ani);
+	SAFE_DELETE(collider);
+	SAFE_DELETE(colliderShadow);
 }
 
 HRESULT CObject::init()
@@ -30,12 +32,8 @@ HRESULT CObject::init(vector2 _pt, RECT _rc, vector2 _objectPt, vector2 _objectS
 	pt = _pt;
 	rc = _rc;
 	shadowdistance = _shadowdistance;
-	collider = new CCollider;
-	colliderShadow = new CCollider;
-	collider->setPos(_objectPt);
-	collider->setSize(_objectSize);
-	colliderShadow->setPos(_objectShadowPt);
-	colliderShadow->setSize(_objectShadowSize);
+	collider = new CCollider(_objectPt, _objectSize);
+	colliderShadow = new CCollider(_objectShadowPt, _objectShadowSize);
 	return S_OK;
 }
 

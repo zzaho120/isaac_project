@@ -8,6 +8,7 @@ CGurdy::CGurdy()
 
 CGurdy::~CGurdy()
 {
+	SAFE_DELETE(anibody);
 }
 
 HRESULT CGurdy::init(float x, float y)

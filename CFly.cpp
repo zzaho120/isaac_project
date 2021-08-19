@@ -6,8 +6,7 @@
 
 CFly::CFly()
 {
-	soundCount = 0;
-	soundDelay = RND->getFromIntTo(50,100);
+
 }
 
 CFly::~CFly()
@@ -46,10 +45,7 @@ void CFly::update()
 	collider->setPos({ RectX(rc), RectY(rc) });
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
 	//if (SOUND->isPauseSound("flysound") && !SOUND->isPlaySound("flysound")) { SOUND->play("flysound"); }
-	soundCount++;
-	if (soundCount >= soundDelay)
-	{
-	}
+	
 }
 
 void CFly::render()

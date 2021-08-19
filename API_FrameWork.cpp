@@ -33,10 +33,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	LPSTR lpszCmdParam, int nCmdShow)
 {
 	// 메모리 누수 확인하는 함수, 디버깅으로 컴파일 후 프로그램을 종료하면 메모리 누수를 확인할 수 있다.
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	// 메모리 특정 지점을 찾기, 디버깅으로 메모리 누수를 확인하고 특정 번호를 알아서 매개변수로
 	// 위 함수를 주석처리하고 써야 한다.
-	//_CrtSetBreakAlloc(259);
+	//_CrtSetBreakAlloc(157);
 
 	m_hInstance = hInstance;
 

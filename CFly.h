@@ -4,8 +4,7 @@
 class CFly : public CMonster
 {
 private:
-	int soundCount;
-	int soundDelay;
+
 public:
 	CFly();
 	~CFly();

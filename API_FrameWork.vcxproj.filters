@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="gameNode">
       <UniqueIdentifier>{2a0be0e6-62fd-43de-a606-55b511847593}</UniqueIdentifier>
     </Filter>
@@ -30,30 +18,6 @@
     </Filter>
     <Filter Include="image">
       <UniqueIdentifier>{f246c95e-8530-4564-a361-9e48ca56eb83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="타이머">
-      <UniqueIdentifier>{153e0e81-aff6-49db-8d0b-f53ec02a7782}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="프로그래스바">
-      <UniqueIdentifier>{5a2a6f49-9af9-45ce-a35f-aa13aa88d69e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="텍스트데이터">
-      <UniqueIdentifier>{96973ece-e8a2-422b-a9b8-1f58af1713f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="애니메이션">
-      <UniqueIdentifier>{f76728bc-10bf-45ed-82bd-a7a8932a210f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="애니메이션테스트">
-      <UniqueIdentifier>{4981e6ed-1387-496d-a98e-f3caa30435d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="이펙트">
-      <UniqueIdentifier>{799f9037-ac59-46a7-8c21-272e269886bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="이펙트\이펙트테스트">
-      <UniqueIdentifier>{cf39b8fe-e5ca-446a-93ca-6095e60ccfba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="에이슷하">
-      <UniqueIdentifier>{d6da94a8-d55e-4cc4-b47c-98bc84efa10d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Class">
       <UniqueIdentifier>{011017d1-9c30-4bff-8197-2f21ef5d0bd5}</UniqueIdentifier>
@@ -130,22 +94,43 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{797dce04-c70b-4f96-8f90-b693172104d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="timer">
+      <UniqueIdentifier>{153e0e81-aff6-49db-8d0b-f53ec02a7782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="effect">
+      <UniqueIdentifier>{799f9037-ac59-46a7-8c21-272e269886bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="animation">
+      <UniqueIdentifier>{f76728bc-10bf-45ed-82bd-a7a8932a210f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="API_FrameWork.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="singleton.h">
       <Filter>singleton</Filter>
@@ -160,7 +145,7 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="randomFunction.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>UTIL</Filter>
@@ -172,16 +157,10 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="timer.h">
-      <Filter>타이머</Filter>
+      <Filter>timer</Filter>
     </ClInclude>
     <ClInclude Include="timeManager.h">
       <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="progressBar.h">
-      <Filter>프로그래스바</Filter>
-    </ClInclude>
-    <ClInclude Include="txtData.h">
-      <Filter>텍스트데이터</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>Manager</Filter>
@@ -190,31 +169,19 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="animation.h">
-      <Filter>애니메이션</Filter>
-    </ClInclude>
-    <ClInclude Include="animationTest.h">
-      <Filter>애니메이션테스트</Filter>
-    </ClInclude>
-    <ClInclude Include="camel.h">
-      <Filter>애니메이션테스트</Filter>
+      <Filter>animation</Filter>
     </ClInclude>
     <ClInclude Include="animationManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="effect.h">
-      <Filter>이펙트</Filter>
-    </ClInclude>
-    <ClInclude Include="effectTest.h">
-      <Filter>이펙트\이펙트테스트</Filter>
+      <Filter>effect</Filter>
     </ClInclude>
     <ClInclude Include="effectManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Astar.h">
-      <Filter>에이슷하</Filter>
-    </ClInclude>
     <ClInclude Include="vector2.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="CCharacter.h">
       <Filter>Class\Object\Character</Filter>
@@ -229,9 +196,6 @@
       <Filter>Class\Map</Filter>
     </ClInclude>
     <ClInclude Include="CMapSetting.h">
-      <Filter>Class\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="TestMonsterScene.h">
       <Filter>Class\Map</Filter>
     </ClInclude>
     <ClInclude Include="CObject.h">
@@ -363,7 +327,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API_FrameWork.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="gameNode.cpp">
       <Filter>gameNode</Filter>
@@ -384,16 +348,10 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="timer.cpp">
-      <Filter>타이머</Filter>
+      <Filter>timer</Filter>
     </ClCompile>
     <ClCompile Include="timeManager.cpp">
       <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="progressBar.cpp">
-      <Filter>프로그래스바</Filter>
-    </ClCompile>
-    <ClCompile Include="txtData.cpp">
-      <Filter>텍스트데이터</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>Manager</Filter>
@@ -402,28 +360,16 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="animation.cpp">
-      <Filter>애니메이션</Filter>
-    </ClCompile>
-    <ClCompile Include="animationTest.cpp">
-      <Filter>애니메이션테스트</Filter>
-    </ClCompile>
-    <ClCompile Include="camel.cpp">
-      <Filter>애니메이션테스트</Filter>
+      <Filter>animation</Filter>
     </ClCompile>
     <ClCompile Include="animationManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="effect.cpp">
-      <Filter>이펙트</Filter>
-    </ClCompile>
-    <ClCompile Include="effectTest.cpp">
-      <Filter>이펙트\이펙트테스트</Filter>
+      <Filter>effect</Filter>
     </ClCompile>
     <ClCompile Include="effectManager.cpp">
       <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Astar.cpp">
-      <Filter>에이슷하</Filter>
     </ClCompile>
     <ClCompile Include="CCharacter.cpp">
       <Filter>Class\Object\Character</Filter>
@@ -438,9 +384,6 @@
       <Filter>Class\Map</Filter>
     </ClCompile>
     <ClCompile Include="CMapSetting.cpp">
-      <Filter>Class\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="TestMonsterScene.cpp">
       <Filter>Class\Map</Filter>
     </ClCompile>
     <ClCompile Include="CBullet.cpp">
@@ -569,15 +512,15 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="API_FrameWork.rc">
-      <Filter>리소스 파일</Filter>
+      <Filter>resource</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
+      <Filter>resource</Filter>
     </Image>
     <Image Include="API_FrameWork.ico">
-      <Filter>리소스 파일</Filter>
+      <Filter>resource</Filter>
     </Image>
   </ItemGroup>
 </Project>

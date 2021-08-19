@@ -36,7 +36,6 @@
 #include"animationManager.h"
 #include"randomFunction.h"
 #include"utils.h"
-#include"txtData.h"
 #include"Window.h"
 #include"collisionManager.h"
 #include"bulletManager.h"

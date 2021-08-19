@@ -15,8 +15,13 @@ private:
 
 	int curRoomIdx;
 public:
-	virtual void update();
-	virtual void render();
+	CStage();
+	~CStage();
+
+	void update();
+	void render();
+	void release();
+
 
 	void enter();
 	void exit();

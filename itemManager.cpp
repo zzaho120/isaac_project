@@ -164,4 +164,5 @@ void itemManager::bombFire()
 void itemManager::eraseAllItem()
 {
     item.clear();
+    useItem.clear();
 }
