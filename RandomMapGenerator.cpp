@@ -4,7 +4,7 @@
 RandomMapGenerator::RandomMapGenerator() :
 	started(false), placedSpecial(false), isMapCompleted(false),
 	floorplanCount(0),
-	maxRooms(15), minRooms(4), bossRoomNum(-1), rewardRoomNum(-1),
+	maxRooms(8), minRooms(7), bossRoomNum(-1), rewardRoomNum(-1),
 	shopRoomNum(-1)
 {
 	ZeroMemory(room, sizeof(room));
@@ -139,6 +139,7 @@ int RandomMapGenerator::popRandomEndRoom()
 
 void RandomMapGenerator::roomSetting()
 {
+	static int cnt = 1;
 	for (int roomNum = 0; roomNum < 100; roomNum++)
 	{
 		int rndNum = -1;
@@ -174,7 +175,7 @@ void RandomMapGenerator::roomSetting()
 		{
 			if (roomNum == 45)
 			{
-				room[roomNum] = new CMap(MAP->getNormalRoom()[0]);
+				room[roomNum] = new CMap(MAP->getNormalRoom()[cnt]);
 				room[roomNum]->setRoomType(ROOM::ROOM_FIRST);
 			}
 			else
