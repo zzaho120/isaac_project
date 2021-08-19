@@ -648,7 +648,19 @@ void collisionManager::stageCollision(CPlayer* _player)
 				
 		}
 	}
+	for (int i = 0; i < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); i++)
+	{
+		bool isDamageTile = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getDamage();
+		bool isCollisionTile = COLLISION->isCollision((*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getcollider(), _player->getcollider());
+		if (playerIdle && isDamageTile && isCollisionTile)
+		{
+			_player->sethp(_player->gethp() - 1);
+			_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
+			SOUND->play("playerhurt", 1.0f);
+			break;
+		}
 
+	}
 	for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and obstacle
 	{
 		bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
@@ -664,7 +676,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 			bool isok = (*BULLET->getviBullet(i))->getshadowdistance() <= 30;
 			
 			bool isDestroyBullet = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getDestroyBullet();
-	
+			
 			if (ispB && isok && shadowBump )
 			{
 				if (isDestroyBullet)
@@ -672,10 +684,17 @@ void collisionManager::stageCollision(CPlayer* _player)
 					(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setStrength((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() - 1);
 					if ((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() == 0)
 					{
-						ITEM->respawnRandomBasicItem((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos());
-						SOUND->play("poopsound");
-						(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
-						EFFECT->play("poofeffect", (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().x, (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().y);
+						if ((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() == OBJECT::OBJ_POOP)
+						{
+							ITEM->respawnRandomBasicItem((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos());
+							SOUND->play("poopsound");
+							(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
+							EFFECT->play("poofeffect", (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().x, (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().y);
+						}
+						else
+						{
+							ITEM->respawnRandomBasicItem((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos());
+						}
 					}
 					SOUND->play("tearblocksound");
 					EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);

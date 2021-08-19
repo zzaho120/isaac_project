@@ -8,6 +8,7 @@ private:
 	Vec2 frame;
 	
 	bool isUnmovable;
+	bool isDamage;
 	bool isDestroyByBomb;
 	bool isDestroyByBullet;
 	bool isPassBullet;
@@ -29,6 +30,7 @@ public:
 
 	bool getDestroyBomb() { return isDestroyByBomb; }
 	bool getDestroyBullet() { return isDestroyByBullet; }
+	bool getDamage() { return isDamage; }
 
 	bool getPassBullet() { return isPassBullet; }
 
@@ -41,6 +43,6 @@ public:
 	int getStrength() { return strength; }
 	void setStrength(int number) { strength = number; }
 
-	void setValue(bool move, bool bomb, bool bullet, bool pass);
+	void setValue(bool move, bool bomb, bool bullet, bool pass, bool damage);
 };
 

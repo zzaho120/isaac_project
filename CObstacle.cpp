@@ -4,13 +4,13 @@
 CObstacle::CObstacle() :
 	CObject(), objType(OBJECT::OBJ_NONE),
 	strength(0), isUnmovable(false), isDestroyByBomb(false),
-	isDestroyByBullet(false)
+	isDestroyByBullet(false), isDamage(false)
 { }
 
 CObstacle::CObstacle(Vec2 _pos, RECT _rc, OBJECT _type) :
 	CObject(_pos, _rc), objType(_type), 
 	strength(4), isUnmovable(false), isDestroyByBomb(false),
-	isDestroyByBullet(false)
+	isDestroyByBullet(false), isDamage(false)
 {
 	Vec2 colliderSize = { TILEWIDTH, TILEHEIGHT /*+ 5*/};
 	collider = new CCollider(_pos, colliderSize);
@@ -26,6 +26,7 @@ CObstacle::CObstacle(CObstacle* copy)
 	isUnmovable = copy->getUnmovalbe();
 	isDestroyByBomb = copy->getDestroyBomb();
 	isDestroyByBullet = copy->getDestroyBullet();
+	isDamage = copy->getDamage();
 
 	pt = copy->getPt();
 	rc = copy->getRC();
@@ -49,6 +50,8 @@ void CObstacle::release()
 void CObstacle::update()
 {
 	setObjectValue();
+	if (objType == OBJECT::OBJ_FIREPLACE && strength <= 0)
+		setValue(false, false, false, true, false);
 }
 
 void CObstacle::render()
@@ -66,6 +69,41 @@ void CObstacle::render()
 		IMAGE->frameRender("poop", getMemDC(), rc.left, rc.top, 4 - strength, 0);
 	else if (objType == OBJECT::OBJ_GOAL)
 		IMAGE->render("goal", getMemDC(), rc.left, rc.top);
+	else if (objType == OBJECT::OBJ_FIREPLACE)
+	{
+		switch (4 - strength)
+		{
+		case 0:
+			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+			IMAGE->findImage("fireTileEffect")->aniRender(getMemDC(), RectX(rc)-IMAGE->findImage("fireTileEffect")->getFrameWidth()/2, 
+				RectY(rc) - IMAGE->findImage("fireTileEffect")->getFrameHeight() / 2 -30, ANIMATION->findAnimation("fireEffect"));
+			break;
+		case 1:
+			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+			IMAGE->findImage("fireTileEffect2")->aniRender(getMemDC(), RectX(rc) - IMAGE->findImage("fireTileEffect2")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTileEffect2")->getFrameHeight() / 2 -27, ANIMATION->findAnimation("fireEffect2"));
+			break;
+		case 2:
+			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+			IMAGE->findImage("fireTileEffect3")->aniRender(getMemDC(), RectX(rc) - IMAGE->findImage("fireTileEffect3")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTileEffect3")->getFrameHeight() / 2  -24, ANIMATION->findAnimation("fireEffect3"));
+			break;
+		case 3:
+			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight() / 2 - 10, 0, 0);
+			IMAGE->findImage("fireTileEffect4")->aniRender(getMemDC(), RectX(rc) - IMAGE->findImage("fireTileEffect4")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTileEffect4")->getFrameHeight() / 2 - 21, ANIMATION->findAnimation("fireEffect4"));
+			break;
+		default:
+			IMAGE->frameRender("fireTilePlace", getMemDC(), RectX(rc) - IMAGE->findImage("fireTilePlace")->getFrameWidth() / 2,
+				RectY(rc) - IMAGE->findImage("fireTilePlace")->getFrameHeight()/2 - 10,1,0);
+			break;
+		}
+	}
+
 	else IMAGE->frameRender("objectTile", getMemDC(), rc.left, rc.top, frame.x, frame.y);
 }
 
@@ -75,113 +113,114 @@ void CObstacle::setObjectValue()
 	{
 	case OBJECT::OBJ_GOAL:
 		frame = { 0, 0 };
-		setValue(false, false, false, true);
+		setValue(false, false, false, true,false);
 		break;
 	case OBJECT::OBJ_FIREPLACE:
 		frame = { 5, 0 };
-		setValue(false, false, true, true);
+		setValue(false, true, true, false, true);
 		break;
 	case OBJECT::OBJ_SPIKE:
 		frame = { 2, 0 };
-		setValue(false, false, true, true);
+		setValue(false, false, false, true, true);
 		break;
 	case OBJECT::OBJ_POOP:
 		frame = { 1, 0 };
-		setValue(true, true, true, false);
+		setValue(true, true, true, false, false);
 		break;
 	case OBJECT::OBJ_ROCK:
 		frame = { 3, 0 };
-		setValue(true, true, false, false);
+		setValue(true, true, false, false,false);
 		break;
 	case OBJECT::OBJ_STEEL:
 		frame = { 4, 0 };
-		setValue(true, false, false, false);
+		setValue(true, false, false, false,false);
 		break;
 	case OBJECT::OBJ_LT_PIT:
 		frame = { 0, 1 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true,false);
 		break;
 	case OBJECT::OBJ_MT_PIT:
 		frame = { 1, 1 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_RT_PIT:
 		frame = { 2, 1 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_L_PIT:
 		frame = { 3, 1 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_M_PIT:
 		frame = { 4, 1 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_R_PIT:
 		frame = { 5, 1 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_LB_PIT:
 		frame = { 0, 2 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_MB_PIT:
 		frame = { 1, 2 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_RB_PIT:
 		frame = { 2, 2 };
-		setValue(true, false, false, true);
+		setValue(true, false, false, true, false);
 		break;
 	case OBJECT::OBJ_WALL:
 		strength = -1;
-		setValue(true, false, false, false);
+		setValue(true, false, false, false, false);
 		break;
 	case OBJECT::OBJ_TOPDOOR:
 		frame = { 0, 0 };
-		setValue(false, false, false, false);
+		setValue(false, false, false, false, false);
 		break;
 	case OBJECT::OBJ_LEFTDOOR:
 		frame = { 2, 0 };
-		setValue(false, false, false, false);
+		setValue(false, false, false, false, false);
 		break;
 	case OBJECT::OBJ_RIGHTDOOR:
 		frame = { 3, 0 };
-		setValue(false, false, false, false);
+		setValue(false, false, false, false, false);
 		break;
 	case OBJECT::OBJ_BOTTOMDOOR:
 		frame = { 1, 0 };
-		setValue(false, false, false, false);
+		setValue(false, false, false, false, false);
 		break;
 	case OBJECT::OBJ_CLOSETOPDOOR:
 		frame = { 0, 1 };
-		setValue(true, false, false, false);
+		setValue(true, false, false, false, false);
 		break;
 	case OBJECT::OBJ_CLOSELEFTDOOR:
 		frame = { 2, 1 };
-		setValue(true, false, false, false);
+		setValue(true, false, false, false, false);
 		break;
 	case OBJECT::OBJ_CLOSERIGHTDOOR:
 		frame = { 3, 1 };
-		setValue(true, false, false, false);
+		setValue(true, false, false, false, false);
 		break;
 	case OBJECT::OBJ_CLOSEBOTTOMDOOR:
 		frame = { 1, 1 };
-		setValue(true, false, false, false);
+		setValue(true, false, false, false, false);
 		break;
 	case OBJECT::OBJ_NONE:
 		frame = { 0,0 };
-		setValue(false, false, false, true);
+		setValue(false, false, false, true, false);
 		break;
 	default:
 		break;
 	}
 }
 
-void CObstacle::setValue(bool move, bool bomb, bool bullet, bool pass)
+void CObstacle::setValue(bool move, bool bomb, bool bullet, bool pass, bool damage)
 {
 	isUnmovable = move;
 	isDestroyByBomb = bomb;
 	isDestroyByBullet = bullet;
 	isPassBullet = pass;
+	isDamage = damage;
 }

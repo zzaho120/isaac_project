@@ -43,7 +43,19 @@ AniAddList::AniAddList()
 	IMAGE->addFrameImage("objectTile", "images/map/objectTile.bmp", TILEWIDTH * 6, TILEHEIGHT * 3, 6, 3, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("monsterTile", "images/map/monsterTile.bmp", TILEWIDTH * 7, TILEHEIGHT, 7, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("roomTile", "images/map/roomTile.bmp", TILEWIDTH * 3, TILEHEIGHT, 3, 1, true, RGB(255, 0, 255));
-
+	IMAGE->addFrameImage("fireTilePlace", "images/map/fireplace.bmp", 64*1.5, 32*1.5, 2, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("fireTileEffect", "images/map/fire.bmp", 240*1.5, 50*1.5, 5, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("fireTileEffect2", "images/map/fire.bmp", 240*1.2, 50*1.2, 5, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("fireTileEffect3", "images/map/fire.bmp", 240*0.9, 50*0.9, 5, 1, true, RGB(255, 0, 255));
+	IMAGE->addFrameImage("fireTileEffect4", "images/map/fire.bmp", 240*0.6, 50*0.6, 5, 1, true, RGB(255, 0, 255));
+	ANIMATION->addAnimation("fireEffect", "fireTileEffect", 0, 4, 10, false, true);
+	ANIMATION->addAnimation("fireEffect2", "fireTileEffect2", 0, 4, 10, false, true);
+	ANIMATION->addAnimation("fireEffect3", "fireTileEffect3", 0, 4, 10, false, true);
+	ANIMATION->addAnimation("fireEffect4", "fireTileEffect4", 0, 4, 10, false, true);
+	ANIMATION->start("fireEffect");
+	ANIMATION->start("fireEffect2");
+	ANIMATION->start("fireEffect3");
+	ANIMATION->start("fireEffect4");
 	IMAGE->addFrameImage("minimapRoom", "images/map/minimap_room.bmp", MINIMAPROOMX * 3, MINIMAPROOMY, 3, 1, true, RGB(255, 0, 255));
 	IMAGE->addFrameImage("minimapMark", "images/map/minimap_special.bmp", MINIMAPROOMX * 5, MINIMAPROOMY, 5, 1, true, RGB(255, 0, 255));
 

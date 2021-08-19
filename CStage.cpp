@@ -61,6 +61,7 @@ void CStage::render()
 {
 	curRoom->render();
 	player->render();
+
 }
 
 void CStage::release()
@@ -96,7 +97,7 @@ void CStage::enter()
 
 	SOUND->play("bgm", 1.0f);
 
-	
+	(*STAGE->getCurStage()->getCurRoom()->getviObstacle(40))->setObjType(OBJECT::OBJ_FIREPLACE);
 
 }
 
