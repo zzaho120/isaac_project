@@ -102,6 +102,8 @@ void Player_Die::Enter()
 	count = 0;
 	CCharacter* character = m_pFSM->GetMon();
 	character->setAni(ANIMATION->findAnimation("playerisDie"));
+	if (SOUND->isPlaySound("bossfight"))
+		SOUND->stop("bossfight");
 	ANIMATION->start("playerisDie");
 	SOUND->play("playerdiesound");
 	SOUND->stop("bgm");

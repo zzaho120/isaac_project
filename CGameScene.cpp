@@ -53,6 +53,8 @@ void CGameScene::update()
 	{
 		if (InputManager->isOnceKeyDown(VK_SPACE))
 		{
+			if (SOUND->isPlaySound("bossfight"))
+				SOUND->stop("bossfight");
 			SOUND->stop("playerdiebgm");
 			init();
 		}
