@@ -23,13 +23,15 @@ private:
 	float height;
 	float bulletDamage;
 	float bulletSpeed;
+	float addAngle;
 
 	bool isMove;		// player move 
 	float playerspeed;
 	float playerMaxSpeed;
 	int playerfoward;	
 	int prevfoward;
-	
+	float moveDistance;
+
 	int headfoward;
 	int prevhead;
 	int movecount;

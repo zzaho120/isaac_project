@@ -29,9 +29,11 @@ void Mulligan_Idle::update()
 	CCharacter* pMon = m_pFSM->GetMon();
 	Move();
 	respawnCount++;
-	if (respawnCount > 200)
+	if (respawnCount == 200)
 	{
+		EFFECT->play("poofeffect", pMon->getPt().x, pMon->getPt().y);
 		ENEMY->respawn(MONSTER_TYPE::SMALLFLY, m_pFSM->GetMon()->getPt());
+		respawnCount = 0;
 	}
 	if (pMon->gethp() <= 0)
 	{

@@ -694,6 +694,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 						else
 						{
 							ITEM->respawnRandomBasicItem((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos());
+							EFFECT->play("poofeffect", (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().x, (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().y);
 						}
 					}
 					SOUND->play("tearblocksound");

@@ -53,6 +53,7 @@ void CGameScene::update()
 	{
 		if (InputManager->isOnceKeyDown(VK_SPACE))
 		{
+			SOUND->stop("playerdiebgm");
 			init();
 		}
 	}

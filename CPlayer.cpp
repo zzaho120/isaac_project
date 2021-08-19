@@ -12,6 +12,8 @@ CPlayer::CPlayer() :
 {
 	setAni(ANIMATION->findAnimation("down_head"));
 	theInnerEye = false;
+	moveDistance = 0;
+	addAngle = 0;
 }
 
 CPlayer::CPlayer(Vec2 _pos, RECT _rc, int _hp) :
