@@ -624,37 +624,28 @@ void collisionManager::stageCollision(CPlayer* _player)
 			bool ispbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
 			bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
 			bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
-			if (ispB)
+			if (ispB &&ispbcm &&ispbrm)
 			{
-				if (ispbcm)
-				{
-					if (ispbrm)
-					{
-						(*ENEMY->getvimonster(i))->sethp((*ENEMY->getvimonster(i))->gethp() - (*BULLET->getviBullet(j))->getDamage());
-						EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(j))->getcollider()->getPos().x, (*BULLET->getviBullet(j))->getcollider()->getPos().y);
-						BULLET->eraserBullet(j);
-						SOUND->play("tearblocksound");
-						break;
-					}
-				}
+				
+				(*ENEMY->getvimonster(i))->sethp((*ENEMY->getvimonster(i))->gethp() - (*BULLET->getviBullet(j))->getDamage());
+				EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(j))->getcollider()->getPos().x, (*BULLET->getviBullet(j))->getcollider()->getPos().y);
+				BULLET->eraserBullet(j);
+				SOUND->play("tearblocksound");
+				break;
 			}
 		}
 		bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
 		bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
-		if (playerIdle)
+		if (playerIdle && ispcm && ispsm)
 		{
-			if (ispcm)
-			{
-				if (ispsm)
-				{
-					//SOUND->addSound("playerhurt", "sound/체리.mp3", true, false);
-					//ENEMY->eraserEnemy(i);
-					_player->sethp(_player->gethp() - 1);
-					_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
-					SOUND->play("playerhurt",1.0f);
-					break;
-				}
-			}
+		
+			//SOUND->addSound("playerhurt", "sound/체리.mp3", true, false);
+			//ENEMY->eraserEnemy(i);
+			_player->sethp(_player->gethp() - 1);
+			_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
+			SOUND->play("playerhurt",1.0f);
+			break;
+				
 		}
 	}
 
@@ -674,76 +665,52 @@ void collisionManager::stageCollision(CPlayer* _player)
 			
 			bool isDestroyBullet = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getDestroyBullet();
 	
-			if (ispB)
+			if (ispB && isok && shadowBump )
 			{
-				if (isok)
+				if (isDestroyBullet)
 				{
-					if (shadowBump)
+					(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setStrength((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() - 1);
+					if ((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() == 0)
 					{
-						if (isDestroyBullet)
-						{
-							(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setStrength((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() - 1);
-							if ((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getStrength() <= 0)
-							{
-								SOUND->play("poopsound");
-								(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
-								EFFECT->play("poofeffect", (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().x, (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().y);
-							}
-							SOUND->play("tearblocksound");
-							EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-							BULLET->eraserBullet(i);
-							break;
-						}
-						else if (isObstacle)
-						{
-							if (!isPass)
-							{
-								SOUND->play("tearblocksound");
-								EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-								BULLET->eraserBullet(i);
-								break;
-							}
-						}
+						ITEM->respawnRandomBasicItem((*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos());
+						SOUND->play("poopsound");
+						(*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->setObjType(OBJECT::OBJ_NONE);
+						EFFECT->play("poofeffect", (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().x, (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider()->getPos().y);
 					}
+					SOUND->play("tearblocksound");
+					EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
+					BULLET->eraserBullet(i);
+					break;
 				}
-			}
-			else
-			{
-				if (isok)
+				else if (isObstacle)
 				{
-					if (shadowBump)
+					if (!isPass)
 					{
-						if (isObstacle)
-						{
-							if (!isPass)
-							{
-								SOUND->play("tearblocksound");
-								EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
-								BULLET->eraserBullet(i);
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		if (playerIdle)
-		{
-			if (ismB)
-			{
-				if (ismbcp)
-				{
-					if (ismbsp)
-					{
-						SOUND->play("playerhurt2");
-						EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
+						SOUND->play("tearblocksound");
+						EFFECT->play("playerbulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
 						BULLET->eraserBullet(i);
-						_player->sethp(_player->gethp() - 1);
-						_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
 						break;
 					}
 				}
 			}
+			else if (isok && shadowBump && isObstacle && !isPass)
+			{
+				
+				SOUND->play("tearblocksound");
+				EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
+				BULLET->eraserBullet(i);
+				break;
+			}
+		}
+		if (playerIdle && ismB && ismbcp && ismbsp)
+		{
+
+			SOUND->play("playerhurt2");
+			EFFECT->play("enemybulleteffect", (*BULLET->getviBullet(i))->getcollider()->getPos().x, (*BULLET->getviBullet(i))->getcollider()->getPos().y);
+			BULLET->eraserBullet(i);
+			_player->sethp(_player->gethp() - 1);
+			_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
+			break;
 		}
 	}
 }

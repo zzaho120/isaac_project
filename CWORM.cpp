@@ -16,7 +16,7 @@ HRESULT CWORM::init(float x, float y)
 
 	CCharacter::init({ x,y }, // make pos
 		RectMakeCenter(x, y, IMAGE->findImage("worm")->getFrameWidth(), IMAGE->findImage("worm")->getFrameHeight()), //rc
-		{ x, y }, { 30,30 }, //collider
+		{ x, y }, { 50,50 }, //collider
 		10,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("worm")->getFrameWidth(),IMAGE->findImage("worm")->getFrameWidth() / 3 }, // collider.shadow
 		10);//hp

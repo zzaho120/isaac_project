@@ -21,7 +21,7 @@ HRESULT Csmallfly::init(float x, float y)
 
 	CCharacter::init({ x,y }, // make pos
 		RectMakeCenter(x, y, IMAGE->findImage("smallfly")->getFrameWidth(), IMAGE->findImage("smallfly")->getFrameHeight()), //rc
-		{x, y }, { 18,18 }, //collider
+		{x, y }, { 30,30 }, //collider
 		36,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("smallfly")->getFrameWidth(),IMAGE->findImage("smallfly")->getFrameWidth() / 3 }, // collider.shadow
 		10);//hp
@@ -38,11 +38,13 @@ void Csmallfly::release()
 
 void Csmallfly::update()
 {
-	AI_update();
+
 	COLLISION->wallCollision(pt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
 	rc = RectMakeCenter(pt, IMAGE->findImage("smallfly")->getFrameWidth(), IMAGE->findImage("smallfly")->getFrameHeight());
 	collider->setPos({ RectX(rc), RectY(rc) });
 	colliderShadow->setPos({ RectX(rc), RectY(rc) + shadowdistance });
+
+	AI_update();
 }
 
 void Csmallfly::render()

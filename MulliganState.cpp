@@ -9,6 +9,7 @@
 Mulligan_Idle::Mulligan_Idle()
 {
 	m_eState = STATE_TYPE::IDLE;
+	respawnCount = 0;
 }
 
 Mulligan_Idle::~Mulligan_Idle()
@@ -27,7 +28,11 @@ void Mulligan_Idle::update()
 {
 	CCharacter* pMon = m_pFSM->GetMon();
 	Move();
-
+	respawnCount++;
+	if (respawnCount > 200)
+	{
+		ENEMY->respawn(MONSTER_TYPE::SMALLFLY, m_pFSM->GetMon()->getPt());
+	}
 	if (pMon->gethp() <= 0)
 	{
 		m_pFSM->ChangeState(STATE_TYPE::DEAD);
@@ -320,6 +325,7 @@ void Mulligan_Die::update()
 
 void Mulligan_Die::Enter()
 {
+	ENEMY->respawn(MONSTER_TYPE::SMALLFLY, m_pFSM->GetMon()->getPt());
 }
 
 void Mulligan_Die::Exit()

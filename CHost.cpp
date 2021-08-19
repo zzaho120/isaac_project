@@ -20,7 +20,7 @@ HRESULT CHost::init(float x, float y)
 		{ x, y }, { 50,50 }, //collider
 		27,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("host")->getFrameWidth(),IMAGE->findImage("host")->getFrameWidth() / 3 }, // collider.shadow
-		10);//hp
+		7);//hp
 	IMAGE->addImage("shadowHost", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::HOST);

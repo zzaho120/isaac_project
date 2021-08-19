@@ -22,11 +22,11 @@ void itemManager::release()
 
 void itemManager::update()
 {
-    iItem = item.begin();
-    for (iItem; iItem < item.end(); ++iItem)
-    {
-        (*iItem)->update();
-    }
+    //iItem = item.begin();
+    //for (iItem; iItem < item.end(); ++iItem)
+    //{
+    //    (*iItem)->update();
+    //}
     viuseItem = useItem.begin();
     for (viuseItem; viuseItem < useItem.end(); ++viuseItem)
     {
@@ -126,7 +126,7 @@ void itemManager::useItemRemove(int number)
 void itemManager::respawnRandomBasicItem(vector2 pos)
 {
     CItem* _item;
-    int random = RND->getFromIntTo(0, 3);
+    int random = RND->getFromIntTo(0, 6);
     switch (random)
     {
     case 0:
@@ -142,7 +142,7 @@ void itemManager::respawnRandomBasicItem(vector2 pos)
         _item = new CKey(pos);
         break;
     default:
-        break;
+        return;
     }
     item.push_back(_item);
 }

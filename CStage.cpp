@@ -30,6 +30,31 @@ void CStage::update()
 	COLLISION->isMonsterDie();
 	COLLISION->isBossDie();
 	nextStage();
+
+	if (InputManager->isOnceKeyDown('Z'))
+	{
+		ENEMY->eraserAllEnemy();
+	}
+	if (InputManager->isOnceKeyDown('H'))
+	{
+		ITEM->respawnItem(ITEM_TYPE::ITEM_MOMSLIPSTICK, { MAPSIZEX / 2,MAPSIZEY / 2 });
+	}
+	if (InputManager->isOnceKeyDown('J'))
+	{
+		ITEM->respawnItem(ITEM_TYPE::ITEM_BLOODBAG, { MAPSIZEX / 2,MAPSIZEY / 2 });
+	}
+	if (InputManager->isOnceKeyDown('K'))
+	{
+		ITEM->respawnItem(ITEM_TYPE::ITEM_PENTAGRAM, { MAPSIZEX / 2,MAPSIZEY / 2 });
+	}
+	if (InputManager->isOnceKeyDown('L'))
+	{
+		ITEM->respawnItem(ITEM_TYPE::ITEM_SPEEDBALL, { MAPSIZEX / 2,MAPSIZEY / 2 });
+	}
+	if (InputManager->isOnceKeyDown('G'))
+	{
+		ITEM->respawnItem(ITEM_TYPE::ITEM_THEINNEREYE, { MAPSIZEX / 2,MAPSIZEY / 2 });
+	}
 }
 
 void CStage::render()
@@ -70,6 +95,9 @@ void CStage::enter()
 	ITEM->setPlayer(player);
 
 	SOUND->play("bgm", 1.0f);
+
+	
+
 }
 
 void CStage::exit()

@@ -9,6 +9,7 @@ private:
 	int count;
 	int movetime;
 	int foward;
+	int respawnCount;
 	bool anistart;
 
 	void Move();

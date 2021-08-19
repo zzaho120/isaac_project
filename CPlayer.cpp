@@ -96,6 +96,18 @@ void CPlayer::update()
 	rc = RectMakeCenter(collider->getPos(), PLAYERWIDTH, PLAYERHEIGHT);
 
 	playerGetItem();
+
+	if (InputManager->isOnceKeyDown('X'))
+	{
+		hp = maxHp;
+	}
+	if (InputManager->isOnceKeyDown('C'))
+	{
+		coin = 99;
+		bomb = 99;
+		key = 99;
+	}
+	
 	AI_update();
 }
 
@@ -318,35 +330,39 @@ void CPlayer::fire()
 	if (fireCnt >= floor (100 / (30/tdelay))) fireCnt = floor (100 / (30 / tdelay));
 	bool isFire = false;
 
-	if (InputManager->isStayKeyDown(VK_UP))
+	bool isUp = InputManager->isStayKeyDown(VK_UP);
+	bool isDown = InputManager->isStayKeyDown(VK_DOWN);
+	bool isLeft = InputManager->isStayKeyDown(VK_LEFT);
+	bool isRight = InputManager->isStayKeyDown(VK_RIGHT);
+	if (isUp && !isDown && !isLeft && !isRight)
 	{
 		headfoward = FOWARD::UP;
 		fireAngle = PI_2;
 		firePt = { pt.x, static_cast<float>(rc.top - 20) };
 		isFire = true;
 	}
-	else if (InputManager->isStayKeyDown(VK_DOWN))
+	if (!isUp && isDown && !isLeft && !isRight)
 	{
 		headfoward = FOWARD::DOWN;
 		fireAngle = PI + PI_2;
 		firePt = { pt.x, static_cast<float>(rc.bottom - 20) }; 
 		isFire = true;
 	}
-	else if (InputManager->isStayKeyDown(VK_LEFT))
+	if (!isUp && !isDown && isLeft && !isRight)
 	{
 		headfoward = FOWARD::LEFT;
 		fireAngle = PI;
 		firePt = { static_cast<float>(rc.left), static_cast<float>(rc.top) };
 		isFire = true;
 	}
-	else if (InputManager->isStayKeyDown(VK_RIGHT))
+	if (!isUp && !isDown && !isLeft && isRight)
 	{
 		headfoward = FOWARD::RIGHT;
 		fireAngle = PI2;
 		firePt = { static_cast<float>(rc.right), static_cast<float>(rc.top) };
 		isFire = true;
 	}
-	else
+	if (!isUp && !isDown && !isLeft && !isRight)
 	{
 		isFire = false;
 	}
@@ -390,13 +406,17 @@ void CPlayer::UseBomb()
 
 void CPlayer::setAnimation()
 {
-	
+	bool isUp = InputManager->isStayKeyDown(VK_UP);
+	bool isDown = InputManager->isStayKeyDown(VK_DOWN);
+	bool isLeft = InputManager->isStayKeyDown(VK_LEFT);
+	bool isRight = InputManager->isStayKeyDown(VK_RIGHT);
+
 	if (headfoward != prevhead)
 	{
 		atkani = 0;
 		prevhead = headfoward;
 	}
-	if (InputManager->isStayKeyDown(VK_UP))
+	if (isUp && !isDown && !isLeft && !isRight)
 	{
 		if (atkani % 30 == 0)
 		{
@@ -404,7 +424,7 @@ void CPlayer::setAnimation()
 			ANIMATION->start("up_head");
 		}
 	}
-	else if (InputManager->isStayKeyDown(VK_DOWN))
+	if (!isUp && isDown && !isLeft && !isRight)
 	{
 		if (atkani % 30 == 0)
 		{
@@ -412,7 +432,7 @@ void CPlayer::setAnimation()
 			ANIMATION->start("down_head");
 		}
 	}
-	else if (InputManager->isStayKeyDown(VK_LEFT))
+	if (!isUp && !isDown && isLeft && !isRight)
 	{
 		if (atkani % 30 == 0)
 		{
@@ -420,7 +440,7 @@ void CPlayer::setAnimation()
 			ANIMATION->start("left_head");
 		}
 	}
-	else if (InputManager->isStayKeyDown(VK_RIGHT))
+	if (!isUp && !isDown && !isLeft && isRight)
 	{
 		if (atkani % 30 == 0)
 		{
@@ -428,7 +448,7 @@ void CPlayer::setAnimation()
 			ANIMATION->start("right_head");
 		}
 	}
-	else
+	if (isUp + isDown + isLeft + isRight  >= 2 || isUp + isDown + isLeft + isRight == 0)
 	{
 		if (atkani % 30 == 0)
 		{
@@ -494,7 +514,7 @@ void CPlayer::playerGetItem()
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), collider);
 		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(),colliderShadow);
-		if (isIbcp && isIbsp)
+		if (isIbcp)
 		{
 			switch ((*ITEM->getviItem(i))->getItemType())
 			{
@@ -543,7 +563,6 @@ void CPlayer::playerGetItem()
 				setInnerEye(true);
 				tearDelay -= 0.2;
 				ITEM->itemRemove(i);
-				ITEM->respawnItem(ITEM_TYPE::ITEM_COIN, { 250, 300 });
 				break;
 			case ITEM_TYPE::ITEM_MOMSLIPSTICK:
 				SOUND->play("getitem");

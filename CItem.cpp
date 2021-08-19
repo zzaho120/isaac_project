@@ -31,7 +31,7 @@ CHeart::CHeart()
 CHeart::CHeart(vector2 _pt)
 {
 	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 5 }, { 30, 10 });
+	CObject::init(_pt, rc, _pt, { 30 ,30 }, 5, { _pt.x , _pt.y + 5 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_HEART;
 }
 
@@ -63,7 +63,7 @@ CCoin::CCoin()
 CCoin::CCoin(vector2 _pt)
 {
 	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 5 }, { 30, 10 });
+	CObject::init(_pt, rc, _pt, { 30 ,30 }, 5, { _pt.x , _pt.y + 5 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_COIN;
 	ani = ANIMATION->findAnimation("coinani");
 	ANIMATION->start("coinani");
@@ -98,7 +98,7 @@ CBomb::CBomb()
 CBomb::CBomb(vector2 _pt)
 {
 	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 10 }, { 30, 10 });
+	CObject::init(_pt, rc, _pt, { 30 ,30 }, 5, { _pt.x , _pt.y + 10 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_BOMB;
 }
 
@@ -131,7 +131,7 @@ CKey::CKey()
 CKey::CKey(vector2 _pt)
 {
 	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 10 }, { 30, 10 });
+	CObject::init(_pt, rc, _pt, { 30 ,30 }, 5, { _pt.x , _pt.y + 10 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_KEY;
 }
 
@@ -163,8 +163,8 @@ CInnerEye::CInnerEye()
 
 CInnerEye::CInnerEye(vector2 _pt)
 {
-	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
+	rc = RectMakeCenter(_pt, 60, 60);
+	CObject::init(_pt, rc, _pt, { 60 ,60 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_THEINNEREYE;
 }
 
@@ -183,7 +183,7 @@ void CInnerEye::release()
 
 void CInnerEye::render()
 {
-	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
 	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
@@ -196,8 +196,8 @@ CLipstick::CLipstick()
 
 CLipstick::CLipstick(vector2 _pt)
 {
-	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
+	rc = RectMakeCenter(_pt, 30*2, 30*2);
+	CObject::init(_pt, rc, _pt, { 60 ,60 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_MOMSLIPSTICK;
 }
 
@@ -216,7 +216,7 @@ void CLipstick::release()
 
 void CLipstick::render()
 {
-	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
 	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
@@ -229,8 +229,8 @@ CPentagram::CPentagram()
 
 CPentagram::CPentagram(vector2 _pt)
 {
-	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
+	rc = RectMakeCenter(_pt, 60, 60);
+	CObject::init(_pt, rc, _pt, { 60 ,60 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_PENTAGRAM;
 }
 
@@ -249,7 +249,7 @@ void CPentagram::release()
 
 void CPentagram::render()
 {
-	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
 	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
@@ -262,8 +262,8 @@ CBloodbag::CBloodbag()
 
 CBloodbag::CBloodbag(vector2 _pt)
 {
-	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
+	rc = RectMakeCenter(_pt, 60, 60);
+	CObject::init(_pt, rc, _pt, { 60 ,60 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_BLOODBAG;
 }
 
@@ -282,7 +282,7 @@ void CBloodbag::release()
 
 void CBloodbag::render()
 {
-	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
 	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
@@ -295,8 +295,8 @@ CSpeedBall::CSpeedBall()
 
 CSpeedBall::CSpeedBall(vector2 _pt)
 {
-	rc = RectMakeCenter(_pt, 30, 30);
-	CObject::init(_pt, rc, _pt, { 20 ,20 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
+	rc = RectMakeCenter(_pt, 60, 60);
+	CObject::init(_pt, rc, _pt, { 60 ,60 }, 5, { _pt.x , _pt.y + 20 }, { 30, 10 });
 	type = ITEM_TYPE::ITEM_SPEEDBALL;
 }
 
@@ -315,7 +315,7 @@ void CSpeedBall::release()
 
 void CSpeedBall::render()
 {
-	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
+	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
 	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);

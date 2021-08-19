@@ -324,7 +324,7 @@ void Worm_Die::update()
 
 void Worm_Die::Enter()
 {
-	ITEM->respawnRandomBasicItem(m_pFSM->GetMon()->GetcolliderShadow()->getPos());
+
 }
 
 void Worm_Die::Exit()

@@ -18,10 +18,10 @@ HRESULT CHopper::init(float x, float y)
 
 	CCharacter::init({ x,y }, // make pos
 		RectMakeCenter(x, y, IMAGE->findImage("hopper")->getFrameWidth(), IMAGE->findImage("hopper")->getFrameHeight()), //rc
-		{ x, y }, { 30,30 }, //collider
+		{ x, y }, { 50,50 }, //collider
 		30,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("hopper")->getFrameWidth(),IMAGE->findImage("hopper")->getFrameWidth() / 3 }, // collider.shadow
-		10);//hp
+		6);//hp
 	IMAGE->addImage("shadowHopper", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::HOPPER);
