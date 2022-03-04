@@ -90,7 +90,7 @@ bool collisionManager::isCollision(RECT _left, RECT _right)
 }
 
 
-int collisionManager::whereAreYouGoing(float& _prevX, float& _prevY, float _x, float _y)
+int collisionManager::directionByCollision(float& _prevX, float& _prevY, float _x, float _y)
 {
 	float incrementX = _x - _prevX;
 	float incrementY = _y - _prevY;
@@ -134,7 +134,7 @@ int collisionManager::whereAreYouGoing(float& _prevX, float& _prevY, float _x, f
 	}
 }
 
-int collisionManager::whereAreYouGoing(vector2& _prevPt, vector2 _Pt)
+int collisionManager::directionByCollision(vector2& _prevPt, vector2 _Pt)
 {
 	float incrementX = _Pt.x - _prevPt.x;
 	float incrementY = _Pt.y - _prevPt.y;
@@ -574,25 +574,25 @@ DOOR_DIRECTION collisionManager::doorCollision(CMap* _map, CPlayer* _player)
 {
 	if (_map->getvObstacle()[7]->getObjType() == OBJECT::OBJ_TOPDOOR)
 	{
-		if (isCollision(_map->getvObstacle()[7]->getcollider(), _player->GetcolliderShadow()))
+		if (isCollision(_map->getvObstacle()[7]->getcollider(), _player->getcolliderShadow()))
 			return DOOR_DIRECTION::TOP;
 	}
 	
 	if (_map->getvObstacle()[60]->getObjType() == OBJECT::OBJ_LEFTDOOR)
 	{
-		if (isCollision(_map->getvObstacle()[60]->getcollider(), _player->GetcolliderShadow()))
+		if (isCollision(_map->getvObstacle()[60]->getcollider(), _player->getcolliderShadow()))
 			return DOOR_DIRECTION::LEFT;
 	}
 
 	if (_map->getvObstacle()[74]->getObjType() == OBJECT::OBJ_RIGHTDOOR)
 	{
-		if (isCollision(_map->getvObstacle()[74]->getcollider(), _player->GetcolliderShadow()))
+		if (isCollision(_map->getvObstacle()[74]->getcollider(), _player->getcolliderShadow()))
 			return DOOR_DIRECTION::RIGHT;
 	}
 
 	if (_map->getvObstacle()[127]->getObjType() == OBJECT::OBJ_BOTTOMDOOR)
 	{
-		if (isCollision(_map->getvObstacle()[127]->getcollider(), _player->GetcolliderShadow()))
+		if (isCollision(_map->getvObstacle()[127]->getcollider(), _player->getcolliderShadow()))
 			return DOOR_DIRECTION::BOTTOM;
 	}
 	return DOOR_DIRECTION::END;
@@ -604,7 +604,7 @@ bool collisionManager::goalCollision(CMap* _map, CPlayer* player)
 	{
 		if (_map->getvObstacle()[i]->getObjType() == OBJECT::OBJ_GOAL)
 		{
-			if (isCollision(_map->getvObstacle()[i]->getcollider(), player->GetcolliderShadow()))
+			if (isCollision(_map->getvObstacle()[i]->getcollider(), player->getcolliderShadow()))
 				return true;
 			break;
 		}
@@ -615,14 +615,14 @@ bool collisionManager::goalCollision(CMap* _map, CPlayer* player)
 void collisionManager::stageCollision(CPlayer* _player)
 {
 	bool playerIdle = _player->getstate() == STATE_TYPE::IDLE;
-	ENEMY->SetPlayer(_player);
+	ENEMY->setPlayer(_player);
 
 	for (int i = 0; i < ENEMY->getvmonster().size(); i++)		//playerBullet and monster collision
 	{
 		for (int j = 0; j < BULLET->getvBullet().size(); j++)
 		{
 			bool ispbcm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-			bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
+			bool ispbrm = COLLISION->isCollision((*BULLET->getviBullet(j))->getcolliderShadow(), (*ENEMY->getvimonster(i))->getcolliderShadow());
 			bool ispB = (*BULLET->getviBullet(j))->gettype() == CHARACTER::PLAYER;
 			if (ispB &&ispbcm &&ispbrm)
 			{
@@ -635,12 +635,9 @@ void collisionManager::stageCollision(CPlayer* _player)
 			}
 		}
 		bool ispcm = COLLISION->isCollision(_player->getcollider(), (*ENEMY->getvimonster(i))->getcollider());
-		bool ispsm = COLLISION->isCollision(_player->GetcolliderShadow(), (*ENEMY->getvimonster(i))->GetcolliderShadow());
+		bool ispsm = COLLISION->isCollision(_player->getcolliderShadow(), (*ENEMY->getvimonster(i))->getcolliderShadow());
 		if (playerIdle && ispcm && ispsm)
 		{
-		
-			//SOUND->addSound("playerhurt", "sound/Ã¼¸®.mp3", true, false);
-			//ENEMY->eraserEnemy(i);
 			_player->sethp(_player->gethp() - 1);
 			_player->getAI()->ChangeState(STATE_TYPE::ATTACK);
 			SOUND->play("playerhurt",1.0f);
@@ -651,7 +648,7 @@ void collisionManager::stageCollision(CPlayer* _player)
 	for (int i = 0; i < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); i++)
 	{
 		bool isDamageTile = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getDamage();
-		bool isCollisionTile = COLLISION->isCollision((*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getcollider(), _player->getcollider());
+		bool isCollisionTile = COLLISION->isCollision((*STAGE->getCurStage()->getCurRoom()->getviObstacle(i))->getcollider(), _player->getcolliderShadow());
 		if (playerIdle && isDamageTile && isCollisionTile)
 		{
 			_player->sethp(_player->gethp() - 1);
@@ -663,12 +660,12 @@ void collisionManager::stageCollision(CPlayer* _player)
 	for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and obstacle
 	{
 		bool ismbcp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), _player->getcollider());
-		bool ismbsp = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), _player->GetcolliderShadow());
+		bool ismbsp = COLLISION->isCollision((*BULLET->getviBullet(i))->getcolliderShadow(), _player->getcolliderShadow());
 		bool ismB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::MONSTER;
 		for (int j = 0; j < STAGE->getCurStage()->getCurRoom()->getvObstacle().size(); j++)
 		{
 			bool colliderBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcollider(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
-			bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->GetcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
+			bool shadowBump = COLLISION->isCollision((*BULLET->getviBullet(i))->getcolliderShadow(), (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getcollider());
 			bool isObstacle = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getObjType() != OBJECT::OBJ_NONE ;
 			bool isPass = (*STAGE->getCurStage()->getCurRoom()->getviObstacle(j))->getPassBullet();
 			bool ispB = (*BULLET->getviBullet(i))->gettype() == CHARACTER::PLAYER;

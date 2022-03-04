@@ -51,7 +51,7 @@ void CHeart::release()
 void CHeart::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 	
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("heartitem", getMemDC(), rec.left, rec.top,0,0);
@@ -85,7 +85,7 @@ void CCoin::release()
 void CCoin::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 30, 30);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->findImage("coin")->aniRender(getMemDC(), rec.left, rec.top, ani);
@@ -118,7 +118,7 @@ void CBomb::release()
 void CBomb::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 45, 45);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 	
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("bomb", getMemDC(), rec.left, rec.top, 0, 0);
@@ -151,7 +151,7 @@ void CKey::release()
 void CKey::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 45, 45);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("key", getMemDC(), rec.left, rec.top, 0, 0);
@@ -184,7 +184,7 @@ void CInnerEye::release()
 void CInnerEye::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("passiveitem", getMemDC(), rec.left, rec.top, 0, 0);
@@ -217,7 +217,7 @@ void CLipstick::release()
 void CLipstick::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("passiveitem", getMemDC(), rec.left, rec.top, 1, 0);
@@ -250,7 +250,7 @@ void CPentagram::release()
 void CPentagram::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("passiveitem", getMemDC(), rec.left, rec.top, 2, 0);
@@ -283,7 +283,7 @@ void CBloodbag::release()
 void CBloodbag::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("passiveitem", getMemDC(), rec.left, rec.top, 3, 0);
@@ -316,7 +316,7 @@ void CSpeedBall::release()
 void CSpeedBall::render()
 {
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 60, 60);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("passiveitem", getMemDC(), rec.left, rec.top, 4, 0);

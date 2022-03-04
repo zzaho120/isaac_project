@@ -16,16 +16,16 @@ private:
 	int maxHp;
 	int coin;
 
-	
-
-	int bulletsize; 			// bullet infomation
+	// bullet infomation
+	int bulletsize; 			
 	float bulletdistance;
 	float height;
 	float bulletDamage;
 	float bulletSpeed;
 	float addAngle;
 
-	bool isMove;		// player move 
+	// player move 
+	bool isMove;		
 	float playerspeed;
 	float playerMaxSpeed;
 	int playerfoward;	
@@ -45,8 +45,6 @@ private:
 	animation* ani_body;
 	int atkani;
 
-	CMap* room;
-
 	bool theInnerEye;
 public:
 	CPlayer();
@@ -58,35 +56,40 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void Move();
-	void _slide();
+	//player Act
+	void move();
+	void slide();
 	void fire();
 	void UseBomb();
+
+	//player animation
 	void setAnimation();
 	void setAnimationbody();
 
-	void setRoomLink(CMap* _room) { room = _room; }
 
-	int GetFoward() { return playerfoward; }
+	//void setRoomLink(CMap* _room) { room = _room; }
+	int getFoward() { return playerfoward; }
 	
-
+	// player get Item
 	void playerGetItem();
 	int getMaxHp() { return maxHp; }
 	int getCoin() { return coin; }
 	int getBomb() { return bomb; }
 	int getKey() { return key; }
 
+	// player get item but cant over maximum
+	void cantHpOver();
 	void cantCoinOver() { if (coin >= 99)  coin = 99; }
 	void cantBombOver() { if (bomb >= 99)  bomb = 99; }
 	void cantKeyOver() { if (key >= 99)  key = 99; }
-	void cantBSizeOver() { if (bulletsize >= 99) bulletsize = 99;}
-	void cantBDistanceOver() { if (bulletdistance >= 400) bulletdistance = 400; }
-	void cantBDamageOver() { if (bulletDamage >= 5) bulletDamage = 5; }
-	void cantSpeedOver() { if (playerMaxSpeed >= 10) playerMaxSpeed = 10; }
+	void cantBulletSizeOver() { if (bulletsize >= 99) bulletsize = 99;}
+	void cantBulletDistanceOver() { if (bulletdistance >= 400) bulletdistance = 400; }
+	void cantBulletDamageOver() { if (bulletDamage >= 5) bulletDamage = 5; }
 	void cantBulletSpeedOver() { if (bulletSpeed >= 10)bulletSpeed = 10; }
+	void cantSpeedOver() { if (playerMaxSpeed >= 10) playerMaxSpeed = 10; }
 
 	bool isFullHp();
-	void cantHpOver();
-
+	
+	//Item
 	void setInnerEye(bool _istrue) { theInnerEye = _istrue; }
 };

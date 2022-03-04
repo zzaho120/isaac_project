@@ -41,10 +41,10 @@ public:
 	animation* getAni() { return ani; }
 
 	CCollider* getcollider() { return collider; }
-	CCollider* GetcolliderShadow() { return colliderShadow; }
+	CCollider* getcolliderShadow() { return colliderShadow; }
 	float getshadowdistance() { return shadowdistance; }
 	void setshadowdistance(float distance) { shadowdistance = distance; }
-	int GetFoward() { return foward; }
+	int getFoward() { return foward; }
 
 	int getMoveCount() { return moveCount; }
 	void setMoveCount(int _moveCount) { moveCount = _moveCount; }

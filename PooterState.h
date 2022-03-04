@@ -17,7 +17,7 @@ class Fly_Idle : public CState
 
 	bool idle;
 
-	void Move();
+	void move();
 	bool inrange(int range, vector2 pt);
 
 public:

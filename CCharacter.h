@@ -5,7 +5,7 @@ class CFSM;
 class CCharacter : public CObject
 {
 protected:
-	int				hp;
+	int	hp;
 
 	CFSM* m_pAI;
 	vector<CFSM*> vAI;

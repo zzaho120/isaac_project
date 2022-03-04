@@ -119,7 +119,7 @@ void CUseBomb::render()
 		}
 	}
 	RECT rec = RectMakeCenter(getcollider()->getPos(), 45, 45);
-	RECT recshadow = RectMakeCenter(GetcolliderShadow()->getPos(), 30, 10);
+	RECT recshadow = RectMakeCenter(getcolliderShadow()->getPos(), 30, 10);
 
 	IMAGE->render("itemshadow", getMemDC(), recshadow.left, recshadow.top);
 	IMAGE->frameRender("bomb", getMemDC(), rec.left, rec.top, 0, 0);

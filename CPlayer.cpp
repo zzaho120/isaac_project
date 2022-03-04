@@ -35,7 +35,7 @@ HRESULT CPlayer::init()
 		RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, PLAYERWIDTH, PLAYERHEIGHT), //rc
 		{ WINSIZEX / 2, WINSIZEY / 2 }, { PLAYERWIDTH,PLAYERWIDTH }, //collider
 		IMAGE->findImage("isaac")->getFrameHeight()/2,	//collider -> shadow distance
-		{ WINSIZEX / 2, WINSIZEY / 2 + shadowdistance }, { PLAYERWIDTH,PLAYERWIDTH / 3 }, // collider.shadow
+		{ WINSIZEX / 2, WINSIZEY / 2 + shadowdistance }, { PLAYERWIDTH/3 * 2,PLAYERWIDTH / 3 }, // collider.shadow
 		10);//hp
 	IMAGE->addImage("shadowPlayer", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
@@ -84,7 +84,7 @@ void CPlayer::update()
 {
 	if (getstate() == STATE_TYPE::IDLE || getstate() == STATE_TYPE::ATTACK)
 	{
-		Move();
+		move();
 		fire();
 		UseBomb();
 	}
@@ -162,7 +162,7 @@ void CPlayer::render()
 	}
 }
 
-void CPlayer::Move()
+void CPlayer::move()
 {
 	if (InputManager->isStayKeyDown('S') && InputManager->isStayKeyDown('A'))
 	{
@@ -236,7 +236,7 @@ void CPlayer::Move()
 	}
 	else
 	{
-		_slide();
+		slide();
 		playerspeed = 0;
 	}
 	if (prevfoward != playerfoward)
@@ -259,7 +259,7 @@ void CPlayer::Move()
 	
 		
 
-void CPlayer::_slide()
+void CPlayer::slide()
 {
 	movenatual++;
 	if (movecount > 0)
@@ -515,7 +515,7 @@ void CPlayer::playerGetItem()
 	for (int i = 0; i < ITEM->getItem().size(); i++)
 	{
 		bool isIbcp = COLLISION->isCollision((*ITEM->getviItem(i))->getcollider(), collider);
-		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->GetcolliderShadow(),colliderShadow);
+		bool isIbsp = COLLISION->isCollision((*ITEM->getviItem(i))->getcolliderShadow(),colliderShadow);
 		if (isIbcp)
 		{
 			switch ((*ITEM->getviItem(i))->getItemType())

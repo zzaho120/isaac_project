@@ -27,7 +27,7 @@ void Mulligan_Idle::Enter()
 void Mulligan_Idle::update()
 {
 	CCharacter* pMon = m_pFSM->GetMon();
-	Move();
+	move();
 	respawnCount++;
 	if (respawnCount == 200)
 	{
@@ -50,7 +50,7 @@ void Mulligan_Idle::Exit()
 {
 }
 
-void Mulligan_Idle::Move()
+void Mulligan_Idle::move()
 {
 	CObject* pMon = m_pFSM->GetMon();
 	RECT rec = pMon->getRC();

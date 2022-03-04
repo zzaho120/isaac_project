@@ -90,9 +90,7 @@ void CStage::enter()
 	ALLUI->getMinimap()->setRND(rnd);
 	ALLUI->getMinimap()->mapAttrSetting();
 	
-	ENEMY->SetPlayer(player);
-	player->setRoomLink(curRoom);
-
+	ENEMY->setPlayer(player);
 	ITEM->setPlayer(player);
 
 	SOUND->play("bgm", 1.0f);

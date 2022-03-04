@@ -44,7 +44,7 @@ void CMulligan::update()
 	vector2 rcPt;
 	rcPt.x = RectX(rc);
 	rcPt.y = RectY(rc)+shadowdistance;
-	foward = COLLISION->whereAreYouGoing(prevPt, rcPt);
+	foward = COLLISION->directionByCollision(prevPt, rcPt);
 	COLLISION->tileCollision(STAGE->getCurStage()->getCurRoom(), rcPt, prevPt, foward , 0);
 	COLLISION->wallCollision(rcPt, { MAPSTARTX + TILEWIDTH, MAPSTARTY + TILEHEIGHT }, TILESIZEX - TILEWIDTH * 2, TILESIZEY - TILEHEIGHT * 2);
 	collider->setPos({ rcPt.x, rcPt.y - shadowdistance });

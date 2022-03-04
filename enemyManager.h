@@ -65,7 +65,7 @@ public:
 	vminion getvmonster() { return _vminion; }
 	viminion getvimonster(int number);
 
-	void SetPlayer(CPlayer* _player) { player = _player; }
+	void setPlayer(CPlayer* _player) { player = _player; }
 	CPlayer* GetPlayer() { return player; }
 
 	//void bossDie();

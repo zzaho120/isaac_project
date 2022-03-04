@@ -31,7 +31,7 @@ CObstacle::CObstacle(CObstacle* copy)
 	pt = copy->getPt();
 	rc = copy->getRC();
 	collider = copy->getcollider();
-	colliderShadow = copy->GetcolliderShadow();
+	colliderShadow = copy->getcolliderShadow();
 }
 
 CObstacle::~CObstacle()

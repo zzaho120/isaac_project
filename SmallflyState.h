@@ -16,7 +16,7 @@ private:
 
 	bool idle;
 
-	void Move();
+	void move();
 	bool Inrange(int range, vector2 pt);
 
 public:

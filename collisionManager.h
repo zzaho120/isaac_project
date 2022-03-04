@@ -18,8 +18,8 @@ public:
 	bool isCollision(RECT _left, RECT _right);
 	//bool isRectCollision(RECT smallRc, RECT bigRc);
 
-	int whereAreYouGoing(float& _prevX, float& _prevY, float _x, float _y);
-	int whereAreYouGoing(vector2& _prevPt, vector2 _Pt);
+	int directionByCollision(float& _prevX, float& _prevY, float _x, float _y);
+	int directionByCollision(vector2& _prevPt, vector2 _Pt);
 	
 	bool tileCollision(CMap* _map, vector2& _pt, vector2& _prevPt, int _foward , int _type);
 	bool wallCollision(vector2& _objectPt, vector2 _startPt, float _sizeX, float _sizeY);

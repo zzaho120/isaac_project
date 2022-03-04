@@ -28,7 +28,7 @@ void Smallfly_Idle::Enter()
 
 void Smallfly_Idle::update()
 {
-	Move();
+	move();
 	CCharacter* pMon = m_pFSM->GetMon();
 	if (pMon->gethp() <= 0)
 	{
@@ -44,7 +44,7 @@ void Smallfly_Idle::Exit()
 {
 }
 
-void Smallfly_Idle::Move()
+void Smallfly_Idle::move()
 {
 	CObject* pMon = m_pFSM->GetMon();
 	RECT rec = pMon->getRC();

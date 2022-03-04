@@ -4,12 +4,11 @@
 class CMonster : public CCharacter
 {
 protected:
-
 	MONSTER_TYPE monsterType;
 private:
 	
 public:
-	CMonster();
+	CMonster() { }
 
 	virtual HRESULT init(float x , float y ) = 0;
 	virtual void release() = 0;
@@ -18,4 +17,6 @@ public:
 
 	void setMonster_Type(MONSTER_TYPE number) { monsterType = number; }
 	MONSTER_TYPE getMonster_Type() { return monsterType; }
+
+
 };

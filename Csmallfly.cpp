@@ -17,14 +17,13 @@ HRESULT Csmallfly::init(float x, float y)
 	ANIMATION->start("smallflyani");
 
 	RECT rc = RectMakeCenter(x, y, IMAGE->findImage("smallfly")->getFrameWidth(), IMAGE->findImage("smallfly")->getFrameHeight());
-	hp = 8;
 
 	CCharacter::init({ x,y }, // make pos
 		RectMakeCenter(x, y, IMAGE->findImage("smallfly")->getFrameWidth(), IMAGE->findImage("smallfly")->getFrameHeight()), //rc
 		{x, y }, { 30,30 }, //collider
 		36,	//collider -> shadow distance
 		{ x, y + shadowdistance }, { IMAGE->findImage("smallfly")->getFrameWidth(),IMAGE->findImage("smallfly")->getFrameWidth() / 3 }, // collider.shadow
-		10);//hp
+		3);//hp
 	IMAGE->addImage("shadowSmallfly", "images/shadow.bmp", colliderShadow->getSize().x, colliderShadow->getSize().y, true, RGB(255, 0, 255));
 
 	setMonster_Type(MONSTER_TYPE::SMALLFLY);

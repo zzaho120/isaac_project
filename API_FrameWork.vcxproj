@@ -235,7 +235,6 @@
     <ClCompile Include="CMapSettingSub.cpp" />
     <ClCompile Include="CMapTool.cpp" />
     <ClCompile Include="CMinimap.cpp" />
-    <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMulligan.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CObstacle.cpp" />

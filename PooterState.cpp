@@ -31,7 +31,7 @@ void Fly_Idle::update()
 {
 	CCharacter* pMon = m_pFSM->GetMon();
 	atkcount++;
-	Move();
+	move();
 
 	if (pMon->gethp() <= 0)
 	{
@@ -48,7 +48,7 @@ void Fly_Idle::update()
 void Fly_Idle::Exit()
 {
 }
-void Fly_Idle::Move()
+void Fly_Idle::move()
 {
 	CObject* pMon = m_pFSM->GetMon();
 

@@ -374,9 +374,6 @@
     <ClCompile Include="CCharacter.cpp">
       <Filter>Class\Object\Character</Filter>
     </ClCompile>
-    <ClCompile Include="CMonster.cpp">
-      <Filter>Class\Object\Character\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Class\Object\Character\Player</Filter>
     </ClCompile>
