@@ -659,7 +659,6 @@ void collisionManager::stageCollision(CPlayer* _player)
 			SOUND->play("playerhurt", 1.0f);
 			break;
 		}
-
 	}
 	for (int i = 0; i < BULLET->getvBullet().size(); i++)		//playerBullet and obstacle
 	{
